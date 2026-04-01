@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>광주광역사고조사센터 - 자료실</title>
+    <link rel="stylesheet" href="style.css"><script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <header>
+        <div class="header-main">
+            <div class="header-main-inner">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/logo.png" alt="로고">
+                        <span class="logo-text">광주광역사고조사센터</span>
+                    </a>
+                </div>
+                <div class="header-tools">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav class="gnb-container"><ul class="gnb">
+                <li><a href="center-intro.html">센터소개</a></li>
+                <li><a href="disasters.html">관내 중대재해</a></li>
+                <li><a href="notice.html">공지사항</a></li>
+                <li class="active"><a href="library.html">자료실</a></li>
+        </ul></nav>
+    </header>
+
+    <div class="layout-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-title">자료실</div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-tab="lib-tech" class="active"><i data-lucide="book" style="width:18px; margin-right:10px;"></i> 기술자료</a></li>
+                <li><a href="#" data-tab="lib-manual"><i data-lucide="file-text" style="width:18px; margin-right:10px;"></i> 안전매뉴얼</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tab 1: 기술자료 -->
+            <div id="lib-tech" class="tab-content active-tab">
+                <div class="breadcrumb">홈 > 자료실 > 기술자료</div>
+                <div class="page-title-area">
+                    <h2>기술자료</h2>
+                </div>
+                
+                <div class="resource-grid">
+                    <div class="resource-card">
+                        <i data-lucide="file-text" class="file-icon"></i>
+                        <h4>[기술지침] 2026 건설공사 추락사고 예방 기술 가이드 기술 가이드</h4>
+                        <p class="meta">PDF | 15.2MB | 2026-03-10</p>
+                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
+                    </div>
+                    <div class="resource-card">
+                        <i data-lucide="file-text" class="file-icon"></i>
+                        <h4>[정밀조사] 기계설비 끼임 사고 원인 분석 및 대책 사례집</h4>
+                        <p class="meta">PDF | 8.5MB | 2026-02-28</p>
+                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
+                    </div>
+                    <div class="resource-card">
+                        <i data-lucide="database" class="file-icon"></i>
+                        <h4>산업재해 원인조사 데이터 연보 (2025년 기준)</h4>
+                        <p class="meta">XLSX | 4.2MB | 2026-01-15</p>
+                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: 안전매뉴얼 -->
+            <div id="lib-manual" class="tab-content">
+            <div class="page-title-area">
+                <div class="breadcrumb">
+                    <i data-lucide="home" class="breadcrumb-home-icon"></i>
+                    <span>자료실</span>
+                    <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+                    <span>자료실 목록</span>
+                </div>
+                <div class="page-title-row">
+                    <h2 class="page-main-title">자료실</h2>
+                    <div class="page-actions">
+                        <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
+                        <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
+                    </div>
+                </div>
+            </div>
+                
+                <div class="resource-grid">
+                    <div class="resource-card">
+                        <i data-lucide="book-open" class="file-icon"></i>
+                        <h4>[매뉴얼] 사업장 자기율 자율 예방 체계 구축 실무 가이드</h4>
+                        <p class="meta">PDF | 22.0MB | 2026-03-20</p>
+                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
+                    </div>
+                    <div class="resource-card">
+                        <i data-lucide="check-square" class="file-icon"></i>
+                        <h4>위험성평가 실시 및 사후관리 체크리스트 양식</h4>
+                        <p class="meta">DOCX | 1.1MB | 2026-03-05</p>
+                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script><script>lucide.createIcons();</script>
+</body>
+</html>

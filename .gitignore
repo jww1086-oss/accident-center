@@ -1,0 +1,22 @@
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local servers / Python
+__pycache__/
+*.pyc
+
+# Distribution / Build
+dist/
+node_modules/
+
+# Local data
+database.sqlite
+.env

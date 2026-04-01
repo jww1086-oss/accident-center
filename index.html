@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>광주광역사고조사센터 - 홈</title>
+    <meta name="description" content="산업재해 예방 및 사고원인 조사를 선도하는 광주광역사고조사센터 공식 홈페이지입니다.">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="top-bar-inner">
+                <a href="#">로그인</a>
+                <a href="#">회원가입</a>
+                <a href="#">사이트맵</a>
+                <a href="#">Language</a>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="header-main-inner">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/logo.png" alt="로고">
+                        <span class="logo-text">광주광역사고조사센터</span>
+                    </a>
+                </div>
+                <div class="header-tools">
+                    <button class="search-icon-btn" id="searchToggle">
+                        <i data-lucide="search"></i>
+                    </button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav class="gnb-container">
+            <ul class="gnb">
+                <li><a href="center-intro.html">센터소개</a></li>
+                <li><a href="disasters.html">관내 중대재해</a></li>
+                <li><a href="notice.html">공지사항</a></li>
+                <li><a href="library.html">자료실</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="home-wrapper">
+
+        <!-- Main Content (Full Width) -->
+        <main class="home-content">
+            <!-- Hero Slider -->
+            <section class="hero">
+                <div class="hero-slider">
+                    <div class="hero-item active" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('assets/hero.png');">
+                        <div class="hero-content">
+                            <h2>안전이 가장<br>빠릅니다</h2>
+                            <p>철저한 원인 규명과 재발 방지로<br>광주의 근로자를 보호합니다.</p>
+                            <a href="center-intro.html" class="btn-more">자세히 알아보기</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Emergency News Bar -->
+            <div class="news-bar">
+                <span class="news-label">사고속보</span>
+                <marquee behavior="scroll" direction="left">
+                    [3/31, 광주 북구] 건설 현장 낙하물 사고 조사 진행 중... [3/29, 광주 광산구] 공장 내 기계 끼임 사고 원인 분석 착수...
+                </marquee>
+            </div>
+
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="search-box">
+                    <input type="text" placeholder="궁금하신 안전 정보를 검색해보세요.">
+                    <button class="search-btn"><i data-lucide="search"></i></button>
+                </div>
+                <div class="search-tags">
+                    <span class="tag">#위험성평가</span>
+                    <span class="tag">#중대재해처벌법</span>
+                    <span class="tag">#현장점검</span>
+                    <span class="tag">#안전가이드</span>
+                </div>
+            </section>
+
+            <!-- Main Dashboard Content -->
+            <section class="info-section">
+                <div class="section-title">
+                    <h3>센터 운영 현황</h3>
+                    <p>광주 지역의 안전을 위한 실시간 데이터와 주요 소식입니다.</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Recent Notices Widget -->
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <h4><i data-lucide="bell" style="width:18px;"></i> 최근 공지사항</h4>
+                            <a href="notice.html" style="font-size: 13px; color: var(--text-gray);">더보기 +</a>
+                        </div>
+                        <ul class="widget-list">
+                            <li>
+                                <span>[안내] 2026년 상반기 건설현장 정기 기술지도 안내</span>
+                                <span class="date">03.31</span>
+                            </li>
+                            <li>
+                                <span>[중요] 광역사고조사센터 통합 정보시스템 정기 점검 공지</span>
+                                <span class="date">03.25</span>
+                            </li>
+                            <li>
+                                <span>산업재해 예방시설 융자지원사업 신청 알림</span>
+                                <span class="date">03.20</span>
+                            </li>
+                            <li>
+                                <span>2026년도 제1차 중대재해 예방 역량강화 교육생 모집</span>
+                                <span class="date">03.15</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Statistics Widget -->
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <h4><i data-lucide="bar-chart-2" style="width:18px;"></i> 사고조사 통계 (2026)</h4>
+                        </div>
+                        <div class="stat-grid">
+                            <div class="stat-card">
+                                <div class="val">1,245</div>
+                                <div class="lab">현장 점검 건수</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="val">86</div>
+                                <div class="lab">원인조사 완료</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="val">100%</div>
+                                <div class="lab">재발방지 권고</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="val">14</div>
+                                <div class="lab">정밀분석 의뢰</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-container" style="margin-top: 40px;">
+                    <div class="card" onclick="location.href='disasters.html'">
+                        <div class="card-icon"><i data-lucide="alert-triangle"></i></div>
+                        <h4>관내 중대재해 현황</h4>
+                        <p>최근 발생한 중대재해 원인조사 결과를 공유합니다.</p>
+                    </div>
+                    <div class="card" onclick="location.href='center-intro.html#organization'">
+                        <div class="card-icon"><i data-lucide="users"></i></div>
+                        <h4>센터 조직 안내</h4>
+                        <p>우리 센터의 조사 전문가들을 소개합니다.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div> <!-- home-wrapper end -->
+
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-links">
+                <a href="#">개인정보처리방침</a>
+                <a href="#">이용약관</a>
+                <a href="#">이메일무단수집거부</a>
+            </div>
+            <div class="sns-links">
+                <i data-lucide="facebook"></i>
+                <i data-lucide="youtube"></i>
+                <i data-lucide="instagram"></i>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p>주소: 광주광역시 광산구 무진대로 (산업안전보건공단 광주광역본부 내)</p>
+            <p>대표번호: 1566-2216 | 팩스: 062-000-0000</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 광주광역사고조사센터. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

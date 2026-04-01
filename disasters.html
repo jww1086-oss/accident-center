@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>광주광역사고조사센터 - 관내 중대재해</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <header>
+        <div class="top-bar"><div class="top-bar-inner"><a href="#">로그인</a><a href="#">회원가입</a><a href="#">사이트맵</a><a href="#">Language</a></div></div>
+        <div class="header-main">
+            <div class="header-main-inner">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/logo.png" alt="로고">
+                        <span class="logo-text">광주광역사고조사센터</span>
+                    </a>
+                </div>
+                <div class="header-tools">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav class="gnb-container">
+            <ul class="gnb">
+                <li><a href="center-intro.html">센터소개</a></li>
+                <li class="active"><a href="disasters.html">관내 중대재해</a></li>
+                <li><a href="notice.html">공지사항</a></li>
+                <li><a href="library.html">자료실</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="layout-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-title">관내 중대재해</div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-tab="disasters-list" class="active"><i data-lucide="alert-circle" style="width:18px; margin-right:10px;"></i> 중대재해 사례</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="disasters-list" class="tab-content active-tab">
+            <div class="page-title-area">
+                <div class="breadcrumb">
+                    <i data-lucide="home" class="breadcrumb-home-icon"></i>
+                    <span>관내 중대재해</span>
+                    <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+                    <span>사례 목록</span>
+                </div>
+                <div class="page-title-row">
+                    <h2 class="page-main-title">관내 중대재해</h2>
+                    <div class="page-actions">
+                        <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
+                        <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
+                    </div>
+                </div>
+            </div>
+        <!-- Serious Disaster Section -->
+        <section class="disaster-section" id="disasters" style="padding-top: 50px;">
+            <div class="section-title">
+                <h3>관내 중대재해 사례</h3>
+                <p>동일한 사고의 재발을 방지하기 위해 중대재해 원인과 예방 대책을 공유합니다.</p>
+            </div>
+            <div class="org-container">
+                <article class="report-card">
+                    <div class="report-header">
+                        <span class="profile-rank" style="color: var(--accent-color);">[부딪힘]</span>
+                        <h4 class="report-title">금호타이어(주) 곡성공장 지게차 충돌 사고</h4>
+                        <div class="report-meta">
+                            <span><i data-lucide="calendar"></i> 발생일: 2025년 9월 26일</span>
+                            <span><i data-lucide="map-pin"></i> 장소: 불량팔레트 적치장</span>
+                            <span><i data-lucide="users"></i> 업종: 고무제품제조업</span>
+                        </div>
+                    </div>
+                    <div class="report-summary-box">
+                        <strong>사고 개요:</strong> 재해자가 윙바디 뒷문을 고정하던 중, 지게차와 충돌하여 넘어지면서 두부 손상으로 사망함.
+                    </div>
+                    <div class="report-grid">
+                        <div class="report-group">
+                            <h5><i data-lucide="alert-triangle"></i> 발생 원인</h5>
+                            <ul class="report-list">
+                                <li>접촉 방지 조치 미실시: 유도자 부재</li>
+                                <li>운전자 시야 확보 불량: 4단 적재 사각지대</li>
+                                <li>관리 체계 부실: 작업계획서 미작성</li>
+                            </ul>
+                        </div>
+                        <div class="report-group">
+                            <h5><i data-lucide="shield-check"></i> 예방 대책</h5>
+                            <ul class="report-list">
+                                <li>물리적 분리: 전용 통로 구획</li>
+                                <li>관리 강화: 작업지휘자 상주</li>
+                                <li>운반 방법 개선: 적재 수량 제한</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+            </div> <!-- disasters-list end -->
+        </main> <!-- main-content end -->
+    </div> <!-- layout-wrapper end -->
+
+    <footer><div class="copyright"><p>&copy; 2026 광주광역사고조사센터.</p></div></footer>
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

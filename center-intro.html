@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>광주광역사고조사센터 - 센터소개</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="top-bar-inner">
+                <a href="#">로그인</a><a href="#">회원가입</a><a href="#">사이트맵</a><a href="#">Language</a>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="header-main-inner">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/logo.png" alt="로고">
+                        <span class="logo-text">광주광역사고조사센터</span>
+                    </a>
+                </div>
+                <div class="header-tools">
+                    <button class="search-icon-btn" id="searchToggle"><i data-lucide="search"></i></button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav class="gnb-container">
+            <ul class="gnb">
+                <li><a href="center-intro.html">센터소개</a></li>
+                <li><a href="disasters.html">관내 중대재해</a></li>
+                <li><a href="notice.html">공지사항</a></li>
+                <li><a href="library.html">자료실</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="layout-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-title">센터소개</div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-tab="center-overview" class="active"><i data-lucide="info" style="width:18px; margin-right:10px;"></i> 센터 개요</a></li>
+                <li><a href="#" data-tab="major-tasks-banner"><i data-lucide="briefcase" style="width:18px; margin-right:10px;"></i> 주요 업무 안내</a></li>
+                <li><a href="#" data-tab="organization"><i data-lucide="users" style="width:18px; margin-right:10px;"></i> 센터 조직도</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-title-area">
+                <div class="breadcrumb">
+                    <i data-lucide="home" class="breadcrumb-home-icon"></i>
+                    <span>센터소개</span>
+                    <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+                    <span>센터 개요</span>
+                </div>
+                <div class="page-title-row">
+                    <h2 class="page-main-title">센터소개</h2>
+                    <div class="page-actions">
+                        <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
+                        <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 1: 센터 개요 -->
+            <div id="center-overview" class="tab-content active-tab">
+                <section class="org-section">
+                    <div class="section-title">
+                        <h3>광주광역사고조사센터 소개</h3>
+                        <p>과학적 규명과 철저한 조사를 통해 근로자의 소중한 생명을 지킵니다.</p>
+                    </div>
+                    
+                    <div class="org-container">
+                        <div class="intro-grid">
+                            <div class="intro-card">
+                                <i data-lucide="zoom-in" style="color: var(--primary-color);"></i>
+                                <h4>중대재해 원인조사 및 규명</h4>
+                                <p>사고 현장의 물리적 위험 요소와 관리적 결함 사항을 철저히 분석하여 사고의 근본적인 원인을 밝혀냅니다.</p>
+                            </div>
+                            <div class="intro-card">
+                                <i data-lucide="file-text" style="color: var(--primary-color);"></i>
+                                <h4>전문적인 재해조사 의견서 작성</h4>
+                                <p>공학적 분석과 과학적 근거를 바탕으로 객관적인 '재해원인조사 의견서'를 작성하여 신뢰를 제공합니다.</p>
+                            </div>
+                            <div class="intro-card">
+                                <i data-lucide="check-circle" style="color: var(--primary-color);"></i>
+                                <h4>실질적인 예방 대책 수립</h4>
+                                <p>규명된 원인을 바탕으로 현장에 즉시 적용 가능한 안전조치 권고 사항과 구체적인 가이드라인을 제공합니다.</p>
+                            </div>
+                            <div class="intro-card">
+                                <i data-lucide="trending-up" style="color: var(--primary-color);"></i>
+                                <h4>산업현장 안전·보건 증진</h4>
+                                <p>축적된 데이터를 활용하여 관련 업종의 위험 요인을 미리 알리고 안전한 작업 표준을 만드는 데 기여합니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="slogan-box">
+                            <h3>"우리는 숫자가 아닌 사람의 생명을 조사합니다.<br>철저한 조사가 가장 확실한 예방입니다."</h3>
+                            <span>- 광주광역사고조사센터 일동 -</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tab 2: 주요 업무 안내 -->
+            <div id="major-tasks-banner" class="tab-content">
+                <section class="org-section">
+                    <div class="section-title">
+                        <h3>주요 업무 안내</h3>
+                        <p>전문적인 사고조사와 기술 지원을 통해 안전한 광주를 만듭니다.</p>
+                    </div>
+                    <div class="grid-container">
+                        <div class="card">
+                            <div class="card-icon"><i data-lucide="microscope"></i></div>
+                            <h4>사고 원인 조사</h4>
+                            <p>중대재해 발생 시 신속하고 정밀한 기술적 원인 분석을 수행합니다.</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i data-lucide="file-check"></i></div>
+                            <h4>재발 방지 대책</h4>
+                            <p>유사 사고 방지를 위한 공학적 대책 수립과 이행을 지원합니다.</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon"><i data-lucide="shield-check"></i></div>
+                            <h4>현장 기술 지도</h4>
+                            <p>고위험 사업장에 대한 맞춤형 안전 기술 지원을 제공합니다.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tab 3: 센터 조직도 -->
+            <div id="organization" class="tab-content">
+                <section class="org-section">
+                    <div class="section-title">
+                        <h3>센터 조직도</h3>
+                        <p>광주광역사고조사센터의 전문가들이 최선을 다하고 있습니다.</p>
+                    </div>
+
+                    <div class="org-container">
+                        <div class="org-main">
+                            <div class="profile-card large">
+                                <img src="assets/p1.png" alt="윤영주" class="profile-img">
+                                <div class="profile-info">
+                                    <span class="profile-rank">센터장</span>
+                                    <h4 class="profile-name">윤영주</h4>
+                                    <ul class="profile-task"><li>업무 총괄</li></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="org-grid">
+                            <div class="profile-card"><img src="assets/p2.png" alt="정원욱" class="profile-img"><div class="profile-info"><span class="profile-rank">부장</span><h4 class="profile-name">정원욱</h4><ul class="profile-task"><li>중대재해조사 (제조업 등)</li></ul></div></div>
+                            <div class="profile-card"><img src="assets/p3.png" alt="김선태" class="profile-img"><div class="profile-info"><span class="profile-rank">차장</span><h4 class="profile-name">김선태</h4><ul class="profile-task"><li>중대재해조사 (건설업)</li><li>사고정밀조사</li></ul></div></div>
+                            <div class="profile-card"><img src="assets/p4.png" alt="정제원" class="profile-img"><div class="profile-info"><span class="profile-rank">과장</span><h4 class="profile-name">정제원</h4><ul class="profile-task"><li>중대재해조사 (제조업 등)</li><li>사고정밀조사</li></ul></div></div>
+                            <div class="profile-card"><img src="assets/p5.png" alt="김봉현" class="profile-img"><div class="profile-info"><span class="profile-rank">과장</span><h4 class="profile-name">김봉현</h4><ul class="profile-task"><li>육아휴직</li></ul></div></div>
+                            <div class="profile-card"><img src="assets/p6.png" alt="정혜주" class="profile-img"><div class="profile-info"><span class="profile-rank">대리</span><h4 class="profile-name">정혜주</h4><ul class="profile-task"><li>중대재해조사 (제조업 등)</li><li>사고정밀조사</li></ul></div></div>
+                            <div class="profile-card"><img src="assets/p7.png" alt="김현범" class="profile-img"><div class="profile-info"><span class="profile-rank">대리</span><h4 class="profile-name">김현범</h4><ul class="profile-task"><li>중대재해조사 (건설업)</li><li>사고정밀조사</li></ul></div></div>
+                            <div class="profile-card"><img src="assets/p8.png" alt="한혜원" class="profile-img"><div class="profile-info"><span class="profile-rank">대리</span><h4 class="profile-name">한혜원</h4><ul class="profile-task"><li>중대재해조사 (건설업)</li><li>예산 및 서무</li></ul></div></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-top"><div class="footer-links"><a href="#">개인정보처리방침</a><a href="#">이용약관</a><a href="#">이메일무단수집거부</a></div></div>
+        <div class="footer-info"><p>주소: 광주광역시 광산구 무진대로 (산업안전보건공단 광주광역본부 내)</p><p>대표번호: 1566-2216</p></div>
+        <div class="copyright"><p>&copy; 2026 광주광역사고조사센터. All Rights Reserved.</p></div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
