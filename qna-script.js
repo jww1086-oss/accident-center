@@ -5,7 +5,7 @@
 const SUPABASE_URL = 'https://jtjkfkiijowzbiuxvmzv.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_6Sf5Pdk5IDG4j9w8ybMeSQ_jjKJYVB2';
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 document.addEventListener('DOMContentLoaded', () => {
     const qnaList = document.getElementById('qnaList');
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Load Questions ───────────────────────────────────────────
     const fetchQuestions = async () => {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('qna')
             .select('*')
             .order('created_at', { ascending: false });
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 status: '대기중'
             };
 
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('qna')
                 .insert([newQuestion]);
 
