@@ -10,7 +10,7 @@
 <body>
 
     <header>
-        <div class="top-bar"><div class="top-bar-inner"><a href="#">로그인</a><a href="#">회원가입</a><a href="#">사이트맵</a><a href="#">Language</a></div></div>
+        <div class="top-bar"><div class="top-bar-inner"><a href="#">로그인</a><a href="#">회원가입</a><a href="#">사이트맵</a><a href="#">Language</a><button type="button" class="admin-toggle"><i data-lucide="shield-check" style="width:14px; margin-right:4px;"></i> 관리자 로그인</button></div></div>
         <div class="header-main">
             <div class="header-main-inner">
                 <div class="logo">
@@ -20,6 +20,9 @@
                     </a>
                 </div>
                 <div class="header-tools">
+                    <button class="search-icon-btn" id="searchToggle">
+                        <i data-lucide="search"></i>
+                    </button>
                     <button class="mobile-menu-btn" id="mobileMenuBtn">
                         <i data-lucide="menu"></i>
                     </button>
@@ -28,21 +31,33 @@
         </div>
         <nav class="gnb-container">
             <ul class="gnb">
+                <li><a href="index.html">홈</a></li>
                 <li><a href="center-intro.html">센터소개</a></li>
-                <li class="active"><a href="disasters.html">관내 중대재해</a></li>
-                <li><a href="notice.html">공지사항</a></li>
+                <li class="active"><a href="disasters.html">중대재해현황</a></li>
+                <li><a href="notice.html">알림마당</a></li>
                 <li><a href="library.html">자료실</a></li>
                 <li><a href="qna.html">질의응답</a></li>
             </ul>
+            <!-- 모바일 전용 관리자 로그인 영역 -->
+            <div class="mobile-admin-area">
+                <button type="button" class="admin-toggle">
+                    <i data-lucide="shield-check"></i> 관리자 로그인
+                </button>
+            </div>
         </nav>
     </header>
 
     <div class="layout-wrapper">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="sidebar-title">관내 중대재해</div>
+            <div class="sidebar-title" style="display: flex; justify-content: space-between; align-items: center;">
+                중대재해현황
+                <button type="button" class="btn-admin-add" id="openDisasterModal" style="display: none; padding: 4px 8px; font-size: 11px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">등록</button>
+            </div>
             <ul class="sidebar-menu">
-                <li><a href="#" data-tab="disasters-list" class="active"><i data-lucide="alert-circle" style="width:18px; margin-right:10px;"></i> 중대재해 사례</a></li>
+                <li><a href="#" class="active" data-region="광주"><i data-lucide="map-pin" style="width:18px; margin-right:10px;"></i> 광주</a></li>
+                <li><a href="#" data-region="전남"><i data-lucide="map-pin" style="width:18px; margin-right:10px;"></i> 전남</a></li>
+                <li><a href="#" data-region="전북"><i data-lucide="map-pin" style="width:18px; margin-right:10px;"></i> 전북</a></li>
             </ul>
         </aside>
 
@@ -52,12 +67,12 @@
             <div class="page-title-area">
                 <div class="breadcrumb">
                     <i data-lucide="home" class="breadcrumb-home-icon"></i>
-                    <span>관내 중대재해</span>
+                    <span>중대재해현황</span>
                     <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
-                    <span>사례 목록</span>
+                    <span>지역별 사례</span>
                 </div>
                 <div class="page-title-row">
-                    <h2 class="page-main-title">관내 중대재해</h2>
+                    <h2 class="page-main-title">중대재해현황</h2>
                     <div class="page-actions">
                         <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
                         <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
@@ -70,47 +85,62 @@
                 <h3>관내 중대재해 사례</h3>
                 <p>동일한 사고의 재발을 방지하기 위해 중대재해 원인과 예방 대책을 공유합니다.</p>
             </div>
-            <div class="org-container">
-                <article class="report-card">
-                    <div class="report-header">
-                        <span class="profile-rank" style="color: var(--accent-color);">[부딪힘]</span>
-                        <h4 class="report-title">금호타이어(주) 곡성공장 지게차 충돌 사고</h4>
-                        <div class="report-meta">
-                            <span><i data-lucide="calendar"></i> 발생일: 2025년 9월 26일</span>
-                            <span><i data-lucide="map-pin"></i> 장소: 불량팔레트 적치장</span>
-                            <span><i data-lucide="users"></i> 업종: 고무제품제조업</span>
-                        </div>
-                    </div>
-                    <div class="report-summary-box">
-                        <strong>사고 개요:</strong> 재해자가 윙바디 뒷문을 고정하던 중, 지게차와 충돌하여 넘어지면서 두부 손상으로 사망함.
-                    </div>
-                    <div class="report-grid">
-                        <div class="report-group">
-                            <h5><i data-lucide="alert-triangle"></i> 발생 원인</h5>
-                            <ul class="report-list">
-                                <li>접촉 방지 조치 미실시: 유도자 부재</li>
-                                <li>운전자 시야 확보 불량: 4단 적재 사각지대</li>
-                                <li>관리 체계 부실: 작업계획서 미작성</li>
-                            </ul>
-                        </div>
-                        <div class="report-group">
-                            <h5><i data-lucide="shield-check"></i> 예방 대책</h5>
-                            <ul class="report-list">
-                                <li>물리적 분리: 전용 통로 구획</li>
-                                <li>관리 강화: 작업지휘자 상주</li>
-                                <li>운반 방법 개선: 적재 수량 제한</li>
-                            </ul>
-                        </div>
-                    </div>
-                </article>
+            <div class="org-container" id="disasterContainer">
+                <!-- 동적 데이터 로드 영역 -->
+                <div style="padding: 100px 0; text-align: center; color: #94A3B8;">데이터를 불러오는 중입니다...</div>
             </div>
         </section>
             </div> <!-- disasters-list end -->
         </main> <!-- main-content end -->
     </div> <!-- layout-wrapper end -->
 
+    <!-- Modal for Disaster Registration -->
+    <div class="modal-overlay" id="disasterModalOverlay" style="display:none;">
+        <div class="qna-modal" style="max-width: 600px;">
+            <h3>중대재해 사례 등록</h3>
+            <form id="disasterForm">
+                <input type="hidden" id="d_id">
+                <div class="form-group">
+                    <label>사고 제목</label>
+                    <input type="text" id="d_title" placeholder="사고 명칭을 입력하세요" required>
+                </div>
+                <div class="form-group">
+                    <label>사고 개요</label>
+                    <textarea id="d_summary" rows="3" placeholder="사고 상황을 간략히 설명하세요"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>발생 원인</label>
+                    <textarea id="d_cause" rows="3" placeholder="주요 발생 원인 (엔터로 구분)"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>예방 대책</label>
+                    <textarea id="d_prevention" rows="3" placeholder="주요 예방 대책 (엔터로 구분)"></textarea>
+                </div>
+                <div class="qna-form-actions">
+                    <button type="button" class="btn-cancel" id="closeDisasterModal">취소</button>
+                    <button type="submit" class="btn-submit">등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteConfirmModal" style="display:none;">
+        <div class="admin-modal" style="max-width: 400px; text-align: center;">
+            <h3>사례 삭제</h3>
+            <p style="margin: 20px 0; color: #475569;">정말로 이 중대재해 사례를 삭제하시겠습니까?<br><span style="font-size: 12px; color: #E11D48;">* 삭제된 데이터는 복구할 수 없습니다.</span></p>
+            <input type="hidden" id="delete_target_id">
+            <div class="modal-btns">
+                <button type="button" class="btn-close" id="closeDeleteModal">취소</button>
+                <button type="button" class="btn-login" id="confirmDeleteBtn" style="background: #E11D48;">삭제하기</button>
+            </div>
+        </div>
+    </div>
+
     <footer><div class="copyright"><p>&copy; 2026 광주광역사고조사센터.</p></div></footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
-    <script>lucide.createIcons();</script>
+    <script src="disasters-script.js"></script>
+    <script>if(window.lucide) lucide.createIcons();</script>
 </body>
 </html>

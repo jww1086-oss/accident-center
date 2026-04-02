@@ -1,45 +1,62 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>광주광역사고조사센터 - 질의응답</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
+<body class="sub-page">
     <header>
+        <div class="top-bar">
+            <div class="top-bar-inner">
+                <a href="#">로그인</a><a href="#">회원가입</a><a href="#">사이트맵</a><a href="#">Language</a>
+                <button type="button" class="admin-toggle"><i data-lucide="shield-check" style="width:14px; margin-right:4px;"></i> 관리자 로그인</button>
+            </div>
+        </div>
         <div class="header-main">
             <div class="header-main-inner">
                 <div class="logo">
                     <a href="index.html">
-                        <img src="assets/logo.png" alt="로고">
+                        <img src="assets/logo.png" alt="광주광역시">
                         <span class="logo-text">광주광역사고조사센터</span>
                     </a>
                 </div>
                 <div class="header-tools">
+                    <button class="search-icon-btn" id="searchToggle">
+                        <i data-lucide="search"></i>
+                    </button>
                     <button class="mobile-menu-btn" id="mobileMenuBtn">
                         <i data-lucide="menu"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <nav class="gnb-container"><ul class="gnb">
-            <li><a href="center-intro.html">센터소개</a></li>
-            <li><a href="disasters.html">관내 중대재해</a></li>
-            <li><a href="notice.html">공지사항</a></li>
-            <li><a href="library.html">자료실</a></li>
-            <li class="active"><a href="qna.html">질의응답</a></li>
-        </ul></nav>
+        <nav class="gnb-container">
+            <ul class="gnb">
+                <li><a href="index.html">홈</a></li>
+                <li><a href="center-intro.html">센터소개</a></li>
+                <li><a href="disasters.html">중대재해현황</a></li>
+                <li><a href="notice.html">알림마당</a></li>
+                <li><a href="library.html">자료실</a></li>
+                <li class="active"><a href="qna.html">질의응답</a></li>
+            </ul>
+            <!-- 모바일 전용 관리자 로그인 영역 -->
+            <div class="mobile-admin-area">
+                <button type="button" class="admin-toggle">
+                    <i data-lucide="shield-check"></i> 관리자 로그인
+                </button>
+            </div>
+        </nav>
     </header>
 
     <div class="layout-wrapper">
         <aside class="sidebar">
-            <div class="sidebar-title">알림마당</div>
+            <div class="sidebar-title">질의응답</div>
             <ul class="sidebar-menu">
-                <li><a href="notice.html"><i data-lucide="bell"></i> 공지사항</a></li>
-                <li><a href="qna.html" class="active"><i data-lucide="help-circle"></i> 질의응답</a></li>
-                <li><a href="library.html"><i data-lucide="folder-open"></i> 자료실</a></li>
+                <li><a href="qna.html" class="active"><i data-lucide="message-circle"></i> 질의응답</a></li>
             </ul>
         </aside>
 
@@ -47,7 +64,7 @@
             <div class="page-title-area">
                 <div class="breadcrumb">
                     <i data-lucide="home" class="breadcrumb-home-icon"></i>
-                    <span>알림마당</span>
+                    <span>질의응답</span>
                     <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
                     <span>질의응답</span>
                 </div>
@@ -73,7 +90,6 @@
                         </tr>
                     </thead>
                     <tbody id="qnaList">
-                        <!-- Questions will be loaded here -->
                         <tr>
                             <td colspan="5" style="padding: 100px 0; color: #94A3B8;">질문을 불러오는 중입니다...</td>
                         </tr>
@@ -84,21 +100,21 @@
     </div>
 
     <!-- Modal for Question Submission -->
-    <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-overlay" id="modalOverlay" style="display:none;">
         <div class="qna-modal">
             <h3>질문하기</h3>
             <form id="qnaForm">
                 <div class="form-group">
-                    <label for="author">작성자</label>
-                    <input type="text" id="author" name="author" placeholder="성함을 입력하세요" required>
+                    <label for="q_author">작성자</label>
+                    <input type="text" id="q_author" name="q_author" placeholder="성함을 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="title">제목</label>
-                    <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+                    <label for="q_title">제목</label>
+                    <input type="text" id="q_title" name="q_title" placeholder="제목을 입력하세요" required>
                 </div>
                 <div class="form-group">
-                    <label for="content">질문 내용</label>
-                    <textarea id="content" name="content" rows="6" placeholder="궁문하신 내용을 상세히 적어주세요" required></textarea>
+                    <label for="q_content">질문 내용</label>
+                    <textarea id="q_content" name="q_content" rows="6" placeholder="궁금하신 내용을 상세히 적어주세요" required></textarea>
                 </div>
                 <div class="qna-form-actions">
                     <button type="button" class="btn-cancel" id="closeModalBtn">취소</button>
@@ -110,11 +126,21 @@
 
     <footer>
         <div class="footer-inner">
-            <p>&copy; 2026 광주광역사고조사센터. All Rights Reserved.</p>
+            <div class="footer-top">
+                <nav class="footer-nav">
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">이용약관</a>
+                    <a href="#">이메일무단수집거부</a>
+                </nav>
+            </div>
+            <div class="footer-bottom">
+                <p>주소: 광주광역시 광산구 무진대로 (산업안전보건공단 광주광역본부 내) | 대표번호: 1566-2216 | 팩스: 062-000-0000</p>
+                <p class="copyright">© 2026 광주광역사고조사센터. All Rights Reserved.</p>
+            </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
-    <script src="qna-script.js"></script>
+    <script src="script.js?v=2"></script>
+    <script src="qna-script.js?v=2"></script>
 </body>
 </html>

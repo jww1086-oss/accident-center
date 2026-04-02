@@ -7,6 +7,12 @@
 </head>
 <body>
     <header>
+        <div class="top-bar">
+            <div class="top-bar-inner">
+                <a href="#">로그인</a><a href="#">회원가입</a><a href="#">사이트맵</a><a href="#">Language</a>
+                <button type="button" class="admin-toggle"><i data-lucide="shield-check" style="width:14px; margin-right:4px;"></i> 관리자 로그인</button>
+            </div>
+        </div>
         <div class="header-main">
             <div class="header-main-inner">
                 <div class="logo">
@@ -16,19 +22,31 @@
                     </a>
                 </div>
                 <div class="header-tools">
+                    <button class="search-icon-btn" id="searchToggle">
+                        <i data-lucide="search"></i>
+                    </button>
                     <button class="mobile-menu-btn" id="mobileMenuBtn">
                         <i data-lucide="menu"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <nav class="gnb-container"><ul class="gnb">
+        <nav class="gnb-container">
+            <ul class="gnb">
+                <li><a href="index.html">홈</a></li>
                 <li><a href="center-intro.html">센터소개</a></li>
-                <li><a href="disasters.html">관내 중대재해</a></li>
-                <li><a href="notice.html">공지사항</a></li>
+                <li><a href="disasters.html">중대재해현황</a></li>
+                <li><a href="notice.html">알림마당</a></li>
                 <li class="active"><a href="library.html">자료실</a></li>
                 <li><a href="qna.html">질의응답</a></li>
-        </ul></nav>
+            </ul>
+            <!-- 모바일 전용 관리자 로그인 영역 -->
+            <div class="mobile-admin-area">
+                <button type="button" class="admin-toggle">
+                    <i data-lucide="shield-check"></i> 관리자 로그인
+                </button>
+            </div>
+        </nav>
     </header>
 
     <div class="layout-wrapper">
@@ -37,7 +55,6 @@
             <div class="sidebar-title">자료실</div>
             <ul class="sidebar-menu">
                 <li><a href="library.html" class="active"><i data-lucide="book-open" style="width:18px; margin-right:10px;"></i> 전문자료실</a></li>
-                <li><a href="qna.html"><i data-lucide="help-circle" style="width:18px; margin-right:10px;"></i> 질의응답</a></li>
             </ul>
         </aside>
 

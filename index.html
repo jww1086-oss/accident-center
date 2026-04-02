@@ -17,6 +17,7 @@
                 <a href="#">회원가입</a>
                 <a href="#">사이트맵</a>
                 <a href="#">Language</a>
+                <button type="button" class="admin-toggle"><i data-lucide="shield-check" style="width:14px; margin-right:4px;"></i> 관리자 로그인</button>
             </div>
         </div>
         <div class="header-main">
@@ -39,12 +40,19 @@
         </div>
         <nav class="gnb-container">
             <ul class="gnb">
+                <li class="active"><a href="index.html">홈</a></li>
                 <li><a href="center-intro.html">센터소개</a></li>
-                <li><a href="disasters.html">관내 중대재해</a></li>
-                <li><a href="notice.html">공지사항</a></li>
+                <li><a href="disasters.html">중대재해현황</a></li>
+                <li><a href="notice.html">알림마당</a></li>
                 <li><a href="library.html">자료실</a></li>
                 <li><a href="qna.html">질의응답</a></li>
             </ul>
+            <!-- 모바일 전용 관리자 로그인 영역 -->
+            <div class="mobile-admin-area">
+                <button type="button" class="admin-toggle">
+                    <i data-lucide="shield-check"></i> 관리자 로그인
+                </button>
+            </div>
         </nav>
     </header>
 
@@ -127,22 +135,21 @@
                             <h4><i data-lucide="bar-chart-2" style="width:18px;"></i> 사고조사 통계 (2026)</h4>
                         </div>
                         <div class="stat-grid">
-                            <div class="stat-card">
-                                <div class="val">1,245</div>
-                                <div class="lab">현장 점검 건수</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="val">86</div>
-                                <div class="lab">원인조사 완료</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="val">100%</div>
-                                <div class="lab">재발방지 권고</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="val">14</div>
-                                <div class="lab">정밀분석 의뢰</div>
-                            </div>
+                            <div class="stat-card"><div class="val">1,245</div><div class="lab">현장 점검</div></div>
+                            <div class="stat-card"><div class="val">86</div><div class="lab">원인조사</div></div>
+                            <div class="stat-card"><div class="val">100%</div><div class="lab">재발방지</div></div>
+                            <div class="stat-card"><div class="val">14</div><div class="lab">정밀분석</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Latest Accidents Widget -->
+                    <div class="widget-box" id="latestAccidentsWidget">
+                        <div class="widget-title">
+                            <h4><i data-lucide="alert-triangle" style="width:18px; color: #E63946;"></i> 최신 중대재해 사례</h4>
+                            <a href="disasters.html" style="font-size: 13px; color: var(--text-gray);">더보기 +</a>
+                        </div>
+                        <div id="homeAccidentList" style="padding: 10px 0;">
+                            <div style="text-align:center; color:#94A3B8; font-size:13px; padding:20px;">로딩 중...</div>
                         </div>
                     </div>
                 </div>
@@ -172,9 +179,9 @@
                 <a href="#">이메일무단수집거부</a>
             </div>
             <div class="sns-links">
-                <i data-lucide="facebook"></i>
-                <i data-lucide="youtube"></i>
-                <i data-lucide="instagram"></i>
+                <a href="#" title="페이스북"><i data-lucide="info"></i></a>
+                <a href="#" title="유튜브"><i data-lucide="play-circle"></i></a>
+                <a href="#" title="인스타그램"><i data-lucide="camera"></i></a>
             </div>
         </div>
         <div class="footer-info">
@@ -186,7 +193,54 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
-    <script>lucide.createIcons();</script>
+    <script>
+        // 메인 화면 최신 중대재해 로드 스크립트
+        const homeSupabase = supabase.createClient(
+            'https://jtjkfkiijowzbiuxvmzv.supabase.co',
+            'sb_publishable_6Sf5Pdk5IDG4j9w8ybMeSQ_jjKJYVB2'
+        );
+
+        async function loadHomeAccidents() {
+            const listContainer = document.getElementById('homeAccidentList');
+            if (!listContainer) return;
+
+            try {
+                const { data, error } = await homeSupabase
+                    .from('accidents')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(2);
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    listContainer.innerHTML = '<div style="text-align:center; color:#94A3B8; font-size:13px; padding:20px;">공개된 중대재해 사례가 없습니다.</div>';
+                    return;
+                }
+
+                listContainer.innerHTML = data.map(item => `
+                    <div class="home-accident-item" onclick="location.href='disasters.html#${item.region}'" style="cursor:pointer; padding: 12px; border-bottom: 1px solid #F1F5F9; transition: background 0.2s;">
+                        <h5 style="font-size:14px; margin:0 0 5px 0; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.title}</h5>
+                        <p style="font-size:12px; color:#64748B; margin:0; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${item.summary || '상제 내용 보기'}</p>
+                    </div>
+                `).join('');
+
+                // Hover effect
+                document.querySelectorAll('.home-accident-item').forEach(el => {
+                    el.addEventListener('mouseenter', () => el.style.background = '#F8FAFC');
+                    el.addEventListener('mouseleave', () => el.style.background = 'transparent');
+                });
+
+            } catch (err) {
+                console.error(err);
+                listContainer.innerHTML = '<div style="text-align:center; color:#E63946; font-size:12px; padding:10px;">데이터 로드 실패</div>';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadHomeAccidents);
+        if(window.lucide) lucide.createIcons();
+    </script>
 </body>
 </html>
