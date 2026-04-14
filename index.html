@@ -147,6 +147,19 @@
                     </div>
                 </div>
 
+                <!-- NEW: Real-time Public Data Bulletin Section -->
+                <div class="section-title" style="margin-top: 40px; border-top: 1px solid #E2E8F0; padding-top: 30px;">
+                    <h3><i data-lucide="globe" style="width:20px; vertical-align:middle; margin-right:8px; color:var(--primary-color);"></i> 실시간 공공데이터 사고속보</h3>
+                    <p>전국 산업현장의 실시간 사고 보도자료입니다. (출처: 한국산업안전보건공단)</p>
+                </div>
+                
+                <div id="publicNewsGrid" class="public-news-grid">
+                    <div style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text-gray);">
+                        <div class="loading-spinner"></div>
+                        <p style="margin-top:10px;">전국 사고 속보를 불러오는 중입니다...</p>
+                    </div>
+                </div>
+
                 <div class="grid-container" style="margin-top: 40px;">
                     <div class="card" onclick="location.href='disasters.html'">
                         <div class="card-icon"><i data-lucide="alert-triangle"></i></div>
@@ -283,9 +296,50 @@
             }
         }
 
+        async function fetchPublicAccidentNews() {
+            const grid = document.getElementById('publicNewsGrid');
+            const serviceKey = 'a30f91c128600f0935b421b583b0102300e96384e6a45ae868ecf9a643c014e9';
+            const url = `https://apis.data.go.kr/B552468/news_api02/getNews_api02?serviceKey=${serviceKey}&callApiId=1040&numOfRows=4&_type=json`;
+
+            try {
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                const items = result.response?.body?.items?.item;
+
+                if (!items || items.length === 0) {
+                    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:#94A3B8;">현재 새로운 사고 속보가 없습니다.</div>';
+                    return;
+                }
+
+                grid.innerHTML = items.map(item => `
+                    <div class="news-card">
+                        <div class="news-tag">${item.occurLocation || '전국'}</div>
+                        <h5 class="news-title">${item.title}</h5>
+                        <p class="news-content">${item.content ? item.content.substring(0, 80) + '...' : '내용이 없습니다.'}</p>
+                        <div class="news-footer">
+                            <span><i data-lucide="calendar"></i> ${item.occurDate || item.regDate}</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+                if (window.lucide) lucide.createIcons();
+
+            } catch (error) {
+                console.error('API Fetch Error:', error);
+                grid.innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:30px; background:#FEF2F2; border-radius:12px; border:1px solid #FEE2E2;">
+                        <p style="color:#DC2626; font-size:14px; font-weight:600;">⚠️ 실시간 데이터를 불러올 수 없습니다 (CORS 제한/서버 점검)</p>
+                        <p style="color:#991B1B; font-size:12px; margin-top:4px;">공공데이터포털 정책으로 인해 브라우저 직접 호출이 제한될 수 있습니다.</p>
+                    </div>
+                `;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             fetchRecentNotices();
             loadHomeAccidents();
+            fetchPublicAccidentNews();
         });
         if (window.lucide) lucide.createIcons();
     </script>
