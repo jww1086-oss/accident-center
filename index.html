@@ -8,6 +8,7 @@
     <meta name="description" content="산업재해 예방 및 사고원인 조사를 선도하는 광주광역사고조사센터 공식 홈페이지입니다.">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js" defer></script>
 </head>
 
@@ -80,25 +81,148 @@
                 </div>
             </div>
 
-            <!-- Search Section -->
-            <section class="search-section">
-                <div class="search-box">
-                    <input type="text" id="mainSearchInput" placeholder="궁금하신 중대재해를 검색해보세요">
-                    <button id="mainSearchBtn" class="search-btn"><i data-lucide="search"></i></button>
-                </div>
-            </section>
-
-            <!-- Real-time Public Data Bulletin Section (Moved below search) -->
+            <!-- Real-time Public Data Bulletin Section -->
             <section class="public-news-section" style="padding: 0 10%; margin-top: 5px;">
-                <div class="section-title" style="border-top: none; padding-top: 0;">
+                <div class="section-title" style="border-top: none; padding-top: 0; margin-bottom: 10px;">
                     <h3><i data-lucide="globe" style="width:20px; vertical-align:middle; margin-right:8px; color:var(--primary-color);"></i> 실시간 중대재해 속보</h3>
-                    <p id="searchStatusMsg">전국 산업현장의 실시간 사고 보도자료입니다.</p>
+                    <p id="searchStatusMsg" style="margin: 0;">전국 산업현장의 실시간 사고 보도자료입니다.</p>
+                </div>
+
+                <!-- Search Section (Re-positioned below the title) -->
+                <div class="search-section" style="margin-bottom: 25px; margin-top: 15px;">
+                    <div class="search-box">
+                        <input type="text" id="mainSearchInput" placeholder="중대재해 기인물로 검색해보세요">
+                        <button id="mainSearchBtn" class="search-btn"><i data-lucide="search"></i></button>
+                    </div>
+                </div>
+
+                <!-- Advanced Filter Bar -->
+                <div class="public-filter-bar">
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label><i data-lucide="calendar"></i> 기간</label>
+                            <div class="filter-dates-wrapper">
+                                <select id="filterPeriodQuick" class="quick-select">
+                                    <option value="">직접 입력</option>
+                                    <option value="1w">최근 1주일</option>
+                                    <option value="1m">최근 1개월</option>
+                                    <option value="1y">최근 1년</option>
+                                    <option value="2y">최근 2년</option>
+                                    <option value="3y">최근 3년</option>
+                                </select>
+                                <div class="filter-dates">
+                                    <input type="date" id="filterStartDate">
+                                    <span>~</span>
+                                    <input type="date" id="filterEndDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-item region-filter-item">
+                            <label><i data-lucide="map-pin"></i> 지역 (다중 선택 가능)</label>
+                            <div class="region-multi-select">
+                                <div class="region-group">
+                                    <span class="group-label">특별시/자치시</span>
+                                    <div class="check-grid">
+                                        <label class="check-item"><input type="checkbox" name="region" value="서울"> 서울</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="세종"> 세종</label>
+                                    </div>
+                                </div>
+                                <div class="region-group">
+                                    <span class="group-label">광역시</span>
+                                    <div class="check-grid">
+                                        <label class="check-item"><input type="checkbox" name="region" value="부산"> 부산</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="대구"> 대구</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="인천"> 인천</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="광주"> 광주</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="대전"> 대전</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="울산"> 울산</label>
+                                    </div>
+                                </div>
+                                <div class="region-group">
+                                    <span class="group-label">8개도/자치도</span>
+                                    <div class="check-grid">
+                                        <label class="check-item"><input type="checkbox" name="region" value="경기"> 경기</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="강원"> 강원</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="충북"> 충북</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="충남"> 충남</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="전북"> 전북</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="전남"> 전남</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="경북"> 경북</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="경남"> 경남</label>
+                                        <label class="check-item"><input type="checkbox" name="region" value="제주"> 제주</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label><i data-lucide="tool"></i> 발생 형태</label>
+                            <select id="filterType">
+                                <option value="">전체 형태</option>
+                                <option value="끼임">끼임</option>
+                                <option value="떨어짐">떨어짐(추락)</option>
+                                <option value="맞음">맞음(낙하/비래)</option>
+                                <option value="부딪힘">부딪힘(충돌)</option>
+                                <option value="넘어짐">넘어짐(전도)</option>
+                                <option value="무너짐">무너짐(붕괴)</option>
+                                <option value="깔림">깔림/뒤집힘</option>
+                                <option value="화재">화재/폭발</option>
+                                <option value="감전">감전</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label><i data-lucide="briefcase"></i> 업종</label>
+                            <select id="filterIndustry">
+                                <option value="">전체 업종</option>
+                                <option value="건설">건설업</option>
+                                <option value="제조">제조업</option>
+                                <option value="운수">운수/창고/통신업</option>
+                                <option value="폐기물">폐기물처리업</option>
+                                <option value="벌목">임업(벌목)</option>
+                                <option value="기타">기타</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label><i data-lucide="users"></i> 규모</label>
+                            <select id="filterScale">
+                                <option value="">전체 규모</option>
+                                <option value="사망 1명">사망 1명</option>
+                                <option value="사망 2명">사망 2명 이상</option>
+                            </select>
+                        </div>
+                        <div class="filter-actions">
+                            <button id="applyFiltersBtn" class="btn-apply">조회하기</button>
+                            <button id="resetFiltersBtn" class="btn-reset"><i data-lucide="rotate-ccw"></i></button>
+                        </div>
+                    </div>
                 </div>
                 
+
                 <div id="publicNewsGrid" class="public-news-grid">
                     <div style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text-gray);">
                         <div class="loading-spinner"></div>
                         <p style="margin-top:10px;">전국 사고 속보를 불러오는 중입니다...</p>
+                    </div>
+                </div>
+
+                <!-- Pagination Container -->
+                <div id="publicPagination" class="public-pagination"></div>
+
+                <!-- Yearly Comparison Chart Section (Moved above Center Stats) -->
+                <div class="comparison-section" style="margin-top: 50px;">
+                    <div class="widget-box comparison-chart-widget">
+                        <div class="widget-title">
+                            <h4><i data-lucide="trending-up" style="width:18px;"></i> 지역별 중대재해 비교 (전년 동기 대비)</h4>
+                            <span style="font-size: 11px; color: #2563EB; font-weight: bold;">[비교 기준일: 01월 01일 ~ 04월 14일]</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                        <div id="chartLoadingMsg" style="text-align:center; padding:20px; color:#94A3B8;">
+                            <div class="loading-spinner" style="width:20px; height:20px; margin:0 auto 10px;"></div>
+                            데이터 분석 중...
+                        </div>
                     </div>
                 </div>
             </section>
@@ -152,6 +276,8 @@
                         <div id="homeAccidentList" style="padding: 10px 0;">
                             <div style="text-align:center; color:#94A3B8; font-size:13px; padding:20px;">로딩 중...</div>
                         </div>
+                    </div>
+
                     </div>
                 </div>
 
@@ -292,127 +418,339 @@
             }
         }
 
-        async function fetchPublicAccidentNews(keyword = '') {
+        // --- Public Data Intelligent Search & Filtering Logic ---
+        let allPublicItems = []; 
+        let filteredPublicItems = []; 
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        const CACHE_KEY = 'public_accident_data_v3'; // 데이터 필드 다이어트 버전
+        const CACHE_TS_KEY = 'public_accident_ts_v3';
+
+        // 텍스트 분석 및 정보 추출 함수들
+        const extractors = {
+            date: (item) => {
+                const text = (item.keyword || '') + ' ' + (item.contents || '');
+                // 1. "2025. 4. 14." 또는 "2025.04.14" 형식 검색
+                const fullDateMatch = text.match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})/);
+                if (fullDateMatch) {
+                    return `${fullDateMatch[1]}-${fullDateMatch[2].padStart(2, '0')}-${fullDateMatch[3].padStart(2, '0')}`;
+                }
+                // 2. "[4/14]" 형식 검색 (연도 없으면 현재 연도 2026 가정)
+                const shortMatch = (item.keyword || '').match(/\[(\d{1,2})\/(\d{1,2})/);
+                if (shortMatch) {
+                    return `2026-${shortMatch[1].padStart(2, '0')}-${shortMatch[2].padStart(2, '0')}`;
+                }
+                // 3. 기본값
+                return '2026-04-14';
+            },
+            region: (item) => {
+                // HTML 태그 제거 후 텍스트 통합
+                const cleanContents = (item.contents || '').replace(/<[^>]*>?/gm, ' ');
+                const text = (item.keyword || '') + ' ' + cleanContents;
+                
+                // 지역 목록 (정렬 순서 주의: '경기 광주' 등을 위해 명확한 매칭 필요)
+                const regions = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+                
+                // 1. 제목에서 먼저 찾기 (더 정확도가 높음)
+                for (const r of regions) {
+                    if ((item.keyword || '').includes(r)) return r;
+                }
+                // 2. 내용에서 찾기
+                for (const r of regions) {
+                    if (cleanContents.includes(r)) return r;
+                }
+                
+                return '기타';
+            },
+            type: (item) => {
+                const text = item.keyword || '';
+                const types = ['끼임', '떨어짐', '맞음', '부딪힘', '넘어짐', '무너짐', '깔림', '화재', '폭발', '감전'];
+                for (const t of types) if (text.includes(t)) return t === '폭발' ? '화재' : t;
+                return '기타';
+            },
+            industry: (item) => {
+                const text = item.contents || '';
+                if (text.includes('건설') || text.includes('공사')) return '건설';
+                if (text.includes('제조') || text.includes('공장')) return '제조';
+                if (text.includes('운수') || text.includes('물류') || text.includes('택배')) return '운수';
+                if (text.includes('폐기물')) return '폐기물';
+                if (text.includes('벌목') || text.includes('수목')) return '벌목';
+                return '기타';
+            },
+            scale: (item) => {
+                const text = item.contents || '';
+                const match = text.match(/사망\s*(\d+)명/);
+                if (match && parseInt(match[1]) >= 2) return '사망 2명 이상';
+                return '사망 1명';
+            }
+        };
+
+        async function fetchPublicAccidentNews(isForced = false) {
             const ticker = document.getElementById('publicNewsTicker');
             const grid = document.getElementById('publicNewsGrid');
-            const statusMsg = document.getElementById('searchStatusMsg');
             if (!ticker && !grid) return;
 
-            const serviceKey = 'a30f91c128600f0935b421b583b0102300e96384e6a45ae868ecf9a643c014e9';
-            let url = `https://apis.data.go.kr/B552468/news_api02/getNews_api02?serviceKey=${serviceKey}&callApiId=1040&pageNo=1&numOfRows=10&_type=json`;
-            
-            if (keyword) {
-                url += `&keyword=${encodeURIComponent(keyword)}`;
-                if (statusMsg) statusMsg.innerHTML = `<span style="color:var(--primary-color); font-weight:600;">'${keyword}'</span>에 대한 검색 결과입니다.`;
-                if (grid) grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;"><div class="loading-spinner"></div><p>검색 결과를 불러오는 중...</p></div>';
-            } else {
-                if (statusMsg) statusMsg.textContent = '전국 산업현장의 실시간 사고 보도자료입니다.';
+            // 1. 캐시 확인 (강제 업데이트가 아닐 경우)
+            if (!isForced) {
+                const cachedData = localStorage.getItem(CACHE_KEY);
+                const cachedTs = localStorage.getItem(CACHE_TS_KEY);
+                
+                if (cachedData && cachedTs) {
+                    const now = new Date();
+                    const target9AM = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0).getTime();
+                    // 현재 시간이 9시 이전이면, 어제 오전 9시가 기준이 됨
+                    const effectiveLast9AM = now.getTime() < target9AM ? target9AM - 24 * 60 * 60 * 1000 : target9AM;
+                    
+                    // 캐시가 유효한지 확인: 데이터 저장 시간이 가장 최근 9시 이후여야 함
+                    const isExpired = parseInt(cachedTs) < effectiveLast9AM;
+                    if (!isExpired) {
+                        try {
+                            allPublicItems = JSON.parse(cachedData);
+                            console.log('Using cached public data');
+                            processLoadedData(allPublicItems);
+                            updateSyncStatusUI();
+                            return;
+                        } catch (e) {
+                            console.error('Cache parse error, fetching fresh data');
+                        }
+                    }
+                }
             }
 
+            // 2. API 호출
+            const numOfRows = 1000;
+            const serviceKey = 'a30f91c128600f0935b421b583b0102300e96384e6a45ae868ecf9a643c014e9';
+            const url = `https://apis.data.go.kr/B552468/news_api02/getNews_api02?serviceKey=${serviceKey}&callApiId=1040&pageNo=1&numOfRows=${numOfRows}&_type=json`;
+            
             try {
                 const response = await fetch(url);
                 const result = await response.json();
                 let items = result.body?.items?.item;
 
                 if (!items || (Array.isArray(items) && items.length === 0)) {
-                    if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#94A3B8;">'${keyword}' 관련 속보를 찾을 수 없습니다.</div>`;
+                    if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#94A3B8;">데이터를 찾을 수 없습니다.</div>`;
                     return;
                 }
 
                 if (!Array.isArray(items)) items = [items];
 
-                if (!Array.isArray(items)) items = [items];
+                allPublicItems = items.map(item => {
+                    const cleanContent = item.contents ? item.contents.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>?/gm, ' ').replace(/&nbsp;/g, ' ').trim() : '';
+                    return {
+                        keyword: item.keyword,
+                        contents: cleanContent,
+                        _parsed: {
+                            date: extractors.date(item),
+                            region: extractors.region(item),
+                            type: extractors.type(item),
+                            industry: extractors.industry(item),
+                            scale: extractors.scale(item)
+                        }
+                    };
+                });
 
-                // 0. 지능형 유의어 매핑 (추락 -> 떨어짐 등)
-                const synonymMap = {
-                    '추락': '떨어짐',
-                    '협착': '끼임',
-                    '전도': '넘어짐',
-                    '충돌': '부딪힘',
-                    '낙하': '맞음',
-                    '비래': '맞음',
-                    '붕괴': '무너짐'
-                };
+                // 3. 데이터 저장 (안전성 강화)
+                try {
+                    // 구버전 거대 쓰레기 캐시 청소 (용량 확보)
+                    localStorage.removeItem('public_accident_data');
+                    localStorage.removeItem('public_accident_data_v2');
+                    localStorage.removeItem('public_accident_ts');
+                    localStorage.removeItem('public_accident_ts_v2');
 
-                let filteredItems = items;
-                if (keyword) {
-                    const searchTerms = [keyword];
-                    if (synonymMap[keyword]) searchTerms.push(synonymMap[keyword]);
-                    
-                    filteredItems = items.filter(item => {
-                        const title = item.keyword || item.title || '';
-                        return searchTerms.some(term => title.toLowerCase().includes(term.toLowerCase()));
-                    });
+                    // 새 캐시 저장 (0.4MB)
+                    localStorage.setItem(CACHE_KEY, JSON.stringify(allPublicItems));
+                    localStorage.setItem(CACHE_TS_KEY, Date.now().toString());
+                } catch (cacheError) {
+                    console.warn('캐시 저장 실패 (용량 부족 등):', cacheError);
+                    // 캐시에 실패해도 화면은 정상적으로 그려지도록 예외 허용
                 }
 
-                if (filteredItems.length === 0) {
-                    if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#94A3B8;">'${keyword}' 관련 속보를 보완 연동 중이거나 결과가 없습니다.</div>`;
-                    return;
-                }
-
-                // 1. 상단 티커용
-                if (ticker) {
-                    const tickerHtml = filteredItems.map(item => `
-                        <span class="ticker-item">
-                            ${item.keyword || item.title || '사고 속보'} 
-                            <span class="ticker-date">[${item.regDate || '2026-04-14'}]</span>
-                        </span>
-                    `).join('');
-                    ticker.innerHTML = tickerHtml + tickerHtml; 
-                }
-
-                // 2. 메인 그리드용 (카드 형태 - 검색 결과 중 최신순 4개)
-                if (grid) {
-                    window.currentNewsItems = filteredItems; 
-                    grid.innerHTML = filteredItems.slice(0, 4).map((item, index) => {
-                        const cleanContent = item.contents ? item.contents.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim() : '내용 요약이 없습니다.';
-                        return `
-                            <div class="news-card" onclick="openNewsModal(${index})">
-                                <div class="news-tag">${item.occurLocation || '현장보도'}</div>
-                                <h5 class="news-title">${item.keyword || item.title || '사고 속보'}</h5>
-                                <p class="news-content">${cleanContent.substring(0, 90)}...</p>
-                                <div class="news-footer">
-                                    <span><i data-lucide="calendar"></i> ${item.regDate || '2026-04-14'}</span>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                }
-                
+                processLoadedData(allPublicItems);
                 if (window.lucide) lucide.createIcons();
-
             } catch (error) {
                 console.error('API Error:', error);
-                if (grid) grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:#DC2626;">데이터를 불러오는 중 오류가 발생했습니다.</div>';
+                if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:#DC2626;">데이터 로드 중 오류가 발생했습니다.<br/><br/><pre style="font-size:11px;text-align:left;">${error.stack || error}</pre></div>`;
             }
         }
 
-        // Modal Logic
-        function openNewsModal(index) {
-            const item = window.currentNewsItems ? window.currentNewsItems[index] : null;
+        function processLoadedData(data) {
+            const ticker = document.getElementById('publicNewsTicker');
+            if (ticker) {
+                const tickerHtml = data.slice(0, 10).map(item => `
+                    <span class="ticker-item">
+                        ${item.keyword || item.title || '사고 속보'} 
+                        <span class="ticker-date">[${item._parsed.date}]</span>
+                    </span>
+                `).join('');
+                ticker.innerHTML = tickerHtml + tickerHtml;
+            }
+            filteredPublicItems = [...data];
+            currentPage = 1;
+            renderFilteredResults();
+            updateComparisonChart(); 
+        }
+
+        function renderFilteredResults() {
+            const grid = document.getElementById('publicNewsGrid');
+            const pagination = document.getElementById('publicPagination');
+
+            if (!grid) return;
+
+            if (filteredPublicItems.length === 0) {
+                grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#94A3B8;">조건에 맞는 결과가 없습니다.</div>`;
+                if (pagination) pagination.innerHTML = '';
+                return;
+            }
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const pageItems = filteredPublicItems.slice(startIndex, startIndex + itemsPerPage);
+
+            grid.innerHTML = pageItems.map((item, index) => {
+                const cleanContent = item.contents || '내용 요약이 없습니다.';
+                const realIndex = startIndex + index;
+                return `
+                    <div class="news-card" onclick="openFilteredNewsModal(${realIndex})">
+                        <div class="news-tag">${item._parsed.region} | ${item._parsed.type}</div>
+                        <h5 class="news-title">${item.keyword || '사고 속보'}</h5>
+                        <p class="news-content">${cleanContent.substring(0, 90)}...</p>
+                        <div class="news-footer">
+                            <span><i data-lucide="calendar"></i> ${item._parsed.date}</span>
+                            <span style="font-size:11px; background:#F1F5F9; padding:2px 6px; border-radius:4px;">${item._parsed.industry}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            renderPagination();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function renderPagination() {
+            const pagination = document.getElementById('publicPagination');
+            if (!pagination) return;
+
+            const totalPages = Math.ceil(filteredPublicItems.length / itemsPerPage);
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = `<button class="pg-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})"><i data-lucide="chevron-left"></i></button>`;
+            
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, startPage + 4);
+
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="pg-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+
+            html += `<button class="pg-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})"><i data-lucide="chevron-right"></i></button>`;
+            
+            pagination.innerHTML = html;
+        }
+
+        window.changePage = function(page) {
+            currentPage = page;
+            renderFilteredResults();
+            document.querySelector('.public-filter-bar').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.applyFilters = function() {
+            const start = document.getElementById('filterStartDate').value;
+            const end = document.getElementById('filterEndDate').value;
+            
+            // 메인 검색어(기인물) 가져오기
+            const mainSearchText = document.getElementById('mainSearchInput').value.trim();
+            
+            // 다중 선택된 지역 수집
+            const selectedRegions = Array.from(document.querySelectorAll('input[name="region"]:checked')).map(cb => cb.value);
+            
+            const type = document.getElementById('filterType').value;
+            const industry = document.getElementById('filterIndustry').value;
+            const scale = document.getElementById('filterScale').value;
+
+            filteredPublicItems = allPublicItems.filter(item => {
+                const p = item._parsed;
+                
+                // 0. 메인 검색어 (제목/기인물 검색)
+                if (mainSearchText && !(item.keyword || '').includes(mainSearchText)) return false;
+
+                // 1. 날짜 비교 (YYYY-MM-DD 형식 보장)
+                if (start && p.date < start) return false;
+                if (end && p.date > end) return false;
+                
+                // 2. 다중 지역 필터링 (파싱된 지역 정보 기준)
+                if (selectedRegions.length > 0 && !selectedRegions.includes(p.region)) return false;
+                
+                // 3. 발생 형태 (키워드 및 내용 검색)
+                if (type && !(item.keyword + (item.contents || '')).includes(type)) return false;
+                
+                if (industry && p.industry !== industry) return false;
+                if (scale && p.scale !== scale) return false;
+                return true;
+            });
+
+            currentPage = 1;
+            renderFilteredResults();
+        };
+
+        // 기간 퀵 선택 핸들러
+        window.handleQuickPeriod = function() {
+            const preset = document.getElementById('filterPeriodQuick').value;
+            if (!preset) return;
+
+            const now = new Date();
+            const end = new Date();
+            let start = new Date();
+
+            switch(preset) {
+                case '1w': start.setDate(now.getDate() - 7); break;
+                case '1m': start.setMonth(now.getMonth() - 1); break;
+                case '1y': start.setFullYear(now.getFullYear() - 1); break;
+                case '2y': start.setFullYear(now.getFullYear() - 2); break;
+                case '3y': start.setFullYear(now.getFullYear() - 3); break;
+            }
+
+            const formatDate = (date) => date.toISOString().split('T')[0];
+            
+            document.getElementById('filterStartDate').value = formatDate(start);
+            document.getElementById('filterEndDate').value = formatDate(end);
+            
+            window.applyFilters();
+        };
+
+        window.resetFilters = function() {
+            document.getElementById('filterPeriodQuick').value = '';
+            document.getElementById('filterStartDate').value = '';
+            document.getElementById('filterEndDate').value = '';
+            
+            // 지역 체크박스 초기화
+            document.querySelectorAll('input[name="region"]').forEach(cb => cb.checked = false);
+            
+            document.getElementById('filterType').value = '';
+            document.getElementById('filterIndustry').value = '';
+            document.getElementById('filterScale').value = '';
+            filteredPublicItems = [...allPublicItems];
+            currentPage = 1;
+            renderFilteredResults();
+        };
+
+        window.openFilteredNewsModal = function(index) {
+            const item = filteredPublicItems[index];
             if (!item) return;
 
             const modal = document.getElementById('newsModal');
-            const title = document.getElementById('modalTitle');
-            const tag = document.getElementById('modalTag');
-            const date = document.getElementById('modalDate');
-            const location = document.getElementById('modalLocation');
-            const content = document.getElementById('modalContent');
+            document.getElementById('modalTag').textContent = `${item._parsed.region} | ${item._parsed.type}`;
+            document.getElementById('modalTitle').textContent = item.keyword || item.title;
+            document.getElementById('modalDate').textContent = item._parsed.date;
+            document.getElementById('modalLocation').textContent = item._parsed.region;
+            
+            let fullBody = item.contents || '상세 내용이 없습니다.';
+            document.getElementById('modalContent').textContent = fullBody;
 
-            if (modal && title && tag && date && location && content) {
-                tag.textContent = item.occurLocation || '현장보도';
-                title.textContent = item.keyword || item.title || '사고 속보';
-                date.textContent = item.regDate || '미상';
-                location.textContent = item.occurLocation || '전국';
-                
-                // HTML 태그 제거 및 줄바꿈 처리
-                let fullBody = item.contents ? item.contents.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim() : '상세 내용이 없습니다.';
-                content.textContent = fullBody;
-
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // 스크롤 방지
-            }
-        }
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
 
         function closeNewsModal() {
             const modal = document.getElementById('newsModal');
@@ -422,34 +760,156 @@
             }
         }
 
-        // Search Event Handlers
         function executeMainSearch() {
             const searchInput = document.getElementById('mainSearchInput');
             if (searchInput) {
                 const query = searchInput.value.trim();
-                fetchPublicAccidentNews(query);
-                // 실시간 섹션으로 스크롤 이동
+                fetchPublicAccidentNews(query, false);
                 document.querySelector('.public-news-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        // --- Statistics & Chart Logic ---
+        function updateComparisonChart() {
+            const ctx = document.getElementById('comparisonChart');
+            const loader = document.getElementById('chartLoadingMsg');
+            if (!ctx) return;
+
+            // '전국' 추가 및 17개 시도 정의
+            const regions = [
+                '전국', '서울', '세종', '부산', '대구', '인천', '광주', '대전', '울산',
+                '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'
+            ];
+
+            const stats = {};
+            regions.forEach(r => {
+                stats[r] = { count25: 0, count26: 0 };
+            });
+
+            // 동기간 범위 설정 (발생일 기준 1월 1일 ~ 4월 14일)
+            const targetMonth = 4;
+            const targetDay = 14;
+
+            allPublicItems.forEach(item => {
+                const p = item._parsed;
+                const dateStr = p.date; // "YYYY-MM-DD"
+                if (!dateStr) return;
+                
+                const [year, month, day] = dateStr.split('-').map(Number);
+                const region = p.region;
+
+                // 동기간 필터 (1~4월, 14일 이전)
+                const isWithinPeriod = (month < targetMonth) || (month === targetMonth && day <= targetDay);
+
+                if (isWithinPeriod) {
+                    // 개별 지역 집계
+                    if (stats[region]) {
+                        if (year === 2026) stats[region].count26++;
+                        else if (year === 2025) stats[region].count25++;
+                    }
+                    // 전국(Total) 집계
+                    if (year === 2026) stats['전국'].count26++;
+                    else if (year === 2025) stats['전국'].count25++;
+                }
+            });
+
+            if (loader) loader.style.display = 'none';
+
+            const isMobile = window.innerWidth < 768;
+
+            // 기존에 생성된 차트가 있다면 파괴 (오류 방지)
+            const existingChart = Chart.getChart(ctx);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+
+            // Chart.js 생성
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: regions,
+                    datasets: [
+                        {
+                            label: '2025년 (동기간)',
+                            data: regions.map(r => stats[r].count25),
+                            backgroundColor: regions.map(r => r === '전국' ? '#94A3B8' : '#CBD5E1'), // 전국은 약간 더 진한 회색
+                            borderRadius: 4,
+                            barPercentage: 0.8,
+                            categoryPercentage: 0.8
+                        },
+                        {
+                            label: '2026년 (현재)',
+                            data: regions.map(r => stats[r].count26),
+                            backgroundColor: regions.map(r => r === '전국' ? '#1E40AF' : '#2563EB'), // 전국은 더 진한 블루
+                            borderRadius: 4,
+                            barPercentage: 0.8,
+                            categoryPercentage: 0.8
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: isMobile ? 'y' : 'x', // 모바일에서는 가로형 막대로 전환
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 1000, easing: 'easeOutQuart' },
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { size: 12, weight: 'bold' } } },
+                        tooltip: { 
+                            backgroundColor: 'rgba(30, 41, 59, 0.9)', 
+                            padding: 12, 
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { color: '#F1F5F9' }, 
+                            ticks: { 
+                                stepSize: 1, 
+                                color: '#64748B',
+                                font: { size: isMobile ? 10 : 11 }
+                            } 
+                        },
+                        x: { 
+                            beginAtZero: true,
+                            grid: { display: false }, 
+                            ticks: { 
+                                color: '#1E293B', 
+                                font: { 
+                                    size: isMobile ? 10 : 11,
+                                    weight: 'bold' 
+                                },
+                                maxRotation: isMobile ? 0 : 45, // 가로형일 때는 회전 불필요
+                                minRotation: isMobile ? 0 : 45
+                            } 
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
             fetchRecentNotices();
             loadHomeAccidents();
-            fetchPublicAccidentNews();
+            await fetchPublicAccidentNews(); // 캐시 우선 로드
 
-            // Search listeners
+            const applyBtn = document.getElementById('applyFiltersBtn');
+            const resetBtn = document.getElementById('resetFiltersBtn');
+            const quickPeriod = document.getElementById('filterPeriodQuick');
+
+            if (applyBtn) applyBtn.addEventListener('click', applyFilters);
+            if (resetBtn) resetBtn.addEventListener('click', resetFilters);
+            if (quickPeriod) quickPeriod.addEventListener('change', handleQuickPeriod);
+
             const searchBtn = document.getElementById('mainSearchBtn');
             const searchInput = document.getElementById('mainSearchInput');
-
-            if (searchBtn) searchBtn.addEventListener('click', executeMainSearch);
+            if (searchBtn) searchBtn.addEventListener('click', applyFilters);
             if (searchInput) {
                 searchInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') executeMainSearch();
+                    if (e.key === 'Enter') applyFilters();
                 });
             }
 
-            // Mobile Menu Toggle logic fix for first page
             const mobileBtn = document.getElementById('mobileMenuBtn');
             const navMenu = document.querySelector('.gnb-container');
             if (mobileBtn && navMenu) {
@@ -491,5 +951,7 @@
         </div>
     </div>
 </body>
+
+</html>
 
 </html>
