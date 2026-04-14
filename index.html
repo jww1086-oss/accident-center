@@ -8,6 +8,7 @@
     <meta name="description" content="산업재해 예방 및 사고원인 조사를 선도하는 광주광역사고조사센터 공식 홈페이지입니다.">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body>
@@ -28,11 +29,9 @@
                     </a>
                 </div>
                 <div class="header-tools">
-                    <button class="search-icon-btn" id="searchToggle">
-                        <i data-lucide="search"></i>
-                    </button>
                     <button class="mobile-menu-btn" id="mobileMenuBtn">
                         <i data-lucide="menu"></i>
+                        <span class="menu-text">메뉴</span>
                     </button>
                 </div>
             </div>
@@ -73,25 +72,34 @@
                 </div>
             </section>
 
-            <!-- Emergency News Bar -->
+            <!-- Emergency News Bar (Integrated with Public API) -->
             <div class="news-bar">
                 <span class="news-label">사고속보</span>
-                <marquee behavior="scroll" direction="left">
-                    [3/31, 광주 북구] 건설 현장 낙하물 사고 조사 진행 중... [3/29, 광주 광산구] 공장 내 기계 끼임 사고 원인 분석 착수...
-                </marquee>
+                <div id="publicNewsTicker" class="ticker-content">
+                    <span class="ticker-item">실시간 사고 속보를 불러오고 있습니다...</span>
+                </div>
             </div>
 
             <!-- Search Section -->
             <section class="search-section">
                 <div class="search-box">
-                    <input type="text" placeholder="궁금하신 안전 정보를 검색해보세요.">
-                    <button class="search-btn"><i data-lucide="search"></i></button>
+                    <input type="text" id="mainSearchInput" placeholder="궁금하신 중대재해를 검색해보세요">
+                    <button id="mainSearchBtn" class="search-btn"><i data-lucide="search"></i></button>
                 </div>
-                <div class="search-tags">
-                    <span class="tag">#위험성평가</span>
-                    <span class="tag">#중대재해처벌법</span>
-                    <span class="tag">#현장점검</span>
-                    <span class="tag">#안전가이드</span>
+            </section>
+
+            <!-- Real-time Public Data Bulletin Section (Moved below search) -->
+            <section class="public-news-section" style="padding: 0 10%; margin-top: 5px;">
+                <div class="section-title" style="border-top: none; padding-top: 0;">
+                    <h3><i data-lucide="globe" style="width:20px; vertical-align:middle; margin-right:8px; color:var(--primary-color);"></i> 실시간 중대재해 속보</h3>
+                    <p id="searchStatusMsg">전국 산업현장의 실시간 사고 보도자료입니다.</p>
+                </div>
+                
+                <div id="publicNewsGrid" class="public-news-grid">
+                    <div style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text-gray);">
+                        <div class="loading-spinner"></div>
+                        <p style="margin-top:10px;">전국 사고 속보를 불러오는 중입니다...</p>
+                    </div>
                 </div>
             </section>
 
@@ -147,18 +155,6 @@
                     </div>
                 </div>
 
-                <!-- NEW: Real-time Public Data Bulletin Section -->
-                <div class="section-title" style="margin-top: 40px; border-top: 1px solid #E2E8F0; padding-top: 30px;">
-                    <h3><i data-lucide="globe" style="width:20px; vertical-align:middle; margin-right:8px; color:var(--primary-color);"></i> 실시간 공공데이터 사고속보</h3>
-                    <p>전국 산업현장의 실시간 사고 보도자료입니다. (출처: 한국산업안전보건공단)</p>
-                </div>
-                
-                <div id="publicNewsGrid" class="public-news-grid">
-                    <div style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text-gray);">
-                        <div class="loading-spinner"></div>
-                        <p style="margin-top:10px;">전국 사고 속보를 불러오는 중입니다...</p>
-                    </div>
-                </div>
 
                 <div class="grid-container" style="margin-top: 40px;">
                     <div class="card" onclick="location.href='disasters.html'">
@@ -296,43 +292,144 @@
             }
         }
 
-        async function fetchPublicAccidentNews() {
+        async function fetchPublicAccidentNews(keyword = '') {
+            const ticker = document.getElementById('publicNewsTicker');
             const grid = document.getElementById('publicNewsGrid');
+            const statusMsg = document.getElementById('searchStatusMsg');
+            if (!ticker && !grid) return;
+
             const serviceKey = 'a30f91c128600f0935b421b583b0102300e96384e6a45ae868ecf9a643c014e9';
-            const url = `https://apis.data.go.kr/B552468/news_api02/getNews_api02?serviceKey=${serviceKey}&callApiId=1040&numOfRows=4&_type=json`;
+            let url = `https://apis.data.go.kr/B552468/news_api02/getNews_api02?serviceKey=${serviceKey}&callApiId=1040&pageNo=1&numOfRows=10&_type=json`;
+            
+            if (keyword) {
+                url += `&keyword=${encodeURIComponent(keyword)}`;
+                if (statusMsg) statusMsg.innerHTML = `<span style="color:var(--primary-color); font-weight:600;">'${keyword}'</span>에 대한 검색 결과입니다.`;
+                if (grid) grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;"><div class="loading-spinner"></div><p>검색 결과를 불러오는 중...</p></div>';
+            } else {
+                if (statusMsg) statusMsg.textContent = '전국 산업현장의 실시간 사고 보도자료입니다.';
+            }
 
             try {
                 const response = await fetch(url);
                 const result = await response.json();
-                
-                const items = result.response?.body?.items?.item;
+                let items = result.body?.items?.item;
 
-                if (!items || items.length === 0) {
-                    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:#94A3B8;">현재 새로운 사고 속보가 없습니다.</div>';
+                if (!items || (Array.isArray(items) && items.length === 0)) {
+                    if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#94A3B8;">'${keyword}' 관련 속보를 찾을 수 없습니다.</div>`;
                     return;
                 }
 
-                grid.innerHTML = items.map(item => `
-                    <div class="news-card">
-                        <div class="news-tag">${item.occurLocation || '전국'}</div>
-                        <h5 class="news-title">${item.title}</h5>
-                        <p class="news-content">${item.content ? item.content.substring(0, 80) + '...' : '내용이 없습니다.'}</p>
-                        <div class="news-footer">
-                            <span><i data-lucide="calendar"></i> ${item.occurDate || item.regDate}</span>
-                        </div>
-                    </div>
-                `).join('');
+                if (!Array.isArray(items)) items = [items];
+
+                if (!Array.isArray(items)) items = [items];
+
+                // 0. 지능형 유의어 매핑 (추락 -> 떨어짐 등)
+                const synonymMap = {
+                    '추락': '떨어짐',
+                    '협착': '끼임',
+                    '전도': '넘어짐',
+                    '충돌': '부딪힘',
+                    '낙하': '맞음',
+                    '비래': '맞음',
+                    '붕괴': '무너짐'
+                };
+
+                let filteredItems = items;
+                if (keyword) {
+                    const searchTerms = [keyword];
+                    if (synonymMap[keyword]) searchTerms.push(synonymMap[keyword]);
+                    
+                    filteredItems = items.filter(item => {
+                        const title = item.keyword || item.title || '';
+                        return searchTerms.some(term => title.toLowerCase().includes(term.toLowerCase()));
+                    });
+                }
+
+                if (filteredItems.length === 0) {
+                    if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#94A3B8;">'${keyword}' 관련 속보를 보완 연동 중이거나 결과가 없습니다.</div>`;
+                    return;
+                }
+
+                // 1. 상단 티커용
+                if (ticker) {
+                    const tickerHtml = filteredItems.map(item => `
+                        <span class="ticker-item">
+                            ${item.keyword || item.title || '사고 속보'} 
+                            <span class="ticker-date">[${item.regDate || '2026-04-14'}]</span>
+                        </span>
+                    `).join('');
+                    ticker.innerHTML = tickerHtml + tickerHtml; 
+                }
+
+                // 2. 메인 그리드용 (카드 형태 - 검색 결과 중 최신순 4개)
+                if (grid) {
+                    window.currentNewsItems = filteredItems; 
+                    grid.innerHTML = filteredItems.slice(0, 4).map((item, index) => {
+                        const cleanContent = item.contents ? item.contents.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim() : '내용 요약이 없습니다.';
+                        return `
+                            <div class="news-card" onclick="openNewsModal(${index})">
+                                <div class="news-tag">${item.occurLocation || '현장보도'}</div>
+                                <h5 class="news-title">${item.keyword || item.title || '사고 속보'}</h5>
+                                <p class="news-content">${cleanContent.substring(0, 90)}...</p>
+                                <div class="news-footer">
+                                    <span><i data-lucide="calendar"></i> ${item.regDate || '2026-04-14'}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
                 
                 if (window.lucide) lucide.createIcons();
 
             } catch (error) {
-                console.error('API Fetch Error:', error);
-                grid.innerHTML = `
-                    <div style="grid-column:1/-1; text-align:center; padding:30px; background:#FEF2F2; border-radius:12px; border:1px solid #FEE2E2;">
-                        <p style="color:#DC2626; font-size:14px; font-weight:600;">⚠️ 실시간 데이터를 불러올 수 없습니다 (CORS 제한/서버 점검)</p>
-                        <p style="color:#991B1B; font-size:12px; margin-top:4px;">공공데이터포털 정책으로 인해 브라우저 직접 호출이 제한될 수 있습니다.</p>
-                    </div>
-                `;
+                console.error('API Error:', error);
+                if (grid) grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:#DC2626;">데이터를 불러오는 중 오류가 발생했습니다.</div>';
+            }
+        }
+
+        // Modal Logic
+        function openNewsModal(index) {
+            const item = window.currentNewsItems ? window.currentNewsItems[index] : null;
+            if (!item) return;
+
+            const modal = document.getElementById('newsModal');
+            const title = document.getElementById('modalTitle');
+            const tag = document.getElementById('modalTag');
+            const date = document.getElementById('modalDate');
+            const location = document.getElementById('modalLocation');
+            const content = document.getElementById('modalContent');
+
+            if (modal && title && tag && date && location && content) {
+                tag.textContent = item.occurLocation || '현장보도';
+                title.textContent = item.keyword || item.title || '사고 속보';
+                date.textContent = item.regDate || '미상';
+                location.textContent = item.occurLocation || '전국';
+                
+                // HTML 태그 제거 및 줄바꿈 처리
+                let fullBody = item.contents ? item.contents.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim() : '상세 내용이 없습니다.';
+                content.textContent = fullBody;
+
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // 스크롤 방지
+            }
+        }
+
+        function closeNewsModal() {
+            const modal = document.getElementById('newsModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Search Event Handlers
+        function executeMainSearch() {
+            const searchInput = document.getElementById('mainSearchInput');
+            if (searchInput) {
+                const query = searchInput.value.trim();
+                fetchPublicAccidentNews(query);
+                // 실시간 섹션으로 스크롤 이동
+                document.querySelector('.public-news-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
@@ -340,9 +437,59 @@
             fetchRecentNotices();
             loadHomeAccidents();
             fetchPublicAccidentNews();
+
+            // Search listeners
+            const searchBtn = document.getElementById('mainSearchBtn');
+            const searchInput = document.getElementById('mainSearchInput');
+
+            if (searchBtn) searchBtn.addEventListener('click', executeMainSearch);
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') executeMainSearch();
+                });
+            }
+
+            // Mobile Menu Toggle logic fix for first page
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.querySelector('.gnb-container');
+            if (mobileBtn && navMenu) {
+                mobileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navMenu.classList.toggle('active');
+                });
+                document.addEventListener('click', (e) => {
+                    if (navMenu.classList.contains('active') && !navMenu.contains(e.target)) {
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
         });
         if (window.lucide) lucide.createIcons();
     </script>
+
+    <!-- News Detail Modal Overlay -->
+    <div id="newsModal" class="modal-overlay" onclick="if(event.target === this) closeNewsModal()">
+        <div class="news-modal">
+            <div class="news-modal-header">
+                <div class="news-modal-title-area">
+                    <span id="modalTag" class="news-modal-tag">현장보도</span>
+                    <h5 id="modalTitle" class="news-modal-title">사고 속보 상세 내용</h5>
+                </div>
+                <button class="news-modal-close" onclick="closeNewsModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="news-modal-body">
+                <div class="news-modal-meta">
+                    <span><i data-lucide="calendar" style="width:14px;"></i> <b>발생일:</b> <span id="modalDate">-</span></span>
+                    <span><i data-lucide="map-pin" style="width:14px;"></i> <b>지역:</b> <span id="modalLocation">-</span></span>
+                </div>
+                <div id="modalContent" class="news-modal-content">
+                    사고 상세 내용이 여기에 표시됩니다.
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
