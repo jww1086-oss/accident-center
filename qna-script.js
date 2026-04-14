@@ -64,13 +64,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const date = new Date(q.created_at).toLocaleDateString();
             const statusClass = q.status === '완료' ? 'completed' : 'pending';
             
+            const imageRegex = /(?<![!\[])(?<!\[)(https?:\/\/[^\s]+?\.(?:png|jpg|jpeg|gif|webp|svg|bmp))/gi;
+            const contentHTML = q.content.replace(imageRegex, '<img src="$1" style="max-width:100%; height:auto; border-radius:8px; margin:10px 0; display:block; shadow:0 4px 12px rgba(0,0,0,0.1);">').replace(/\n/g, '<br>');
+            const answerHTML = q.answer ? q.answer.replace(imageRegex, '<img src="$1" style="max-width:100%; height:auto; border-radius:8px; margin:10px 0; display:block; shadow:0 4px 12px rgba(0,0,0,0.1);">').replace(/\n/g, '<br>') : '';
+
             return `
                 <tr class="qna-row" onclick="toggleQnaDetail(${q.id})">
                     <td data-label="번호">${data.length - index}</td>
                     <td data-label="상태"><span class="badge ${statusClass}">${q.status}</span></td>
                     <td data-label="제목" class="txt-left">
                         <strong>${q.title}</strong>
-                        ${isAdmin ? `<button class="btn-admin-reply" onclick="event.stopPropagation(); showAnswerForm(${q.id})">답변하기</button>` : ''}
+                        ${isAdmin ? `<button class="btn-admin-reply" onclick="event.stopPropagation(); showAnswerForm(${q.id})" style="margin-left: 10px;">답변하기</button>` : ''}
+                        ${isAdmin ? `<button class="btn-admin-edit" onclick="event.stopPropagation(); editQnaOriginal(${q.id})" style="border:none; background:#10b981; color:white; padding:4px 8px; border-radius:3px; margin-left:5px; cursor:pointer;" title="원문수정"><i data-lucide="edit" style="width:14px; height:14px;"></i></button>` : ''}
+                        ${isAdmin ? `<button class="btn-admin-delete" onclick="event.stopPropagation(); deleteQna(${q.id})" style="border:none; background:red; color:white; padding:4px 8px; border-radius:3px; margin-left:5px; cursor:pointer;" title="삭제"><i data-lucide="trash-2" style="width:14px; height:14px;"></i></button>` : ''}
                     </td>
                     <td data-label="작성자">${q.author}</td>
                     <td data-label="등록일">${date}</td>
@@ -80,12 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="qna-content">
                             <div class="qna-question">
                                 <strong class="q-label"><i data-lucide="help-circle"></i> Q. 질문 내용</strong>
-                                <p>${q.content.replace(/\n/g, '<br>')}</p>
+                                <p>${contentHTML}</p>
                             </div>
                             ${q.answer ? `
                             <div class="qna-answer">
                                 <strong class="a-label"><i data-lucide="message-square"></i> A. 답변</strong>
-                                <p>${q.answer.replace(/\n/g, '<br>')}</p>
+                                <p>${answerHTML}</p>
                             </div>
                             ` : isAdmin ? '' : '<div class="qna-answer-pending">A. 관리자의 답변을 기다리고 있습니다.</div>'}
                             <div id="answer-form-container-${q.id}"></div>
@@ -115,18 +121,32 @@ document.addEventListener('DOMContentLoaded', () => {
             const content = document.getElementById('q_content').value;
 
             try {
-                const { error } = await supabaseClient
-                    .from('qna')
-                    .insert([{ title, author, content, status: '대기중' }]);
+                let errorObj;
+                if (window.currentEditQnaId) {
+                    // 수정 모드
+                    const { error } = await supabaseClient
+                        .from('qna')
+                        .update({ title, author, content })
+                        .eq('id', window.currentEditQnaId);
+                    errorObj = error;
+                } else {
+                    // 신규 작성 모드
+                    const { error } = await supabaseClient
+                        .from('qna')
+                        .insert([{ title, author, content, status: '대기중' }]);
+                    errorObj = error;
+                }
 
-                if (error) throw error;
-                alert("질문이 성공적으로 등록되었습니다.");
+                if (errorObj) throw errorObj;
+                
+                alert(window.currentEditQnaId ? "질문이 성공적으로 수정되었습니다." : "질문이 성공적으로 등록되었습니다.");
                 modalOverlay.style.display = 'none';
                 qnaForm.reset();
+                window.currentEditQnaId = null;
                 fetchQuestions();
             } catch (error) {
-                console.error("Insert error:", error);
-                alert("등록에 실패했습니다.");
+                console.error("Submit error:", error);
+                alert("처리 중 오류가 발생했습니다.");
             }
         });
     }
@@ -223,3 +243,53 @@ function showAnswerForm(id) {
 
     textarea.focus();
 }
+
+// ── 게시글 삭제 기능 ──────────────────────────────
+window.deleteQna = async (id) => {
+    if (!confirm('정말로 이 질의응답 게시글을 삭제하시겠습니까?')) return;
+    
+    try {
+        const { error } = await supabaseClient.from('qna').delete().eq('id', id);
+        if (error) throw error;
+        
+        alert("게시글이 삭제되었습니다.");
+        location.reload();
+    } catch (error) {
+        console.error("Delete Error:", error);
+        alert("삭제 중 오류가 발생했습니다.");
+    }
+};
+
+// ── 게시글 원문(질문) 수정 기능 ──────────────────────────────
+window.currentEditQnaId = null;
+
+window.editQnaOriginal = async (id) => {
+    try {
+        const { data, error } = await supabaseClient.from('qna').select('*').eq('id', id).single();
+        if (error || !data) throw error;
+
+        window.currentEditQnaId = id;
+        document.querySelector('.qna-modal h3').innerText = "원문 수정";
+        document.getElementById('q_author').value = data.author;
+        document.getElementById('q_title').value = data.title;
+        document.getElementById('q_content').value = data.content;
+        
+        const overlay = document.getElementById('modalOverlay');
+        if(overlay) overlay.style.display = 'flex';
+        
+    } catch (error) {
+        console.error("Fetch Error:", error);
+        alert("데이터를 가져오는 중 오류가 발생했습니다.");
+    }
+};
+
+// 원문 폼 닫기 시 작성모드로 복구
+document.addEventListener('DOMContentLoaded', () => {
+    const btnCancel = document.getElementById('closeModalBtn');
+    if (btnCancel) {
+        btnCancel.addEventListener('click', () => {
+            window.currentEditQnaId = null;
+            document.querySelector('.qna-modal h3').innerText = "질문하기";
+        });
+    }
+});

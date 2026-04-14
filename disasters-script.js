@@ -72,8 +72,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         disasterContainer.innerHTML = data.map(item => {
-            const causeList = item.cause ? item.cause.split('\n').filter(l => l.trim()).map(l => `<li>${l}</li>`).join('') : '<li>정보 없음</li>';
-            const preventionList = item.prevention ? item.prevention.split('\n').filter(l => l.trim()).map(l => `<li>${l}</li>`).join('') : '<li>정보 없음</li>';
+            const imageRegex = /(?<![!\[])(?<!\[)(https?:\/\/[^\s]+?\.(?:png|jpg|jpeg|gif|webp|svg|bmp))/gi;
+            const imageStyle = 'style="max-width:100%; height:auto; border-radius:8px; margin:10px 0; display:block; box-shadow:0 4px 12px rgba(0,0,0,0.1);"';
+            const imageReplace = `<img src="$1" ${imageStyle}>`;
+
+            const processText = (text) => {
+                if (!text) return text;
+                return text.replace(imageRegex, imageReplace).replace(/\n/g, '<br>');
+            };
+
+            const summaryHTML = processText(item.summary || '상세 내용 없음');
+            
+            const causeList = item.cause ? item.cause.split('\n').filter(l => l.trim()).map(l => {
+                const processed = l.replace(imageRegex, imageReplace);
+                return `<li>${processed}</li>`;
+            }).join('') : '<li>정보 없음</li>';
+
+            const preventionList = item.prevention ? item.prevention.split('\n').filter(l => l.trim()).map(l => {
+                const processed = l.replace(imageRegex, imageReplace);
+                return `<li>${processed}</li>`;
+            }).join('') : '<li>정보 없음</li>';
             
             return `
                 <article class="report-card" style="position: relative;">
@@ -87,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h4 class="report-title">${item.title}</h4>
                     </div>
                     <div class="report-summary-box">
-                        <strong>사고 개요:</strong> ${item.summary || '상세 내용 없음'}
+                        <strong>사고 개요:</strong><br>${summaryHTML}
                     </div>
                     <div class="report-grid">
                         <div class="report-group">

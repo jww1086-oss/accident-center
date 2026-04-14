@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>광주광역사고조사센터 - 공지사항</title>
-    <link rel="stylesheet" href="style.css"><script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
     <header>
         <div class="top-bar">
             <div class="top-bar-inner">
-                <a href="#">로그인</a><a href="#">회원가입</a><a href="#">사이트맵</a><a href="#">Language</a>
-                <button type="button" class="admin-toggle"><i data-lucide="shield-check" style="width:14px; margin-right:4px;"></i> 관리자 로그인</button>
+                <button type="button" class="admin-toggle"><i data-lucide="shield-check"
+                        style="width:14px; margin-right:4px;"></i> 관리자 로그인</button>
             </div>
         </div>
         <div class="header-main">
@@ -54,28 +59,31 @@
         <aside class="sidebar">
             <div class="sidebar-title">알림마당</div>
             <ul class="sidebar-menu">
-                <li><a href="notice.html" class="active"><i data-lucide="bell" style="width:18px; margin-right:10px;"></i> 공지사항</a></li>
+                <li><a href="notice.html" class="active"><i data-lucide="bell"
+                            style="width:18px; margin-right:10px;"></i> 공지사항</a></li>
             </ul>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <div id="notice-news" class="tab-content active-tab">
-            <div class="page-title-area">
-                <div class="breadcrumb">
-                    <i data-lucide="home" class="breadcrumb-home-icon"></i>
-                    <span>알림마당</span>
-                    <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
-                    <span>공지사항 목록</span>
-                </div>
-                <div class="page-title-row">
-                    <h2 class="page-main-title">알림마당</h2>
-                    <div class="page-actions">
-                        <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
-                        <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
+            <!-- 목록 뷰 -->
+            <div id="notice-list-view" class="tab-content active-tab" style="display: block;">
+                <div class="page-title-area">
+                    <div class="breadcrumb">
+                        <i data-lucide="home" class="breadcrumb-home-icon"></i>
+                        <span>알림마당</span>
+                        <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+                        <span>공지사항 목록</span>
+                    </div>
+                    <div class="page-title-row" style="display: flex; align-items: center;">
+                        <h2 class="page-main-title">알림마당</h2>
+                        <button class="open-notice-add admin-only-notice" style="display:none; margin-left:20px; padding:8px 16px; background:#e74c3c; color:white; border-radius:4px; font-weight:bold; border:none; cursor:pointer;"><i data-lucide="plus" style="width:16px;"></i> 글쓰기</button>
+                        <div class="page-actions" style="margin-left: auto;">
+                            <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
+                            <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
                 <div class="board-container">
                     <table class="board-table">
@@ -87,55 +95,16 @@
                                 <th style="width: 100px;">조회수</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr style="cursor: pointer;" onclick="window.location.hash='#notice-detail-02'">
-                                <td>3</td>
-                                <td class="txt-left">광주광역사고조사센터, 전문 기술력 향상 결실… ‘산업안전지도사’ 1차 3명 합격 <span class="badge badge-new">N</span></td>
-                                <td>2026-04-01</td>
-                                <td>0</td>
-                            </tr>
-                            <tr style="cursor: pointer;" onclick="window.location.hash='#notice-detail-01'">
-                                <td><span class="badge badge-notice">공지</span></td>
-                                <td class="txt-left"><strong>[중요] 중대재해조사보고서 공개 의무화 추진 안내</strong> <span class="badge badge-new">N</span></td>
-                                <td>2026-04-01</td>
-                                <td>0</td>
-                            </tr>
+                        <tbody id="notice-list-body">
                             <tr>
-                                <td><span class="badge badge-notice">공지</span></td>
-                                <td class="txt-left"><strong>[안내] 2026년 상반기 건설현장 정기 기술지도 안내</strong></td>
-                                <td>2026-03-30</td>
-                                <td>452</td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge badge-notice">공지</span></td>
-                                <td class="txt-left"><strong>[중요] 광역사고조사센터 통합 정보시스템 정기 점검 공지</strong></td>
-                                <td>2026-03-25</td>
-                                <td>891</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td class="txt-left">[안내] 산업재해 예방시설 융자지원사업 신청 알림 <span class="badge badge-new">N</span></td>
-                                <td>2026-03-31</td>
-                                <td>125</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td class="txt-left">2026년도 제1차 중대재해 예방 역량강화 교육 교육생 모집</td>
-                                <td>2026-03-20</td>
-                                <td>562</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td class="txt-left">광주광역사고조사센터 홈페이지 개편 안내 및 설문조사</td>
-                                <td>2026-03-15</td>
-                                <td>1,024</td>
+                                <td colspan="4">데이터를 불러오는 중입니다...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <!-- Tab 2: 공지사항 상세보기 (동적으로 구현되나 여기서는 정적으로 예시 추가) -->
-            <div id="notice-detail-01" class="tab-content">
+            <!-- 단일 상세 뷰 (Supabase 동적 삽입) -->
+            <div id="notice-detail-view" class="tab-content" style="display: none;">
                 <div class="page-title-area">
                     <div class="breadcrumb">
                         <i data-lucide="home" class="breadcrumb-home-icon"></i>
@@ -144,104 +113,18 @@
                         <span>공지사항 상세보기</span>
                     </div>
                     <div class="page-title-row">
-                        <h2 class="page-main-title">중대재해조사보고서 공개 의무화 추진 안내</h2>
+                        <h2 class="page-main-title" id="detail-title">로딩 중...</h2>
                         <div class="page-actions">
                             <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
                             <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
-                            <button class="action-btn" onclick="window.location.hash='#notice-news'" title="목록으로"><i data-lucide="list"></i></button>
+                            <button class="action-btn" onclick="backToNoticeList()" title="목록으로"><i data-lucide="list"></i></button>
                         </div>
                     </div>
                 </div>
 
                 <div class="notice-content-area">
-                    <div class="notice-section-item">
-                        <h4>1. 도입 배경 및 의의</h4>
-                        <ul>
-                            <li>그동안 재해조사보고서는 전문가들이 사고 원인을 분석한 핵심 자료임에도 불구하고 <strong>'수사 관련 자료'</strong>라는 이유로 피해자 유가족에게조차 제대로 공개되지 않아 시민사회의 지속적인 문제 제기가 있었습니다.</li>
-                            <li>이번 의무화 조치는 원인 분석 자료를 사회적으로 공유하여 <strong>동종·유사 사고를 예방</strong>하고, 피해자와 유가족의 <strong>정보 접근권을 보장</strong>한다는 점에서 큰 진전으로 평가받습니다.</li>
-                        </ul>
-                    </div>
-
-                    <div class="notice-section-item">
-                        <h4>2. 주요 내용 및 시행 시기</h4>
-                        <ul>
-                            <li><strong>시행일: 2026년 6월 1일부터</strong> 고용노동부는 재해조사보고서를 의무적으로 직접 공개해야 합니다.</li>
-                            <li><strong>조사 범위 확대:</strong> 기존에 발생한 중대재해뿐만 화재, 폭발, 붕괴 등 중대재해로 이어질 위험이 컸던 사고까지 조사 및 공개 범위가 대폭 확대되었습니다.</li>
-                        </ul>
-                    </div>
-
-                    <div class="highlight-box">
-                        원칙적으로 재해조사보고서는 법 위반으로 <strong>'공소가 제기된 이후'</strong>에 공개하는 것이 원칙이나, 수사·재판 대상이 아닌 경우 즉시 공개될 수 있습니다.
-                    </div>
-
-                    <div class="notice-section-item">
-                        <h4>3. 공개 시점 및 추가 추진안</h4>
-                        <ul>
-                            <li><strong>유가족 사전 공개 추진:</strong> '공소 제기 후' 시점이 너무 늦다는 지적에 따라, 공소 전이라도 피해자와 유가족이 보고서를 먼저 <strong>'열람'</strong>할 수 있는 방안을 추가로 추진 중입니다.</li>
-                        </ul>
-                    </div>
-
-                    <div class="notice-section-item">
-                        <h4>4. 남은 한계점</h4>
-                        <ul>
-                            <li><strong>불기소 시 비공개 우려:</strong> '공소 제기 이후 공개' 원칙 때문에 수사 결과 불기소 결정 시 보고서가 공개되지 않을 수 있는 맹점이 지적됩니다.</li>
-                            <li><strong>중소기업 사각지대:</strong> 상장회사(25.10시행)와 달리, 산재 사망사고가 빈번한 50인 미만 소규모 기업은 당일 공시 의무가 없어 이에 대한 개선 목소리가 높습니다.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Tab 3: 산업안전지도사 합격 소식 -->
-            <div id="notice-detail-02" class="tab-content">
-                <div class="page-title-area">
-                    <div class="breadcrumb">
-                        <i data-lucide="home" class="breadcrumb-home-icon"></i>
-                        <span>공지사항</span>
-                        <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
-                        <span>공지사항 상세보기</span>
-                    </div>
-                    <div class="page-title-row">
-                        <h2 class="page-main-title">산업안전지도사 1차 3명 합격 - 전문 기술력 향상 결실</h2>
-                        <div class="page-actions">
-                            <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
-                            <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
-                            <button class="action-btn" onclick="window.location.hash='#notice-news'" title="목록으로"><i data-lucide="list"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notice-content-area">
-                    <div class="notice-section-item">
-                        <p style="font-size: 1.1rem; margin-bottom: 20px;">
-                            광주광역사고조사센터가 소속 직원들의 전문 기술력 향상을 위한 끊임없는 노력 끝에 의미 있는 성과를 거두었습니다.
-                        </p>
-                        <div class="highlight-box">
-                            최근 실시된 <strong>제16회 산업안전지도사 국가자격시험 1차 필기시험</strong>에서 광주광역사고조사센터 직원 총 <strong>3명이 당당히 합격</strong>의 영광을 안았습니다.
-                        </div>
-                    </div>
-
-                    <div class="notice-section-item">
-                        <h4>💡 산업안전지도사란?</h4>
-                        <p>산업안전분야의 <strong>'박사'급 자격</strong>으로 불리는 산업안전지도사는 공정의 안전성 평가, 유해·위험 방지 계획서 작성 등 고도의 전문 지식이 필요한 업무를 수행하는 국가전문자격증입니다.</p>
-                    </div>
-
-                    <div class="notice-section-item">
-                        <h4>🛡️ 전문성이 곧 현장의 안전입니다</h4>
-                        <ul>
-                            <li>이번 합격은 센터 직원들이 바쁜 현장 조사 업무 중에도 밤낮없이 전문 지식 습득에 매진해 온 결과입니다.</li>
-                            <li>사고의 근본 원인을 과학적으로 규명하고 재발 방지 대책을 세우기 위해서는 <strong>'전문 기술력'</strong>이 필수라는 센터의 운영 철학이 반영된 성과이기도 합니다.</li>
-                        </ul>
-                    </div>
-
-                    <div class="notice-section-item">
-                        <h4>🚀 앞으로의 다짐</h4>
-                        <ul>
-                            <li>광주광역사고조사센터는 이번 1차 합격자 3명이 최종 합격까지 이어질 수 있도록 전폭적인 지원을 아끼지 않을 예정입니다.</li>
-                            <li>앞으로도 전 직원이 각 분야의 전문 자격을 갖추어 광주 지역 산업 현장의 안전을 진단하고 사고를 예방하는 최고의 전문 기관으로 거듭나겠습니다.</li>
-                        </ul>
-                    </div>
-
-                    <div style="text-align: center; margin-top: 40px; font-weight: 700; color: var(--primary-color);">
-                        "전문가들이 만드는 안전한 광주, 광주광역사고조사센터가 앞장서겠습니다."
+                    <div class="notice-section-item" style="line-height: 1.8; color: #334155; font-size: 1.05rem;" id="detail-content">
+                        <!-- 본문 내용이 여기에 주입됩니다 -->
                     </div>
                 </div>
             </div>
@@ -252,7 +135,57 @@
         <div class="footer-inner">
             <p>&copy; 2026 광주광역사고조사센터. All Rights Reserved.</p>
         </div>
-    </footer>
-    <script src="script.js"></script><script>lucide.createIcons();</script>
+    <!-- 글쓰기 모달 -->
+    <div class="modal-overlay" id="noticeAddModal" style="display: none; align-items:center; justify-content:center; z-index:9999;">
+        <div class="admin-modal" style="width: 800px; max-width:95%; text-align: left; padding: 25px; border-radius: 8px;">
+            <h3 style="margin-bottom: 20px; font-size: 18px; color: #1e293b;">새 공지사항 작성</h3>
+            <form id="noticeAddForm">
+                <div style="margin-bottom: 15px;">
+                    <label style="display:flex; align-items:center; gap:8px; font-size:14px; color:#e74c3c; font-weight:bold; cursor:pointer;">
+                        <input type="checkbox" id="notIsNotice" style="width:16px; height:16px;">
+                        [중요 공지] 상단에 고정하기
+                    </label>
+                </div>
+                <div style="display:flex; gap:15px; margin-bottom:15px;">
+                    <div style="flex: 1;">
+                        <label style="display:block; margin-bottom:5px; font-size:14px; color:#475569;">카테고리</label>
+                        <select id="notCategory" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                            <option value="일반공지">일반공지</option>
+                            <option value="법령안내">법령안내</option>
+                            <option value="중대재해속보">중대재해속보</option>
+                        </select>
+                    </div>
+                    <div style="flex: 3;">
+                        <label style="display:block; margin-bottom:5px; font-size:14px; color:#475569;">글 제목</label>
+                        <input type="text" id="notTitle" placeholder="제목을 입력하세요" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;" required>
+                    </div>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display:block; margin-bottom:5px; font-size:14px; color:#475569;">본문 내용 (Markdown 지원)</label>
+                    <textarea id="notContent" rows="10" placeholder="공지 내용을 자세히 작성하세요 (줄바꿈이 그대로 반영됩니다)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; resize:vertical; font-family:inherit;"></textarea>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display:block; margin-bottom:5px; font-size:14px; color:#475569;">전문 자료 첨부 (선택)</label>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <input type="file" id="notFile" accept=".pdf,.zip,.hwp,.docx,.xlsx" style="border: 1px solid #cbd5e1; padding: 8px; border-radius: 4px; width: 100%; background: #f8fafc;">
+                    </div>
+                    <p style="font-size:12px; color:#94a3b8; margin-top:5px;">* 첨부된 파일은 보안 스토리지에 자동 암호화되어 안전하게 배포됩니다.</p>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" id="closeNoticeAdd" style="padding: 10px 20px; border: 1px solid #cbd5e1; background: white; border-radius: 4px; cursor: pointer;">취소</button>
+                    <button type="submit" style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Supabase & Expert Tools CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="script.js"></script>
+    <script src="notice-script.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
+
 </html>

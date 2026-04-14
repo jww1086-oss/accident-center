@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>광주광역사고조사센터 - 자료실</title>
-    <link rel="stylesheet" href="style.css"><script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
     <header>
         <div class="top-bar">
             <div class="top-bar-inner">
-                <a href="#">로그인</a><a href="#">회원가입</a><a href="#">사이트맵</a><a href="#">Language</a>
-                <button type="button" class="admin-toggle"><i data-lucide="shield-check" style="width:14px; margin-right:4px;"></i> 관리자 로그인</button>
+                <button type="button" class="admin-toggle"><i data-lucide="shield-check"
+                        style="width:14px; margin-right:4px;"></i> 관리자 로그인</button>
             </div>
         </div>
         <div class="header-main">
@@ -54,7 +58,8 @@
         <aside class="sidebar">
             <div class="sidebar-title">자료실</div>
             <ul class="sidebar-menu">
-                <li><a href="library.html" class="active"><i data-lucide="book-open" style="width:18px; margin-right:10px;"></i> 전문자료실</a></li>
+                <li><a href="library.html" class="active"><i data-lucide="book-open"
+                            style="width:18px; margin-right:10px;"></i> 전문자료실</a></li>
             </ul>
         </aside>
 
@@ -62,68 +67,88 @@
         <main class="main-content">
             <!-- Tab 1: 기술자료 -->
             <div id="lib-tech" class="tab-content active-tab">
-                <div class="breadcrumb">홈 > 자료실 > 기술자료</div>
                 <div class="page-title-area">
-                    <h2>기술자료</h2>
+                    <div class="breadcrumb">
+                        <i data-lucide="home" class="breadcrumb-home-icon"></i>
+                        <span>자료실</span>
+                        <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+                        <span>기술자료</span>
+                    </div>
+                    <div class="page-title-row">
+                        <h2 class="page-main-title">기술자료</h2>
+                        <button class="open-add-modal btn-admin-add admin-only" style="display:none; padding:4px 8px; font-size:11px; background:var(--primary-color); color:white; border-radius:4px; border:none; cursor:pointer;">등록</button>
+                    </div>
                 </div>
-                
+
                 <div class="resource-grid">
-                    <div class="resource-card">
-                        <i data-lucide="file-text" class="file-icon"></i>
-                        <h4>[기술지침] 2026 건설공사 추락사고 예방 기술 가이드 기술 가이드</h4>
-                        <p class="meta">PDF | 15.2MB | 2026-03-10</p>
-                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
-                    </div>
-                    <div class="resource-card">
-                        <i data-lucide="file-text" class="file-icon"></i>
-                        <h4>[정밀조사] 기계설비 끼임 사고 원인 분석 및 대책 사례집</h4>
-                        <p class="meta">PDF | 8.5MB | 2026-02-28</p>
-                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
-                    </div>
-                    <div class="resource-card">
-                        <i data-lucide="database" class="file-icon"></i>
-                        <h4>산업재해 원인조사 데이터 연보 (2025년 기준)</h4>
-                        <p class="meta">XLSX | 4.2MB | 2026-01-15</p>
-                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
-                    </div>
+                    <!-- Cards will be dynamically rendered here by library.js -->
                 </div>
             </div>
 
             <!-- Tab 2: 안전매뉴얼 -->
             <div id="lib-manual" class="tab-content">
-            <div class="page-title-area">
-                <div class="breadcrumb">
-                    <i data-lucide="home" class="breadcrumb-home-icon"></i>
-                    <span>자료실</span>
-                    <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
-                    <span>자료실 목록</span>
-                </div>
-                <div class="page-title-row">
-                    <h2 class="page-main-title">자료실</h2>
-                    <div class="page-actions">
-                        <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
-                        <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
+                <div class="page-title-area">
+                    <div class="breadcrumb">
+                        <i data-lucide="home" class="breadcrumb-home-icon"></i>
+                        <span>자료실</span>
+                        <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
+                        <span>자료실 목록</span>
+                    </div>
+                    <div class="page-title-row">
+                        <h2 class="page-main-title">안전매뉴얼</h2>
+                        <button class="open-add-modal btn-admin-add admin-only" style="display:none; padding:4px 8px; font-size:11px; background:var(--primary-color); color:white; border-radius:4px; border:none; cursor:pointer;">등록</button>
                     </div>
                 </div>
-            </div>
-                
+
                 <div class="resource-grid">
-                    <div class="resource-card">
-                        <i data-lucide="book-open" class="file-icon"></i>
-                        <h4>[매뉴얼] 사업장 자기율 자율 예방 체계 구축 실무 가이드</h4>
-                        <p class="meta">PDF | 22.0MB | 2026-03-20</p>
-                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
-                    </div>
-                    <div class="resource-card">
-                        <i data-lucide="check-square" class="file-icon"></i>
-                        <h4>위험성평가 실시 및 사후관리 체크리스트 양식</h4>
-                        <p class="meta">DOCX | 1.1MB | 2026-03-05</p>
-                        <a href="#" class="btn-download"><i data-lucide="download" style="width:14px; margin-right:5px;"></i> 다운로드</a>
-                    </div>
+                    <!-- Cards will be dynamically rendered here by library.js -->
                 </div>
             </div>
         </main>
     </div>
-    <script src="script.js"></script><script>lucide.createIcons();</script>
+
+    <!-- 자료 등록 모달 -->
+    <div class="modal-overlay" id="adminAddModal" style="display: none; align-items:center; justify-content:center; z-index:9999;">
+        <div class="admin-modal" style="width: 400px; text-align: left; padding: 25px; border-radius: 8px;">
+            <h3 style="margin-bottom: 20px; font-size: 18px; color: #1e293b;">신규 자료 등록</h3>
+            <form id="adminAddForm">
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-size:14px; color:#475569;">자료 구분</label>
+                    <select id="resType" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                        <option value="tech">기술자료</option>
+                        <option value="manual">안전매뉴얼</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-size:14px; color:#475569;">자료 포맷</label>
+                    <select id="resFormat" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                        <option value="PDF">PDF</option>
+                        <option value="HWP">HWP</option>
+                        <option value="DOCX">DOCX</option>
+                        <option value="XLSX">XLSX</option>
+                        <option value="ZIP">ZIP</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-size:14px; color:#475569;">자료 제목</label>
+                    <input type="text" id="resTitle" placeholder="예: 2026 건설안전 가이드" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;" required>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display:block; margin-bottom:5px; font-size:14px; color:#475569;">구글 드라이브 링크 (또는 파일 ID)</label>
+                    <input type="text" id="resLink" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px;" required>
+                    <p style="font-size:12px; color:#e74c3c; margin-top:5px; font-weight:bold;">⚠️ URL을 복사해 넣으면 직접 다운로드 기술이 자동 적용됩니다.</p>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" id="closeAddModal" style="padding: 10px 15px; border: 1px solid #cbd5e1; background: white; border-radius: 4px; cursor: pointer;">취소</button>
+                    <button type="submit" style="padding: 10px 15px; background: #2563eb; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="library.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
+
 </html>
