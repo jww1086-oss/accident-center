@@ -6,21 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>광주광역사고조사센터 - 홈</title>
     <meta name="description" content="산업재해 예방 및 사고원인 조사를 선도하는 광주광역사고조사센터 공식 홈페이지입니다.">
-    <link rel="stylesheet" href="style.css?v=36">
+    <link rel="stylesheet" href="style.css?v=48">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js?v=36" defer></script>
+    <script src="script.js?v=48" defer></script>
 </head>
 
 <body>
 
     <header>
-        <div class="top-bar">
-            <div class="top-bar-inner">
-                <button type="button" class="admin-toggle">관리자 로그인</button>
-            </div>
-        </div>
+
         <div class="header-main">
             <div class="header-main-inner">
                 <div class="logo">
@@ -97,27 +93,77 @@
                 <!-- Advanced Filter Bar -->
                 <div class="public-filter-bar">
                     <div class="filter-row">
-                        <div class="filter-item">
-                            <label><i data-lucide="calendar"></i> 기간</label>
-                            <div class="filter-dates-wrapper">
-                                <select id="filterPeriodQuick" class="quick-select">
-                                    <option value="">직접 입력</option>
-                                    <option value="1w">최근 1주일</option>
-                                    <option value="1m">최근 1개월</option>
-                                    <option value="1y">최근 1년</option>
-                                    <option value="2y">최근 2년</option>
-                                    <option value="3y">최근 3년</option>
-                                </select>
-                                <div class="filter-dates">
-                                    <input type="date" id="filterStartDate">
-                                    <span>~</span>
-                                    <input type="date" id="filterEndDate">
+                        <div class="filter-row">
+                            <div class="filter-item">
+                                <label><i data-lucide="calendar"></i> 기간 선택</label>
+                                <div class="filter-dates-wrapper">
+                                    <select id="filterPeriodQuick" class="quick-select">
+                                        <option value="1y" selected>최근 1년</option>
+                                        <option value="1m">최근 1개월</option>
+                                        <option value="3m">최근 3개월</option>
+                                        <option value="6m">최근 6개월</option>
+                                        <option value="2y">최근 2년</option>
+                                        <option value="3y">최근 3년</option>
+                                        <option value="custom">직접 입력 (날짜 선택)</option>
+                                    </select>
+                                    <div id="filterDatesWrapper" class="filter-dates" style="display: none;">
+                                        <input type="date" id="filterStartDate">
+                                        <span>~</span>
+                                        <input type="date" id="filterEndDate">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter-item region-filter-item">
+                                <label><i data-lucide="map-pin"></i> 지역 선택</label>
+                                <div class="region-simple-select">
+                                    <label class="check-item"><input type="checkbox" name="region" value="전국" checked> 전국</label>
+                                    <label class="check-item"><input type="checkbox" name="region" value="광주"> 광주</label>
+                                    <label class="check-item"><input type="checkbox" name="region" value="전남"> 전남</label>
+                                    <label class="check-item"><input type="checkbox" name="region" value="전북"> 전북</label>
+                                    <label class="check-item"><input type="checkbox" name="region" value="제주"> 제주</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-actions" style="margin-left: auto; align-self: flex-end;">
-                            <button id="applyFiltersBtn" class="btn-apply" style="height: 45px;">조회하기</button>
-                            <button id="resetFiltersBtn" class="btn-reset" style="height: 45px;"><i data-lucide="rotate-ccw"></i></button>
+                        <div class="filter-row">
+                            <div class="filter-item">
+                                <label><i data-lucide="tool"></i> 발생 형태</label>
+                                <select id="filterType">
+                                    <option value="">전체 형태</option>
+                                    <option value="끼임">끼임</option>
+                                    <option value="떨어짐">떨어짐(추락)</option>
+                                    <option value="맞음">맞음(낙하/비래)</option>
+                                    <option value="부딪힘">부딪힘(충돌)</option>
+                                    <option value="넘어짐">넘어짐(전도)</option>
+                                    <option value="무너짐">무너짐(붕괴)</option>
+                                    <option value="깔림">깔림/뒤집힘</option>
+                                    <option value="화재">화재/폭발</option>
+                                    <option value="감전">감전</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label><i data-lucide="briefcase"></i> 업종</label>
+                                <select id="filterIndustry">
+                                    <option value="">전체 업종</option>
+                                    <option value="건설">건설업</option>
+                                    <option value="제조">제조업</option>
+                                    <option value="운수">운수/창고/통신업</option>
+                                    <option value="폐기물">폐기물처리업</option>
+                                    <option value="벌목">임업(벌목)</option>
+                                    <option value="기타">기타</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label><i data-lucide="users"></i> 규모</label>
+                                <select id="filterScale">
+                                    <option value="">전체 규모</option>
+                                    <option value="사망 1명">사망 1명</option>
+                                    <option value="사망 2명">사망 2명 이상</option>
+                                </select>
+                            </div>
+                            <div class="filter-actions">
+                                <button id="applyFiltersBtn" class="btn-apply">조회하기</button>
+                                <button id="resetFiltersBtn" class="btn-reset"><i data-lucide="rotate-ccw"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -356,8 +402,9 @@
         let filteredPublicItems = []; 
         let currentPage = 1;
         const itemsPerPage = 10;
-        const CACHE_KEY = 'public_accident_data_v4'; // 명칭 변경 반영 (광주광역시 -> 광주)
-        const CACHE_TS_KEY = 'public_accident_ts_v4';
+        const CACHE_KEY = 'accident_data_v10_reset'; // 캐시 및 시스템 전면 리셋
+        const CACHE_TS_KEY = 'accident_ts_v10_reset';
+        console.log('Accident Script Loaded: v10');
 
         // 텍스트 분석 및 정보 추출 함수들
         const extractors = {
@@ -384,16 +431,40 @@
                 // 1. 경기도 광주 정밀 구분 (오분류 방지 핵심)
                 if (text.includes('경기 광주') || text.includes('경기도 광주')) return '경기';
                 
-                // 2. 광주 매핑 (경기도 광주와 구분)
-                if (text.includes('광주광역시') || text.includes('광주 광역') || title.includes('광주')) return '광주';
+                // 2. 주요 시/도 매핑 (정식 명칭과 축약형 모두 포함)
+                const regionMap = {
+                    '서울': ['서울', '서울특별시'],
+                    '부산': ['부산', '부산광역시'],
+                    '대구': ['대구', '대구광역시'],
+                    '인천': ['인천', '인천광역시'],
+                    '광주': ['광주', '광주광역시'],
+                    '대전': ['대전', '대전광역시'],
+                    '울산': ['울산', '울산광역시'],
+                    '세종': ['세종', '세종특별자치시'],
+                    '경기': ['경기', '경기도'],
+                    '강원': ['강원', '강원도', '강원특별자치도'],
+                    '충북': ['충북', '충청북도'],
+                    '충남': ['충남', '충청남도'],
+                    '전북': ['전북', '전라북도', '전북특별자치도'],
+                    '전남': ['전남', '전라남도'],
+                    '경북': ['경북', '경상북도'],
+                    '경남': ['경남', '경상남도'],
+                    '제주': ['제주', '제주도', '제주특별자치도']
+                };
 
-                // 3. 기타 시/도 매핑 (정렬 순서대로)
-                const regions = ['서울', '부산', '대구', '인천', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
-                for (const r of regions) {
-                    if (text.includes(r)) return r;
+                for (const variant of regionMap['광주']) {
+                    if (text.includes(variant)) return '광주'.normalize('NFC');
+                }
+
+                // 나머지 지역 순회
+                for (const [key, variants] of Object.entries(regionMap)) {
+                    if (key === '광주') continue;
+                    for (const v of variants) {
+                        if (text.includes(v)) return key.trim().normalize('NFC');
+                    }
                 }
                 
-                return '기타';
+                return '기타'.normalize('NFC');
             },
             type: (item) => {
                 const text = item.keyword || '';
@@ -418,12 +489,16 @@
             }
         };
 
+        /**
+         * 1. 데이터 로더: 공공데이터를 API 또는 캐시에서 불러와 allPublicItems에 저장함
+         * @param {boolean} isForced - 캐시를 무시하고 강제로 새로고침할지 여부
+         */
         async function fetchPublicAccidentNews(isForced = false) {
-            const ticker = document.getElementById('publicNewsTicker');
+            console.log('--- fetchPublicAccidentNews START (forced: ' + isForced + ') ---');
             const grid = document.getElementById('publicNewsGrid');
-            if (!ticker && !grid) return;
+            if (!grid) return;
 
-            // 1. 캐시 확인 (강제 업데이트가 아닐 경우)
+            // 1. 캐시 확인
             if (!isForced) {
                 const cachedData = localStorage.getItem(CACHE_KEY);
                 const cachedTs = localStorage.getItem(CACHE_TS_KEY);
@@ -431,78 +506,62 @@
                 if (cachedData && cachedTs) {
                     const now = new Date();
                     const target9AM = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0).getTime();
-                    // 현재 시간이 9시 이전이면, 어제 오전 9시가 기준이 됨
                     const effectiveLast9AM = now.getTime() < target9AM ? target9AM - 24 * 60 * 60 * 1000 : target9AM;
                     
-                    // 캐시가 유효한지 확인: 데이터 저장 시간이 가장 최근 9시 이후여야 함
-                    const isExpired = parseInt(cachedTs) < effectiveLast9AM;
-                    if (!isExpired) {
+                    if (parseInt(cachedTs) >= effectiveLast9AM) {
                         try {
                             allPublicItems = JSON.parse(cachedData);
-                            console.log('Using cached public data');
+                            console.log('Success: Loaded ' + allPublicItems.length + ' items from cache');
                             processLoadedData(allPublicItems);
-                            updateSyncStatusUI();
                             return;
                         } catch (e) {
-                            console.error('Cache parse error, fetching fresh data');
+                            console.warn('Cache corrupted or processing error:', e);
                         }
                     }
                 }
             }
 
-            // 2. API 호출
-            const numOfRows = 1000;
+            // 2. API fetch
             const serviceKey = 'a30f91c128600f0935b421b583b0102300e96384e6a45ae868ecf9a643c014e9';
-            const url = `https://apis.data.go.kr/B552468/news_api02/getNews_api02?serviceKey=${serviceKey}&callApiId=1040&pageNo=1&numOfRows=${numOfRows}&_type=json`;
+            const url = `https://apis.data.go.kr/B552468/news_api02/getNews_api02?serviceKey=${serviceKey}&callApiId=1040&pageNo=1&numOfRows=1000&_type=json`;
             
             try {
                 const response = await fetch(url);
                 const result = await response.json();
                 let items = result.body?.items?.item;
 
-                if (!items || (Array.isArray(items) && items.length === 0)) {
-                    if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#94A3B8;">데이터를 찾을 수 없습니다.</div>`;
+                if (!items) {
+                    grid.innerHTML = '<div class="no-results">데이터 로드 실패 (API 응답 없음)</div>';
                     return;
                 }
 
                 if (!Array.isArray(items)) items = [items];
 
                 allPublicItems = items.map(item => {
-                    const cleanContent = item.contents ? item.contents.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>?/gm, ' ').replace(/&nbsp;/g, ' ').trim() : '';
+                    const cleanContent = item.contents ? item.contents.replace(/<[^>]*>?/gm, ' ').replace(/&nbsp;/g, ' ').trim() : '';
                     return {
-                        keyword: item.keyword,
-                        contents: cleanContent,
+                        keyword: (item.keyword || '').normalize('NFC'),
+                        contents: cleanContent.normalize('NFC'),
+                        _original: item, // 혹시 필요할지 몰라 원본 보관
                         _parsed: {
                             date: extractors.date(item),
-                            region: extractors.region(item),
-                            type: extractors.type(item),
+                            region: extractors.region(item).normalize('NFC'),
+                            type: extractors.type(item).normalize('NFC'),
                             industry: extractors.industry(item),
                             scale: extractors.scale(item)
                         }
                     };
                 });
 
-                // 3. 데이터 저장 (안전성 강화)
-                try {
-                    // 구버전 거대 쓰레기 캐시 청소 (용량 확보)
-                    localStorage.removeItem('public_accident_data');
-                    localStorage.removeItem('public_accident_data_v2');
-                    localStorage.removeItem('public_accident_ts');
-                    localStorage.removeItem('public_accident_ts_v2');
-
-                    // 새 캐시 저장 (0.4MB)
-                    localStorage.setItem(CACHE_KEY, JSON.stringify(allPublicItems));
-                    localStorage.setItem(CACHE_TS_KEY, Date.now().toString());
-                } catch (cacheError) {
-                    console.warn('캐시 저장 실패 (용량 부족 등):', cacheError);
-                    // 캐시에 실패해도 화면은 정상적으로 그려지도록 예외 허용
-                }
+                // 캐시 저장
+                localStorage.setItem(CACHE_KEY, JSON.stringify(allPublicItems));
+                localStorage.setItem(CACHE_TS_KEY, Date.now().toString());
+                console.log('Success: Fetched ' + allPublicItems.length + ' items from API');
 
                 processLoadedData(allPublicItems);
-                if (window.lucide) lucide.createIcons();
             } catch (error) {
-                console.error('API Error:', error);
-                if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:#DC2626;">데이터 로드 중 오류가 발생했습니다.<br/><br/><pre style="font-size:11px;text-align:left;">${error.stack || error}</pre></div>`;
+                console.error('Fetch Error:', error);
+                grid.innerHTML = '<div class="no-results">네트워크 오류로 데이터를 가져오지 못했습니다.</div>';
             }
         }
 
@@ -589,45 +648,78 @@
         };
 
         window.applyFilters = function() {
-            const start = document.getElementById('filterStartDate').value;
-            const end = document.getElementById('filterEndDate').value;
+            // UI에서 현재 선택된 모든 필터 값 수집 (NFC 정규화 포함)
+            const mainSearchText = (document.getElementById('mainSearchInput')?.value || '').trim().normalize('NFC');
+            const start = document.getElementById('filterStartDate')?.value;
+            const end = document.getElementById('filterEndDate')?.value;
+            const type = document.getElementById('filterType')?.value;
+            const industry = document.getElementById('filterIndustry')?.value;
+            const scale = document.getElementById('filterScale')?.value;
             
-            // 메인 검색어(기인물) 가져오기
-            const mainSearchText = document.getElementById('mainSearchInput').value.trim();
-            
-            // 다중 선택된 지역값 처리
-            const checkedValues = Array.from(document.querySelectorAll('input[name="region"]:checked')).map(cb => cb.value);
-            const isNational = checkedValues.includes('전국');
+            const checkedRegions = Array.from(document.querySelectorAll('input[name="region"]:checked'))
+                .map(cb => cb.value.trim().normalize('NFC'));
+            const isNational = checkedRegions.includes('전국');
 
+            console.log('--- 필터 실행 (지역 필터 집중) ---');
+            console.log('선택된 지역들:', checkedRegions);
+            console.log('검색어:', mainSearchText);
 
+            if (!allPublicItems || allPublicItems.length === 0) {
+                console.warn('데이터가 아직 로드되지 않았습니다.');
+                return;
+            }
 
+            // 필터링 루프 시작
             filteredPublicItems = allPublicItems.filter(item => {
                 const p = item._parsed;
-                
-                // 0. 메인 검색어 (제목/기인물 검색)
-                if (mainSearchText && !(item.keyword || '').includes(mainSearchText)) return false;
+                if (!p) return false;
 
-                // 1. 날짜 비교 (YYYY-MM-DD 형식 보장)
+                // 1. 메인 검색어 필터 (기능 유지)
+                if (mainSearchText) {
+                    const combinedText = (item.keyword + ' ' + item.contents).normalize('NFC');
+                    if (!combinedText.includes(mainSearchText)) return false;
+                }
+
+                // 2. 지역 필터 (핵심 수정 사항)
+                if (!isNational && checkedRegions.length > 0) {
+                    const isMatched = checkedRegions.some(reg => 
+                        reg.includes(p.region) || p.region.includes(reg)
+                    );
+                    if (!isMatched) return false;
+                }
+
+                // 3. 기간 및 기타 카테고리
                 if (start && p.date < start) return false;
                 if (end && p.date > end) return false;
-                
-                // 2. 지역 필터링 (전국이 아닐 경우 체크된 지역만 노출)
-                if (!isNational && checkedValues.length > 0) {
-                    if (!checkedValues.includes(p.region)) return false;
-                }
-                
-
+                if (type && !((item.keyword + ' ' + item.contents).includes(type))) return false;
+                if (industry && p.industry !== industry) return false;
+                if (scale && p.scale !== scale) return false;
 
                 return true;
             });
 
+            console.log('필터 결과 수:', filteredPublicItems.length);
+
             currentPage = 1;
             renderFilteredResults();
+            
+            // 필터 결과 섹션으로 이동
+            const section = document.querySelector('.public-news-section');
+            if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
 
         // 기간 퀵 선택 핸들러
         window.handleQuickPeriod = function() {
             const preset = document.getElementById('filterPeriodQuick').value;
+            const datesWrapper = document.getElementById('filterDatesWrapper');
+            
+            if (preset === 'custom') {
+                if (datesWrapper) datesWrapper.style.display = 'flex';
+                return; // 직접 입력일 때는 날짜 선택이 완료될 때까지 조회 유보
+            } else {
+                if (datesWrapper) datesWrapper.style.display = 'none';
+            }
+
             if (!preset) return;
 
             const now = new Date();
@@ -637,6 +729,8 @@
             switch(preset) {
                 case '1w': start.setDate(now.getDate() - 7); break;
                 case '1m': start.setMonth(now.getMonth() - 1); break;
+                case '3m': start.setMonth(now.getMonth() - 3); break;
+                case '6m': start.setMonth(now.getMonth() - 6); break;
                 case '1y': start.setFullYear(now.getFullYear() - 1); break;
                 case '2y': start.setFullYear(now.getFullYear() - 2); break;
                 case '3y': start.setFullYear(now.getFullYear() - 3); break;
@@ -651,11 +745,21 @@
         };
 
         window.resetFilters = function() {
-            document.getElementById('filterPeriodQuick').value = '';
+            const quickPeriod = document.getElementById('filterPeriodQuick');
+            if (quickPeriod) quickPeriod.value = '1y'; // 기본값으로 복귀
+            
             document.getElementById('filterStartDate').value = '';
             document.getElementById('filterEndDate').value = '';
+            document.getElementById('filterType').value = '';
+            document.getElementById('filterIndustry').value = '';
+            document.getElementById('filterScale').value = '';
             
+            const datesWrapper = document.getElementById('filterDatesWrapper');
+            if (datesWrapper) datesWrapper.style.display = 'none';
 
+            document.querySelectorAll('input[name="region"]').forEach(cb => {
+                cb.checked = (cb.value === '전국');
+            });
 
             filteredPublicItems = [...allPublicItems];
             currentPage = 1;
@@ -688,12 +792,8 @@
         }
 
         function executeMainSearch() {
-            const searchInput = document.getElementById('mainSearchInput');
-            if (searchInput) {
-                const query = searchInput.value.trim();
-                fetchPublicAccidentNews(query, false);
-                document.querySelector('.public-news-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            // 이제 독립적인 로더를 부르지 않고, 통합 필터 엔진을 호출함
+            if (window.applyFilters) window.applyFilters();
         }
 
         // --- Statistics & Chart Logic ---
@@ -765,81 +865,88 @@
                         {
                             label: '2025년 (동기간)',
                             data: regions.map(r => stats[r].count25),
-                            backgroundColor: regions.map(r => r === '전국' ? '#94A3B8' : '#CBD5E1'), // 전국은 약간 더 진한 회색
-                            borderRadius: 4,
-                            barPercentage: 0.7,
-                            categoryPercentage: 0.7
+                            backgroundColor: '#CBD5E1',
+                            borderRadius: 6,
+                            barPercentage: 0.8,
+                            categoryPercentage: 0.8
                         },
                         {
                             label: '2026년 (현재)',
                             data: regions.map(r => stats[r].count26),
-                            backgroundColor: regions.map(r => r === '전국' ? '#1E40AF' : '#2563EB'), // 전국은 더 진한 블루
-                            borderRadius: 4,
-                            barPercentage: 0.7,
-                            categoryPercentage: 0.7
+                            backgroundColor: '#4F46E5',
+                            borderRadius: 6,
+                            barPercentage: 0.8,
+                            categoryPercentage: 0.8
                         }
                     ]
                 },
                 options: {
-                    indexAxis: isMobile ? 'y' : 'x', // 모바일에서는 가로형 막대로 전환
+                    indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: { duration: 1000, easing: 'easeOutQuart' },
+                    animation: { duration: 1200, easing: 'easeOutQuart' },
                     plugins: {
-                        legend: { position: 'top', labels: { font: { size: 12, weight: 'bold' } } },
+                        legend: { 
+                            position: 'top', 
+                            align: 'end',
+                            labels: { 
+                                boxWidth: 12,
+                                usePointStyle: true,
+                                font: { size: 12, weight: '600' },
+                                padding: 20
+                            } 
+                        },
                         tooltip: { 
-                            backgroundColor: 'rgba(30, 41, 59, 0.9)', 
+                            backgroundColor: 'rgba(30, 41, 59, 1)', 
                             padding: 12, 
-                            cornerRadius: 8
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            cornerRadius: 8,
+                            displayColors: true
                         }
                     },
                     scales: {
-                        y: { 
-                            beginAtZero: true, 
-                            grid: { color: '#F1F5F9' }, 
-                            ticks: { 
-                                stepSize: 1, 
-                                color: '#64748B',
-                                font: { size: isMobile ? 10 : 11 }
-                            },
-                            grace: '10%' // 수치 표기를 위한 여유 공간
-                        },
                         x: { 
-                            beginAtZero: true,
+                            beginAtZero: true, 
+                            grid: { color: '#F1F5F9', drawBorder: false }, 
+                            ticks: { 
+                                stepSize: 5, 
+                                color: '#64748B',
+                                font: { size: 11 }
+                            },
+                            grace: '20%'
+                        },
+                        y: { 
                             grid: { display: false }, 
                             ticks: { 
                                 color: '#1E293B', 
                                 font: { 
-                                    size: isMobile ? 10 : 11,
-                                    weight: 'bold' 
-                                },
-                                maxRotation: isMobile ? 0 : 45, // 가로형일 때는 회전 불필요
-                                minRotation: isMobile ? 0 : 45
-                            },
-                            grace: '15%' // 수치 표기를 위한 여유 공간 (가로축)
+                                    size: 11,
+                                    weight: '600' 
+                                }
+                            }
                         }
                     }
                 },
                 plugins: [{
                     id: 'valueLabel',
                     afterDatasetsDraw(chart) {
-                        const { ctx, data } = chart;
+                        const { ctx } = chart;
                         ctx.save();
-                        ctx.font = 'bold 10px sans-serif';
+                        ctx.font = 'bold 11px Inter, sans-serif';
                         ctx.textBaseline = 'middle';
                         
                         chart.data.datasets.forEach((dataset, i) => {
                             const meta = chart.getDatasetMeta(i);
                             meta.data.forEach((bar, index) => {
                                 const value = dataset.data[index];
-                                if (value === 0) return; // 0은 생략
+                                if (value === 0) return;
                                 
-                                const xPos = isMobile ? bar.x + 5 : bar.x;
-                                const yPos = isMobile ? bar.y : bar.y - 12; // 세로형일 때는 막대 위, 가로형일 때는 막대 끝
+                                ctx.textAlign = 'left';
+                                const xPos = bar.x + 8;
+                                const yPos = bar.y;
                                 
-                                ctx.textAlign = isMobile ? 'left' : 'center';
-                                // 2025년(첫번째 데이터셋)은 검정색, 2026년(두번째 데이터셋)은 파란색
-                                ctx.fillStyle = (i === 0) ? '#1E293B' : '#1E40AF';
+                                ctx.fillStyle = (i === 0) ? '#64748B' : '#4F46E5';
                                 ctx.fillText(value, xPos, yPos);
                             });
                         });
@@ -847,6 +954,8 @@
                     }
                 }]
             });
+
+
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
