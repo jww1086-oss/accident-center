@@ -553,10 +553,19 @@
                     };
                 });
 
-                // 캐시 저장
-                localStorage.setItem(CACHE_KEY, JSON.stringify(allPublicItems));
-                localStorage.setItem(CACHE_TS_KEY, Date.now().toString());
-                console.log('Success: Fetched ' + allPublicItems.length + ' items from API');
+                // 3. 데이터 저장 (용량 초과 오류 방지를 위한 안전 장치)
+                try {
+                    // 구버전 및 중복 캐시 키 일괄 삭제 (공간 확보)
+                    const oldKeys = ['public_accident_data', 'public_accident_data_v2', 'public_accident_ts', 'public_accident_ts_v2', 'accident_data_nfc_v3_final', 'accident_ts_nfc_v3_final'];
+                    oldKeys.forEach(k => localStorage.removeItem(k));
+
+                    localStorage.setItem(CACHE_KEY, JSON.stringify(allPublicItems));
+                    localStorage.setItem(CACHE_TS_KEY, Date.now().toString());
+                    console.log('Success: Fetched and cached ' + allPublicItems.length + ' items');
+                } catch (cacheError) {
+                    // 용량 부족으로 저장에 실패하더라도 화면 출력은 진행함
+                    console.warn('Storage quota exceeded, proceeding without cache:', cacheError);
+                }
 
                 processLoadedData(allPublicItems);
             } catch (error) {
