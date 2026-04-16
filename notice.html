@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>광주광역사고조사센터 - 공지사항</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=36">
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js?v=36" defer></script>
 </head>
 
 <body>
@@ -21,7 +23,7 @@
         <div class="header-main">
             <div class="header-main-inner">
                 <div class="logo">
-                    <a href="index.html">
+                    <a href="/">
                         <img src="assets/logo.png" alt="로고">
                         <span class="logo-text">광주광역사고조사센터</span>
                     </a>
@@ -180,12 +182,10 @@
     </div>
 
     <!-- Supabase & Expert Tools CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="script.js"></script>
-    <script src="notice-script.js"></script>
-    <script>lucide.createIcons();</script>
+    <script src="notice-script.js?v=36"></script>
+    <script>if(window.lucide) lucide.createIcons();</script>
 </body>
 
 </html>

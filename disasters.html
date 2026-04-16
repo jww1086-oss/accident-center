@@ -5,31 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>광주광역사고조사센터 - 관내 중대재해</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=36">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js?v=36" defer></script>
 </head>
 
 <body>
 
     <header>
         <div class="top-bar">
-            <div class="top-bar-inner"><button type="button" class="admin-toggle"><i data-lucide="shield-check"
-                        style="width:14px; margin-right:4px;"></i> 관리자 로그인</button></div>
+            <div class="top-bar-inner">
+                <button type="button" class="admin-toggle">관리자 로그인</button>
+            </div>
         </div>
         <div class="header-main">
             <div class="header-main-inner">
                 <div class="logo">
-                    <a href="index.html">
+                    <a href="./index.html">
                         <img src="assets/logo.png" alt="로고">
                         <span class="logo-text">광주광역사고조사센터</span>
                     </a>
                 </div>
                 <div class="header-tools">
-                    <button class="search-icon-btn" id="searchToggle">
-                        <i data-lucide="search"></i>
-                    </button>
                     <button class="mobile-menu-btn" id="mobileMenuBtn">
                         <i data-lucide="menu"></i>
+                        <span class="menu-text">메뉴</span>
                     </button>
                 </div>
             </div>
@@ -43,57 +44,33 @@
                 <li><a href="library.html">자료실</a></li>
                 <li><a href="qna.html">질의응답</a></li>
             </ul>
-            <!-- 모바일 전용 관리자 로그인 영역 -->
             <div class="mobile-admin-area">
-                <button type="button" class="admin-toggle">
-                    <i data-lucide="shield-check"></i> 관리자 로그인
-                </button>
+                <button type="button" class="admin-toggle">관리자 로그인</button>
             </div>
         </nav>
     </header>
 
-    <div class="layout-wrapper">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-title" style="display: flex; justify-content: space-between; align-items: center;">
-                중대재해현황
-                <button type="button" class="btn-admin-add" id="openDisasterModal"
-                    style="display: none; padding: 4px 8px; font-size: 11px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">등록</button>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="#" class="active" data-region="광주"><i data-lucide="map-pin"
-                            style="width:18px; margin-right:10px;"></i> 광주</a></li>
-                <li><a href="#" data-region="전남"><i data-lucide="map-pin" style="width:18px; margin-right:10px;"></i>
-                        전남</a></li>
-                <li><a href="#" data-region="전북"><i data-lucide="map-pin" style="width:18px; margin-right:10px;"></i>
-                        전북</a></li>
-            </ul>
-        </aside>
-
+    <div class="layout-wrapper" style="display: block;"> <!-- Full width for dashboard -->
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content" style="width: 100%; max-width: 1500px; margin: 0 auto;">
             <div id="disasters-list" class="tab-content active-tab">
                 <div class="page-title-area">
                     <div class="breadcrumb">
                         <i data-lucide="home" class="breadcrumb-home-icon"></i>
-                        <span>중대재해현황</span>
+                        <span>홈</span>
                         <i data-lucide="chevron-right" class="breadcrumb-sep"></i>
-                        <span>지역별 사례</span>
+                        <span>중대재해현황</span>
                     </div>
                     <div class="page-title-row">
-                        <h2 class="page-main-title">중대재해현황</h2>
+                        <h2 class="page-main-title">관내 중대재해 사례</h2>
                         <div class="page-actions">
-                            <button class="action-btn" title="공유하기"><i data-lucide="share-2"></i></button>
-                            <button class="action-btn" title="인쇄하기"><i data-lucide="printer"></i></button>
+                            <button type="button" class="btn-admin-add" id="openDisasterModal" style="display:none; background: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">사례 등록</button>
                         </div>
                     </div>
                 </div>
-                <!-- Serious Disaster Section -->
-                <section class="disaster-section" id="disasters" style="padding-top: 50px;">
-                    <div class="section-title">
-                        <h3>중대재해 사례</h3>
-                        <p>사고 원인과 예방 대책을 분석하여 공표합니다.</p>
-                    </div>
+
+
+                <section class="disaster-section" id="disasters">
                     <div class="org-container" id="disasterContainer">
                         <!-- 동적 데이터 로드 영역 -->
                         <div style="padding: 100px 0; text-align: center; color: #94A3B8;">데이터를 불러오는 중입니다...</div>
@@ -152,9 +129,7 @@
             <p>&copy; 2026 광주광역사고조사센터.</p>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js"></script>
-    <script src="disasters-script.js"></script>
+    <script src="disasters-script.js?v=36"></script>
     <script>if (window.lucide) lucide.createIcons();</script>
 </body>
 

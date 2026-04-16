@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModalBtn = document.getElementById('closeDisasterModal');
     const modalOverlay = document.getElementById('disasterModalOverlay');
     const disasterForm = document.getElementById('disasterForm');
-    const sidebarLinks = document.querySelectorAll('.sidebar-menu a[data-region]');
+    const regionCheckboxes = document.querySelectorAll('input[name="region"]');
     const modalTitle = document.querySelector('#disasterModalOverlay h3');
     
     const deleteModal = document.getElementById('deleteConfirmModal');
@@ -46,53 +46,68 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Fetch and Render ─────────────────────────────────────────
-    const fetchAccidents = async (region) => {
+    // ── Fetch Logic ─────────────────────────────────────────────
+    const fetchAccidents = async () => {
         disasterContainer.innerHTML = '<div style="padding: 100px 0; text-align: center; color: #94A3B8;">데이터를 불러오는 중입니다...</div>';
         
+        // 체크박스가 없으므로 항상 전체 조회
+        const isAll = true;
+
         try {
-            const { data, error } = await supabaseClient
+            let query = supabaseClient
                 .from('accidents')
                 .select('*')
-                .eq('region', region)
                 .order('created_at', { ascending: false });
 
+            if (!isAll) {
+                // '광주' 선택 시 '광주'와 '광주광역시' 모두 포함하여 조회 (DB 저장 방식이 다를 수 있음)
+                let dbRegions = [];
+                selectedRegions.forEach(r => {
+                    if (r === '광주') {
+                        dbRegions.push('광주');
+                        dbRegions.push('광주광역시');
+                    } else {
+                        dbRegions.push(r);
+                    }
+                });
+                query = query.in('region', dbRegions);
+            }
+
+            const { data, error } = await query;
             if (error) throw error;
-            renderAccidents(data, region);
+            renderAccidents(data, isAll ? '전국' : selectedRegions.join(', '));
         } catch (error) {
             console.error("Fetch error:", error);
             disasterContainer.innerHTML = '<div style="padding: 100px 0; text-align: center; color: #E63946;">데이터를 불러오는 중 오류가 발생했습니다.</div>';
         }
     };
 
-    const renderAccidents = (data, region) => {
+    // ── Checkbox Interaction ────────────────────────────────────
+    regionCheckboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+            if (cb.value === '전국' && cb.checked) {
+                regionCheckboxes.forEach(other => {
+                    if (other.value !== '전국') other.checked = false;
+                });
+            } else if (cb.value !== '전국' && cb.checked) {
+                const allCb = Array.from(regionCheckboxes).find(c => c.value === '전국');
+                if (allCb) allCb.checked = false;
+            }
+            fetchAccidents();
+        });
+    });
+
+    const renderAccidents = (data, regionLabel) => {
         if (!data || data.length === 0) {
-            disasterContainer.innerHTML = `<div style="padding: 100px 0; text-align: center; color: #94A3B8;">${region} 지역에 등록된 사례가 없습니다.</div>`;
+            disasterContainer.innerHTML = `<div style="padding: 100px 0; text-align: center; color: #94A3B8;">선택된 지역(${regionLabel})에 등록된 사례가 없습니다.</div>`;
             return;
         }
 
         disasterContainer.innerHTML = data.map(item => {
             const imageRegex = /(?<![!\[])(?<!\[)(https?:\/\/[^\s]+?\.(?:png|jpg|jpeg|gif|webp|svg|bmp))/gi;
             const imageStyle = 'style="max-width:100%; height:auto; border-radius:8px; margin:10px 0; display:block; box-shadow:0 4px 12px rgba(0,0,0,0.1);"';
-            const imageReplace = `<img src="$1" ${imageStyle}>`;
+            const processText = (text) => text ? text.replace(imageRegex, `<img src="$1" ${imageStyle}>`).replace(/\n/g, '<br>') : '정보 없음';
 
-            const processText = (text) => {
-                if (!text) return text;
-                return text.replace(imageRegex, imageReplace).replace(/\n/g, '<br>');
-            };
-
-            const summaryHTML = processText(item.summary || '상세 내용 없음');
-            
-            const causeList = item.cause ? item.cause.split('\n').filter(l => l.trim()).map(l => {
-                const processed = l.replace(imageRegex, imageReplace);
-                return `<li>${processed}</li>`;
-            }).join('') : '<li>정보 없음</li>';
-
-            const preventionList = item.prevention ? item.prevention.split('\n').filter(l => l.trim()).map(l => {
-                const processed = l.replace(imageRegex, imageReplace);
-                return `<li>${processed}</li>`;
-            }).join('') : '<li>정보 없음</li>';
-            
             return `
                 <article class="report-card" style="position: relative;">
                     ${isAdmin ? `
@@ -102,46 +117,41 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     ` : ''}
                     <div class="report-header">
+                        <span class="report-region-tag">${item.region || '전체'}</span>
                         <h4 class="report-title">${item.title}</h4>
                     </div>
                     <div class="report-summary-box">
-                        <strong>사고 개요:</strong><br>${summaryHTML}
+                        <strong>사고 개요:</strong><br>${processText(item.summary)}
                     </div>
                     <div class="report-grid">
                         <div class="report-group">
                             <h5><i data-lucide="alert-triangle"></i> 발생 원인</h5>
-                            <ul class="report-list">
-                                ${causeList}
-                            </ul>
+                            <div class="report-text">${processText(item.cause)}</div>
                         </div>
                         <div class="report-group">
                             <h5><i data-lucide="shield-check"></i> 예방 대책</h5>
-                            <ul class="report-list">
-                                ${preventionList}
-                            </ul>
+                            <div class="report-text">${processText(item.prevention)}</div>
                         </div>
                     </div>
                 </article>
             `;
         }).join('');
 
-        // 버튼 이벤트 바인딩 (인라인 함수 대신 addeventlistener 사용)
         if (isAdmin) {
             document.querySelectorAll('.btn-edit-action').forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.onclick = () => {
                     const id = btn.getAttribute('data-id');
                     const targetItem = data.find(it => it.id == id);
                     if (targetItem) editAccident(targetItem);
-                });
+                };
             });
             document.querySelectorAll('.btn-delete-action').forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.onclick = () => {
                     const id = btn.getAttribute('data-id');
                     openDeleteModal(id);
-                });
+                };
             });
         }
-
         if (window.lucide) lucide.createIcons();
     };
 
@@ -171,33 +181,18 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmDeleteBtn.innerText = '삭제 중...';
 
             try {
-                // DELETE 메서드가 차단될 경우를 대비해 Method Override (POST) 시도
-                const response = await fetch(`${supabaseUrl}/rest/v1/accidents?id=eq.${id}`, {
-                    method: 'POST',
-                    headers: {
-                        'apikey': supabaseKey,
-                        'Authorization': `Bearer ${supabaseKey}`,
-                        'X-HTTP-Method-Override': 'DELETE',
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    const { error } = await supabaseClient
-                        .from('accidents')
-                        .delete()
-                        .eq('id', id);
-                    if (error) throw error;
-                }
+                const { error } = await supabaseClient
+                    .from('accidents')
+                    .delete()
+                    .eq('id', id);
+                if (error) throw error;
 
                 alert("사례가 성공적으로 삭제되었습니다.");
                 deleteModal.style.display = 'none';
-                
-                const activeLink = document.querySelector('.sidebar-menu a.active');
-                if (activeLink) fetchAccidents(activeLink.getAttribute('data-region'));
+                fetchAccidents();
             } catch (error) {
                 console.error("Delete error:", error);
-                alert("삭제에 실패했습니다. (원인: " + error.message + ")");
+                alert("삭제에 실패했습니다.");
             } finally {
                 confirmDeleteBtn.disabled = false;
                 confirmDeleteBtn.innerText = '삭제하기';
@@ -205,20 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Sidebar Region Interaction ──────────────────────────────
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const region = link.getAttribute('data-region');
-            
-            sidebarLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-            
-            fetchAccidents(region);
-        });
-    });
-
-    // ── Form Submission (Register/Update) ──────────────────────────
+    // ── Form Submission ──────────────────────────────────────────
     if (disasterForm) {
         disasterForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -227,19 +209,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const originalBtnText = submitBtn.innerText;
             const id = document.getElementById('d_id').value;
             
+            // 현재 선택된 첫 번째 유효 지역을 저장용 지역으로 사용 (전국 제외)
+            const activeRegion = Array.from(regionCheckboxes)
+                .find(cb => cb.checked && cb.value !== '전국')?.value || '광주';
+            
+            const dbRegion = activeRegion === '광주' ? '광주광역시' : activeRegion;
+
             submitBtn.disabled = true;
             submitBtn.innerText = '처리 중...';
 
-            const activeLink = document.querySelector('.sidebar-menu a.active');
-            const currentRegion = activeLink ? activeLink.getAttribute('data-region') : '광주';
-
             const payload = {
-                region: currentRegion,
+                region: dbRegion,
                 title: document.getElementById('d_title').value,
                 summary: document.getElementById('d_summary').value,
                 cause: document.getElementById('d_cause').value,
-                prevention: document.getElementById('d_prevention').value,
-                category: '' 
+                prevention: document.getElementById('d_prevention').value
             };
 
             if (id) payload.id = parseInt(id);
@@ -251,13 +235,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (error) throw error;
 
-                alert(id ? "사례가 수정되었습니다." : "중대재해 사례가 등록되었습니다.");
+                alert(id ? "사례가 수정되었습니다." : "사례가 등록되었습니다.");
                 modalOverlay.style.display = 'none';
                 disasterForm.reset();
-                if (activeLink) fetchAccidents(activeLink.getAttribute('data-region'));
+                fetchAccidents();
             } catch (error) {
                 console.error("Save error:", error);
-                alert("처리에 실패했습니다. (원인: " + error.message + ")");
+                alert("처리에 실패했습니다.");
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerText = originalBtnText;
@@ -265,6 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const initialRegion = document.querySelector('.sidebar-menu a.active')?.getAttribute('data-region') || '광주';
-    fetchAccidents(initialRegion);
+    // 초기 로드
+    fetchAccidents();
 });

@@ -174,90 +174,82 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Sidebar Tab Navigation ────────────────────────────────────
+    // ── Sidebar Tab Navigation (페이지별 선택적 실행) ────────────────
     const mainContent = document.querySelector('.main-content');
-    if (!mainContent) return;
+    if (mainContent) {
+        const tabContents = mainContent.querySelectorAll('.tab-content');
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu a[data-tab]');
+        const breadcrumb = document.querySelector('.breadcrumb');
 
-    const tabContents = mainContent.querySelectorAll('.tab-content');
-    if (tabContents.length === 0) return;
+        if (tabContents.length > 0) {
+            // 탭 전환 함수
+            const switchTab = (tabId) => {
+                if (!tabId) return;
 
-    const sidebarLinks = document.querySelectorAll('.sidebar-menu a[data-tab]');
-    const breadcrumb = document.querySelector('.breadcrumb');
+                let found = false;
+                tabContents.forEach(content => {
+                    if (content.id === tabId) {
+                        content.classList.add('active-tab');
+                        found = true;
+                    } else {
+                        content.classList.remove('active-tab');
+                    }
+                });
 
-    // GNB 현재 페이지 활성화
+                if (!found) return;
+
+                // 사이드바 활성 상태 업데이트
+                sidebarLinks.forEach(link => {
+                    if (link.getAttribute('data-tab') === tabId) {
+                        link.classList.add('active');
+                        if (breadcrumb) {
+                            const spans = breadcrumb.querySelectorAll('span');
+                            if (spans.length > 0) {
+                                spans[spans.length - 1].textContent = link.innerText.trim();
+                            }
+                        }
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                if (window.lucide) lucide.createIcons();
+            };
+
+            // 사이드바 클릭 이벤트
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tabId = link.getAttribute('data-tab');
+                    switchTab(tabId);
+                    history.pushState(null, null, '#' + tabId);
+                });
+            });
+
+            // 초기 로드 및 해시 처리
+            const applyHash = () => {
+                const hash = window.location.hash.replace('#', '');
+                if (hash) {
+                    switchTab(hash);
+                } else {
+                    const defaultLink = document.querySelector('.sidebar-menu a.active') || sidebarLinks[0];
+                    if (defaultLink) switchTab(defaultLink.getAttribute('data-tab'));
+                }
+            };
+
+            applyHash();
+            window.addEventListener('hashchange', applyHash);
+        }
+    }
+
+    // GNB 현재 페이지 활성화 (모든 페이지 공통)
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.gnb > li > a').forEach(link => {
         const linkFile = link.getAttribute('href').split('#')[0];
         link.closest('li').classList.toggle('active', linkFile === currentPath);
     });
 
-    // 탭 전환 함수
-    const switchTab = (tabId) => {
-        if (!tabId) return;
-
-        let found = false;
-        tabContents.forEach(content => {
-            if (content.id === tabId) {
-                content.classList.add('active-tab');
-                found = true;
-            } else {
-                content.classList.remove('active-tab');
-            }
-        });
-
-        if (!found) return;
-
-        // 사이드바 활성 상태 업데이트
-        sidebarLinks.forEach(link => {
-            if (link.getAttribute('data-tab') === tabId) {
-                link.classList.add('active');
-                if (breadcrumb) {
-                    // 마지막 <span> 태그만 찾아 현재 탭 이름으로 업데이트
-                    const spans = breadcrumb.querySelectorAll('span');
-                    if (spans.length > 0) {
-                        spans[spans.length - 1].textContent = link.innerText.trim();
-                    }
-                }
-            } else {
-                link.classList.remove('active');
-            }
-        });
-
-        // 아이콘 렌더링 보장
-        if (window.lucide) {
-            lucide.createIcons();
-        }
-    };
-
-    // 사이드바 클릭 이벤트
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const tabId = link.getAttribute('data-tab');
-            switchTab(tabId);
-            // 해시 업데이트 (hashchange 무한루프 방지를 위해 pushState 사용)
-            history.pushState(null, null, '#' + tabId);
-        });
-    });
-
-    // 초기 로드 및 해시 처리
-    const applyHash = () => {
-        const hash = window.location.hash.replace('#', '');
-        if (hash) {
-            switchTab(hash);
-        } else {
-            // 기본 탭: active 클래스가 있는 링크 또는 첫 번째 링크
-            const defaultLink = document.querySelector('.sidebar-menu a.active') || sidebarLinks[0];
-            if (defaultLink) switchTab(defaultLink.getAttribute('data-tab'));
-        }
-    };
-
-    applyHash();
-
-    // 뒤로가기/앞으로가기 대응
-    window.addEventListener('hashchange', applyHash);
-
-    // Mobile Menu Toggle
+    // Mobile Menu Toggle (모든 페이지 공통)
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const gnbContainer = document.querySelector('.gnb-container');
 
@@ -267,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
             gnbContainer.classList.toggle('active');
         });
 
-        // Close menu when clicking outside
         document.addEventListener('click', (e) => {
             if (gnbContainer.classList.contains('active') && !gnbContainer.contains(e.target)) {
                 gnbContainer.classList.remove('active');
