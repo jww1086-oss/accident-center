@@ -115,49 +115,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-item region-filter-item">
-                            <label><i data-lucide="map-pin"></i> 지역 선택</label>
-                            <div class="region-simple-select">
-                                <label class="check-item"><input type="checkbox" name="region" value="전국"> 전국</label>
-                                <label class="check-item"><input type="checkbox" name="region" value="광주"> 광주</label>
-                                <label class="check-item"><input type="checkbox" name="region" value="전남"> 전남</label>
-                                <label class="check-item"><input type="checkbox" name="region" value="전북"> 전북</label>
-                                <label class="check-item"><input type="checkbox" name="region" value="제주"> 제주</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-row">
-                        <div class="filter-item">
-                            <label><i data-lucide="tool"></i> 발생 형태</label>
-                            <select id="filterType">
-                                <option value="">전체 형태</option>
-                                <option value="끼임">끼임</option>
-                                <option value="떨어짐">떨어짐(추락)</option>
-                                <option value="맞음">맞음(낙하/비래)</option>
-                                <option value="부딪힘">부딪힘(충돌)</option>
-                                <option value="넘어짐">넘어짐(전도)</option>
-                                <option value="무너짐">무너짐(붕괴)</option>
-                                <option value="깔림">깔림/뒤집힘</option>
-                                <option value="화재">화재/폭발</option>
-                                <option value="감전">감전</option>
-                            </select>
-                        </div>
-                        <div class="filter-item">
-                            <label><i data-lucide="briefcase"></i> 업종</label>
-                            <select id="filterIndustry">
-                                <option value="">전체 업종</option>
-                                <option value="건설">건설업</option>
-                                <option value="제조">제조업</option>
-                                <option value="운수">운수/창고/통신업</option>
-                                <option value="폐기물">폐기물처리업</option>
-                                <option value="벌목">임업(벌목)</option>
-                                <option value="기타">기타</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-actions">
-                            <button id="applyFiltersBtn" class="btn-apply">조회하기</button>
-                            <button id="resetFiltersBtn" class="btn-reset"><i data-lucide="rotate-ccw"></i></button>
+                        <div class="filter-actions" style="margin-left: auto; align-self: flex-end;">
+                            <button id="applyFiltersBtn" class="btn-apply" style="height: 45px;">조회하기</button>
+                            <button id="resetFiltersBtn" class="btn-reset" style="height: 45px;"><i data-lucide="rotate-ccw"></i></button>
                         </div>
                     </div>
                 </div>
@@ -638,9 +598,7 @@
             // 다중 선택된 지역값 처리
             const checkedValues = Array.from(document.querySelectorAll('input[name="region"]:checked')).map(cb => cb.value);
             const isNational = checkedValues.includes('전국');
-            
-            const type = document.getElementById('filterType').value;
-            const industry = document.getElementById('filterIndustry').value;
+
 
 
             filteredPublicItems = allPublicItems.filter(item => {
@@ -658,10 +616,7 @@
                     if (!checkedValues.includes(p.region)) return false;
                 }
                 
-                // 3. 발생 형태 (키워드 및 내용 검색)
-                if (type && !(item.keyword + (item.contents || '')).includes(type)) return false;
-                
-                if (industry && p.industry !== industry) return false;
+
 
                 return true;
             });
@@ -700,11 +655,7 @@
             document.getElementById('filterStartDate').value = '';
             document.getElementById('filterEndDate').value = '';
             
-            // 지역 체크박스 초기화
-            document.querySelectorAll('input[name="region"]').forEach(cb => cb.checked = false);
-            
-            document.getElementById('filterType').value = '';
-            document.getElementById('filterIndustry').value = '';
+
 
             filteredPublicItems = [...allPublicItems];
             currentPage = 1;
