@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/center-intro", "destination": "/center-intro.html" },
+    { "source": "/disasters", "destination": "/disasters.html" },
+    { "source": "/notice", "destination": "/notice.html" },
+    { "source": "/library", "destination": "/library.html" },
+    { "source": "/qna", "destination": "/qna.html" }
+  ]
+}

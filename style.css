@@ -2080,6 +2080,23 @@ footer {
     padding: 0 15px !important;
     margin-top: 5px !important;
   }
+  
+  .filter-item {
+    min-width: 100% !important;
+  }
+  
+  .region-simple-select {
+    justify-content: flex-start !important;
+    gap: 4px !important; /* 대폭 감소 */
+    padding: 8px 4px !important; /* 가로 패딩 최소화 */
+    overflow-x: hidden !important; /* 스크롤바 제거 시도 */
+  }
+
+  .check-item {
+    gap: 3px !important; /* 체크박스와 텍스트 간격 최소화 */
+    font-size: 11.5px !important; /* 폰트 너비 축소 */
+    white-space: nowrap !important;
+  }
   .public-news-section .section-title h3 {
     font-size: 1.15rem !important;
     letter-spacing: -0.5px !important;
@@ -2128,6 +2145,8 @@ footer {
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    overflow: hidden; /* 요소가 밖으로 나가는 것 방지 */
+    width: 100%;
 }
 
 .filter-row {
@@ -2143,10 +2162,11 @@ footer {
 
 .filter-item {
     flex: 1;
-    min-width: 200px;
+    min-width: 180px; /* 조금 더 유연하게 조정 */
     display: flex;
     flex-direction: column;
     gap: 8px;
+    overflow: hidden; /* 내부 요소가 넘치지 않도록 */
 }
 
 .filter-item label {
@@ -2169,14 +2189,16 @@ footer {
 
 .region-simple-select {
     display: flex;
-    gap: 12px;
+    gap: 8px; /* 간격 축소 */
     background: #F8FAFC;
     border: 1px solid #E2E8F0;
     border-radius: 8px;
-    padding: 12px 18px;
+    padding: 10px 12px; /* 패딩 축소 */
     align-items: center;
-    flex-wrap: nowrap; /* 한 줄 유지 */
-    overflow-x: auto; /* 넘칠 경우 스크롤 */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%; /* 너비 제한 */
+    max-width: 100%;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -2209,8 +2231,8 @@ footer {
 .check-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 14px;
+    gap: 6px; /* 내부 간격 축소 */
+    font-size: 13px; /* 폰트 소폭 축소 */
     font-weight: 600;
     color: #334155;
     cursor: pointer;
@@ -2222,20 +2244,21 @@ footer {
 }
 
 .check-item input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 16px; /* 크기 축소 */
+    height: 16px; /* 크기 축소 */
     cursor: pointer;
     accent-color: var(--primary-color);
 }
 
 @media (max-width: 600px) {
     .region-simple-select {
-        flex-direction: row !important; /* 항상 가로 한 줄 유지 */
-        overflow-x: auto;
+        flex-direction: row !important;
+        overflow-x: hidden;
         white-space: nowrap;
-        gap: 15px;
-        padding: 12px 15px;
+        gap: 4px; 
+        padding: 8px 5px;
         align-items: center;
+        justify-content: flex-start;
     }
 }
 
@@ -2468,9 +2491,9 @@ footer {
     }
 
     .region-simple-select {
-        padding: 10px 12px;
-        gap: 10px;
-        justify-content: flex-start;
+        padding: 8px 6px;
+        gap: 6px;
+        justify-content: space-between;
     }
 
     .check-item {

@@ -93,7 +93,6 @@
                 <!-- Advanced Filter Bar -->
                 <div class="public-filter-bar">
                     <div class="filter-row">
-                        <div class="filter-row">
                             <div class="filter-item">
                                 <label><i data-lucide="calendar"></i> 기간 선택</label>
                                 <div class="filter-dates-wrapper">
@@ -123,8 +122,8 @@
                                     <label class="check-item"><input type="checkbox" name="region" value="제주"> 제주</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="filter-row">
+                    </div>
+                    <div class="filter-row">
                             <div class="filter-item">
                                 <label><i data-lucide="tool"></i> 발생 형태</label>
                                 <select id="filterType">
@@ -164,7 +163,6 @@
                                 <button id="applyFiltersBtn" class="btn-apply">조회하기</button>
                                 <button id="resetFiltersBtn" class="btn-reset"><i data-lucide="rotate-ccw"></i></button>
                             </div>
-                        </div>
                     </div>
                 </div>
                 
@@ -258,10 +256,7 @@
                             <div style="text-align:center; color:#94A3B8; font-size:13px; padding:20px;">로딩 중...</div>
                         </div>
                     </div>
-
                     </div>
-                </div>
-
 
                 <div class="grid-container" style="margin-top: 40px;">
                     <div class="card" onclick="location.href='disasters.html'">
@@ -553,13 +548,20 @@
                     };
                 });
 
-                // 3. 데이터 저장 (용량 초과 오류 방지를 위한 안전 장치)
+                // 최신순 정렬 (날짜 필드 기준 내림차순)
+                allPublicItems.sort((a, b) => {
+                    return b._parsed.date.localeCompare(a._parsed.date);
+                });
+
+                // 3. 데이터 저장
                 try {
                     // 구버전 및 중복 캐시 키 일괄 삭제 (공간 확보)
                     const oldKeys = ['public_accident_data', 'public_accident_data_v2', 'public_accident_ts', 'public_accident_ts_v2', 'accident_data_nfc_v3_final', 'accident_ts_nfc_v3_final'];
                     oldKeys.forEach(k => localStorage.removeItem(k));
 
-                    localStorage.setItem(CACHE_KEY, JSON.stringify(allPublicItems));
+                    // 저장 용량 제한 (최신 300개만 캐시)
+                    const limitedCache = allPublicItems.slice(0, 300);
+                    localStorage.setItem(CACHE_KEY, JSON.stringify(limitedCache));
                     localStorage.setItem(CACHE_TS_KEY, Date.now().toString());
                     console.log('Success: Fetched and cached ' + allPublicItems.length + ' items');
                 } catch (cacheError) {
