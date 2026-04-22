@@ -1831,7 +1831,7 @@ footer {
     padding: 0 20px; width: 100%; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;
   }
   .gnb::after {
-    content: ''; display: block; padding-right: 20px; /* matched with left padding */
+    content: ''; display: block; min-width: 20px; /* flexbox 우측 패딩 무시 버그 해결 */
   }
   .gnb::-webkit-scrollbar { display: none; }
   .gnb li { width: auto; border-bottom: none; flex-shrink: 0; }
