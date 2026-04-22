@@ -540,8 +540,8 @@
                         };
                     }).filter(i => i);
 
-                    localStorage.setItem(CACHE_KEY, JSON.stringify(allPublicItems));
-                    localStorage.setItem(CACHE_TS_KEY, now.getTime().toString());
+                    await setCache(CACHE_KEY, JSON.stringify(allPublicItems));
+                    await setCache(CACHE_TS_KEY, now.getTime().toString());
 
                     console.log(`API 갱신 완료: ${allPublicItems.length}건 처리됨`);
 
