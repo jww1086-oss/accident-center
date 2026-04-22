@@ -764,7 +764,12 @@
                     labels: regions,
                     datasets: [
                         { label: '2025년 (동기)', data: regions.map(r => stats[r].c25), backgroundColor: '#CBD5E1', borderRadius: 4 },
-                        { label: '2026년 (현재)', data: regions.map(r => stats[r].c26), backgroundColor: '#0047A0', borderRadius: 4 }
+                        { 
+                            label: '2026년 (현재)', 
+                            data: regions.map(r => stats[r].c26), 
+                            backgroundColor: regions.map(r => stats[r].c26 > stats[r].c25 ? '#EF4444' : '#0047A0'), 
+                            borderRadius: 4 
+                        }
                     ]
                 },
                 options: {

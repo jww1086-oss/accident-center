@@ -1,11 +1,13 @@
 /**
- * Q&A Page Supabase Logic
+ * Q&A Board (질의응답) Supabase 연동 스크립트
  */
+console.log("✅ Q&A 스크립트 최신 버전 로드됨 (2026-04-22_FINAL)");
 
-const supabaseClient = supabase.createClient(
-    'https://jtjkfkiijowzbiuxvmzv.supabase.co',
-    'sb_publishable_6Sf5Pdk5IDG4j9w8ybMeSQ_jjKJYVB2'
-);
+const supabaseUrl = 'https://jtjkfkiijowzbiuxvmzv.supabase.co';
+const supabaseKey = 'sb_publishable_6Sf5Pdk5IDG4j9w8ybMeSQ_jjKJYVB2';
+
+// 전역 스코프에 없으면 생성 방지
+const supabaseClient = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
 
 document.addEventListener('DOMContentLoaded', () => {
     const qnaList = document.getElementById('qnaList');
@@ -146,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchQuestions();
             } catch (error) {
                 console.error("Submit error:", error);
-                alert("처리 중 오류가 발생했습니다.");
+                alert("등록 중 오류가 발생했습니다.\n상세: " + (error.message || JSON.stringify(error)));
             }
         });
     }
@@ -209,16 +211,12 @@ function showAnswerForm(id) {
                 throw new Error("기존 데이터를 가져오지 못했습니다.");
             }
 
-            console.log(`Submitting answer for ID ${id} using safe upsert...`);
+            console.log(`Submitting answer for ID ${id} using update...`);
             
-            // 모든 기존 필드를 포함하여 upsert 수행 (POST 메서드 사용으로 CORS 우회)
             const { error } = await supabaseClient
                 .from('qna')
-                .upsert({ 
-                    ...existingData,
-                    answer: answer, 
-                    status: '완료' 
-                });
+                .update({ answer: answer, status: '완료' })
+                .eq('id', id);
 
             if (error) {
                 console.error("Supabase Error:", error);
@@ -246,12 +244,21 @@ function showAnswerForm(id) {
 
 // ── 게시글 삭제 기능 ──────────────────────────────
 window.deleteQna = async (id) => {
-    if (!confirm('정말로 이 질의응답 게시글을 삭제하시겠습니까?')) return;
+    console.log("🗑️ 삭제 버튼 클릭됨! (ID:", id, ")");
+    if (!confirm('정말로 이 질의응답 게시글을 삭제하시겠습니까?')) {
+        console.log("❌ 삭제 취소됨 (또는 브라우저가 알림창을 강제 차단함)");
+        return;
+    }
     
+    console.log("진행 승인됨. Supabase에 삭제 요청 전송 중...");
     try {
         const { error } = await supabaseClient.from('qna').delete().eq('id', id);
-        if (error) throw error;
+        if (error) {
+            console.error("Supabase Error:", error);
+            throw error;
+        }
         
+        console.log("✅ 삭제 성공! 페이지 새로고침 예약...");
         alert("게시글이 삭제되었습니다.");
         location.reload();
     } catch (error) {
