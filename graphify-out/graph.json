@@ -1,0 +1,436 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "check_data.js",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\check_data.js",
+      "source_location": "L1",
+      "id": "c_users_userpc_desktop_check_data_js",
+      "community": 4,
+      "norm_label": "check_data.js"
+    },
+    {
+      "label": "checkData()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\check_data.js",
+      "source_location": "L1",
+      "id": "check_data_checkdata",
+      "community": 4,
+      "norm_label": "checkdata()"
+    },
+    {
+      "label": "disasters-script.js",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L1",
+      "id": "c_users_userpc_desktop_disasters_script_js",
+      "community": 0,
+      "norm_label": "disasters-script.js"
+    },
+    {
+      "label": "fetchAccidents()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L50",
+      "id": "disasters_script_fetchaccidents",
+      "community": 0,
+      "norm_label": "fetchaccidents()"
+    },
+    {
+      "label": "renderAccidents()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L100",
+      "id": "disasters_script_renderaccidents",
+      "community": 0,
+      "norm_label": "renderaccidents()"
+    },
+    {
+      "label": "editAccident()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L159",
+      "id": "disasters_script_editaccident",
+      "community": 0,
+      "norm_label": "editaccident()"
+    },
+    {
+      "label": "openDeleteModal()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L170",
+      "id": "disasters_script_opendeletemodal",
+      "community": 0,
+      "norm_label": "opendeletemodal()"
+    },
+    {
+      "label": "library.js",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\library.js",
+      "source_location": "L1",
+      "id": "c_users_userpc_desktop_library_js",
+      "community": 5,
+      "norm_label": "library.js"
+    },
+    {
+      "label": "renderLibrary()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\library.js",
+      "source_location": "L66",
+      "id": "library_renderlibrary",
+      "community": 5,
+      "norm_label": "renderlibrary()"
+    },
+    {
+      "label": "notice-script.js",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\notice-script.js",
+      "source_location": "L1",
+      "id": "c_users_userpc_desktop_notice_script_js",
+      "community": 2,
+      "norm_label": "notice-script.js"
+    },
+    {
+      "label": "renderNotices()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\notice-script.js",
+      "source_location": "L28",
+      "id": "notice_script_rendernotices",
+      "community": 2,
+      "norm_label": "rendernotices()"
+    },
+    {
+      "label": "showDetailView()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\notice-script.js",
+      "source_location": "L140",
+      "id": "notice_script_showdetailview",
+      "community": 2,
+      "norm_label": "showdetailview()"
+    },
+    {
+      "label": "editNoticeData()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\notice-script.js",
+      "source_location": "L225",
+      "id": "notice_script_editnoticedata",
+      "community": 2,
+      "norm_label": "editnoticedata()"
+    },
+    {
+      "label": "qna-script.js",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\qna-script.js",
+      "source_location": "L1",
+      "id": "c_users_userpc_desktop_qna_script_js",
+      "community": 3,
+      "norm_label": "qna-script.js"
+    },
+    {
+      "label": "fetchQuestions()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\qna-script.js",
+      "source_location": "L37",
+      "id": "qna_script_fetchquestions",
+      "community": 3,
+      "norm_label": "fetchquestions()"
+    },
+    {
+      "label": "renderQnaList()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\qna-script.js",
+      "source_location": "L52",
+      "id": "qna_script_renderqnalist",
+      "community": 3,
+      "norm_label": "renderqnalist()"
+    },
+    {
+      "label": "showAnswerForm()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\qna-script.js",
+      "source_location": "L159",
+      "id": "qna_script_showanswerform",
+      "community": 3,
+      "norm_label": "showanswerform()"
+    },
+    {
+      "label": "script.js",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L1",
+      "id": "c_users_userpc_desktop_script_js",
+      "community": 1,
+      "norm_label": "script.js"
+    },
+    {
+      "label": "createAdminModal()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L7",
+      "id": "script_createadminmodal",
+      "community": 1,
+      "norm_label": "createadminmodal()"
+    },
+    {
+      "label": "updateAdminUI()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L80",
+      "id": "script_updateadminui",
+      "community": 1,
+      "norm_label": "updateadminui()"
+    },
+    {
+      "label": "switchTab()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L186",
+      "id": "script_switchtab",
+      "community": 1,
+      "norm_label": "switchtab()"
+    },
+    {
+      "label": "applyHash()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L230",
+      "id": "script_applyhash",
+      "community": 1,
+      "norm_label": "applyhash()"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\check_data.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_check_data_js",
+      "_tgt": "check_data_checkdata",
+      "source": "c_users_userpc_desktop_check_data_js",
+      "target": "check_data_checkdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_disasters_script_js",
+      "_tgt": "disasters_script_fetchaccidents",
+      "source": "c_users_userpc_desktop_disasters_script_js",
+      "target": "disasters_script_fetchaccidents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L100",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_disasters_script_js",
+      "_tgt": "disasters_script_renderaccidents",
+      "source": "c_users_userpc_desktop_disasters_script_js",
+      "target": "disasters_script_renderaccidents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L159",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_disasters_script_js",
+      "_tgt": "disasters_script_editaccident",
+      "source": "c_users_userpc_desktop_disasters_script_js",
+      "target": "disasters_script_editaccident",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L170",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_disasters_script_js",
+      "_tgt": "disasters_script_opendeletemodal",
+      "source": "c_users_userpc_desktop_disasters_script_js",
+      "target": "disasters_script_opendeletemodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\disasters-script.js",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_src": "disasters_script_fetchaccidents",
+      "_tgt": "disasters_script_renderaccidents",
+      "source": "disasters_script_fetchaccidents",
+      "target": "disasters_script_renderaccidents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\library.js",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_library_js",
+      "_tgt": "library_renderlibrary",
+      "source": "c_users_userpc_desktop_library_js",
+      "target": "library_renderlibrary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\notice-script.js",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_notice_script_js",
+      "_tgt": "notice_script_rendernotices",
+      "source": "c_users_userpc_desktop_notice_script_js",
+      "target": "notice_script_rendernotices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\notice-script.js",
+      "source_location": "L140",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_notice_script_js",
+      "_tgt": "notice_script_showdetailview",
+      "source": "c_users_userpc_desktop_notice_script_js",
+      "target": "notice_script_showdetailview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\notice-script.js",
+      "source_location": "L225",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_notice_script_js",
+      "_tgt": "notice_script_editnoticedata",
+      "source": "c_users_userpc_desktop_notice_script_js",
+      "target": "notice_script_editnoticedata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\qna-script.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_qna_script_js",
+      "_tgt": "qna_script_fetchquestions",
+      "source": "c_users_userpc_desktop_qna_script_js",
+      "target": "qna_script_fetchquestions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\qna-script.js",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_qna_script_js",
+      "_tgt": "qna_script_renderqnalist",
+      "source": "c_users_userpc_desktop_qna_script_js",
+      "target": "qna_script_renderqnalist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\qna-script.js",
+      "source_location": "L159",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_qna_script_js",
+      "_tgt": "qna_script_showanswerform",
+      "source": "c_users_userpc_desktop_qna_script_js",
+      "target": "qna_script_showanswerform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\qna-script.js",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "qna_script_fetchquestions",
+      "_tgt": "qna_script_renderqnalist",
+      "source": "qna_script_fetchquestions",
+      "target": "qna_script_renderqnalist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_script_js",
+      "_tgt": "script_createadminmodal",
+      "source": "c_users_userpc_desktop_script_js",
+      "target": "script_createadminmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_script_js",
+      "_tgt": "script_updateadminui",
+      "source": "c_users_userpc_desktop_script_js",
+      "target": "script_updateadminui",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L186",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_script_js",
+      "_tgt": "script_switchtab",
+      "source": "c_users_userpc_desktop_script_js",
+      "target": "script_switchtab",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L230",
+      "weight": 1.0,
+      "_src": "c_users_userpc_desktop_script_js",
+      "_tgt": "script_applyhash",
+      "source": "c_users_userpc_desktop_script_js",
+      "target": "script_applyhash",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\UserPC\\Desktop\\\uc548\ud2f0\uadf8\ub798\ube44\ud2f0\\\uad11\uc5ed\uc0ac\uace0\uc870\uc0ac\uc13c\ud130\\script.js",
+      "source_location": "L233",
+      "weight": 1.0,
+      "_src": "script_applyhash",
+      "_tgt": "script_switchtab",
+      "source": "script_switchtab",
+      "target": "script_applyhash",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}

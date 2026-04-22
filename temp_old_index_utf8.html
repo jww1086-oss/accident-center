@@ -1,0 +1,953 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>愿묒＜愿묒뿭?ш퀬議곗궗?쇳꽣 - ??/title>
+    <meta name="description" content="?곗뾽?ы빐 ?덈갑 諛??ш퀬?먯씤 議곗궗瑜??좊룄?섎뒗 愿묒＜愿묒뿭?ш퀬議곗궗?쇳꽣 怨듭떇 ?덊럹?댁??낅땲??">
+    <link rel="stylesheet" href="style.css?v=36">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js?v=36" defer></script>
+</head>
+
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="top-bar-inner">
+                <button type="button" class="admin-toggle">愿由ъ옄 濡쒓렇??/button>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="header-main-inner">
+                <div class="logo">
+                    <a href="/">
+                        <img src="assets/logo.png" alt="濡쒓퀬">
+                        <span class="logo-text">愿묒＜愿묒뿭?ш퀬議곗궗?쇳꽣</span>
+                    </a>
+                </div>
+                <div class="header-tools">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <i data-lucide="menu"></i>
+                        <span class="menu-text">硫붾돱</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav class="gnb-container">
+            <ul class="gnb">
+                <li><a href="index.html">??/a></li>
+                <li><a href="center-intro.html">?쇳꽣?뚭컻</a></li>
+                <li><a href="disasters.html">以묐??ы빐?꾪솴</a></li>
+                <li><a href="notice.html">?뚮┝留덈떦</a></li>
+                <li><a href="library.html">?먮즺??/a></li>
+                <li><a href="qna.html">吏덉쓽?묐떟</a></li>
+            </ul>
+            <!-- 紐⑤컮???꾩슜 愿由ъ옄 濡쒓렇???곸뿭 -->
+            <div class="mobile-admin-area">
+                <button type="button" class="admin-toggle">愿由ъ옄 濡쒓렇??/button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="home-wrapper">
+
+        <!-- Main Content (Full Width) -->
+        <main class="home-content">
+            <!-- Hero Slider -->
+            <section class="hero">
+                <div class="hero-slider">
+                    <div class="hero-item active"
+                        style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('assets/hero.png');">
+                        <div class="hero-content">
+                            <h2>?덉쟾??媛??br>鍮좊쫭?덈떎</h2>
+                            <p>泥좎????먯씤 洹쒕챸怨??щ컻 諛⑹?濡?br>洹쇰줈?먯쓽 ?뚯쨷???앸챸??蹂댄샇?⑸땲??</p>
+                            <a href="center-intro.html" class="btn-more">?먯꽭???뚯븘蹂닿린</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Emergency News Bar (Integrated with Public API) -->
+            <div class="news-bar">
+                <span class="news-label">?ш퀬?띾낫</span>
+                <div id="publicNewsTicker" class="ticker-content">
+                    <span class="ticker-item">?ㅼ떆媛??ш퀬 ?띾낫瑜?遺덈윭?ㅺ퀬 ?덉뒿?덈떎...</span>
+                </div>
+            </div>
+
+            <!-- Real-time Public Data Bulletin Section -->
+            <section class="public-news-section" style="padding: 0 10%; margin-top: 5px;">
+                <div class="section-title" style="border-top: none; padding-top: 0; margin-bottom: 10px;">
+                    <h3><i data-lucide="globe" style="width:20px; vertical-align:middle; margin-right:8px; color:var(--primary-color);"></i> ?ㅼ떆媛?以묐??ы빐 ?띾낫</h3>
+                    <p id="searchStatusMsg" style="margin: 0;">?꾧뎅 ?곗뾽?꾩옣???ㅼ떆媛??ш퀬 蹂대룄?먮즺?낅땲??</p>
+                </div>
+
+                <!-- Search Section (Re-positioned below the title) -->
+                <div class="search-section" style="margin-bottom: 25px; margin-top: 15px;">
+                    <div class="search-box">
+                        <input type="text" id="mainSearchInput" placeholder="以묐??ы빐 湲곗씤臾쇰줈 寃?됲빐蹂댁꽭??>
+                        <button id="mainSearchBtn" class="search-btn"><i data-lucide="search"></i></button>
+                    </div>
+                </div>
+
+                <!-- Advanced Filter Bar -->
+                <div class="public-filter-bar">
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label><i data-lucide="calendar"></i> 湲곌컙</label>
+                            <div class="filter-dates-wrapper">
+                                <select id="filterPeriodQuick" class="quick-select">
+                                    <option value="">吏곸젒 ?낅젰</option>
+                                    <option value="1w">理쒓렐 1二쇱씪</option>
+                                    <option value="1m">理쒓렐 1媛쒖썡</option>
+                                    <option value="1y">理쒓렐 1??/option>
+                                    <option value="2y">理쒓렐 2??/option>
+                                    <option value="3y">理쒓렐 3??/option>
+                                </select>
+                                <div class="filter-dates">
+                                    <input type="date" id="filterStartDate">
+                                    <span>~</span>
+                                    <input type="date" id="filterEndDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-item region-filter-item">
+                            <label><i data-lucide="map-pin"></i> 吏???좏깮</label>
+                            <div class="region-simple-select">
+                                <label class="check-item"><input type="checkbox" name="region" value="?꾧뎅"> ?꾧뎅</label>
+                                <label class="check-item"><input type="checkbox" name="region" value="愿묒＜"> 愿묒＜</label>
+                                <label class="check-item"><input type="checkbox" name="region" value="?꾨궓"> ?꾨궓</label>
+                                <label class="check-item"><input type="checkbox" name="region" value="?꾨턿"> ?꾨턿</label>
+                                <label class="check-item"><input type="checkbox" name="region" value="?쒖＜"> ?쒖＜</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-item">
+                            <label><i data-lucide="tool"></i> 諛쒖깮 ?뺥깭</label>
+                            <select id="filterType">
+                                <option value="">?꾩껜 ?뺥깭</option>
+                                <option value="?쇱엫">?쇱엫</option>
+                                <option value="?⑥뼱吏?>?⑥뼱吏?異붾씫)</option>
+                                <option value="留욎쓬">留욎쓬(?숉븯/鍮꾨옒)</option>
+                                <option value="遺?ろ옒">遺?ろ옒(異⑸룎)</option>
+                                <option value="?섏뼱吏?>?섏뼱吏??꾨룄)</option>
+                                <option value="臾대꼫吏?>臾대꼫吏?遺뺢눼)</option>
+                                <option value="源붾┝">源붾┝/?ㅼ쭛??/option>
+                                <option value="?붿옱">?붿옱/??컻</option>
+                                <option value="媛먯쟾">媛먯쟾</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label><i data-lucide="briefcase"></i> ?낆쥌</label>
+                            <select id="filterIndustry">
+                                <option value="">?꾩껜 ?낆쥌</option>
+                                <option value="嫄댁꽕">嫄댁꽕??/option>
+                                <option value="?쒖“">?쒖“??/option>
+                                <option value="?댁닔">?댁닔/李쎄퀬/?듭떊??/option>
+                                <option value="?먭린臾?>?먭린臾쇱쿂由ъ뾽</option>
+                                <option value="踰뚮ぉ">?꾩뾽(踰뚮ぉ)</option>
+                                <option value="湲고?">湲고?</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-actions">
+                            <button id="applyFiltersBtn" class="btn-apply">議고쉶?섍린</button>
+                            <button id="resetFiltersBtn" class="btn-reset"><i data-lucide="rotate-ccw"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div id="publicNewsGrid" class="public-news-grid">
+                    <div style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text-gray);">
+                        <div class="loading-spinner"></div>
+                        <p style="margin-top:10px;">?꾧뎅 ?ш퀬 ?띾낫瑜?遺덈윭?ㅻ뒗 以묒엯?덈떎...</p>
+                    </div>
+                </div>
+
+                <!-- Pagination Container -->
+                <div id="publicPagination" class="public-pagination"></div>
+
+                <!-- Yearly Comparison Chart Section (Moved above Center Stats) -->
+                <div class="comparison-section" style="margin-top: 50px;">
+                    <div class="widget-box comparison-chart-widget">
+                        <div class="widget-title">
+                            <h4><i data-lucide="trending-up" style="width:18px;"></i> 吏??퀎 以묐??ы빐 鍮꾧탳 (?꾨뀈 ?숆린 ?鍮?</h4>
+                            <span style="font-size: 11px; color: #2563EB; font-weight: bold;">[鍮꾧탳 湲곗??? 01??01??~ 04??14??</span>
+                        </div>
+                        <!-- ?꾧뎅 ?붿빟 ?듦퀎 ?곸뿭 -->
+                        <div id="nationalStats" class="national-stats-bar">
+                            <div class="nat-item prev">
+                                <span class="nat-lab">2025???꾧뎅 (?숆린)</span>
+                                <span class="nat-val" id="natValPrev">0</span>
+                            </div>
+                            <div class="nat-item curr">
+                                <span class="nat-lab">2026???꾧뎅 (?꾩옱)</span>
+                                <span class="nat-val" id="natValCurr">0</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                        <div id="chartLoadingMsg" style="text-align:center; padding:20px; color:#94A3B8;">
+                            <div class="loading-spinner" style="width:20px; height:20px; margin:0 auto 10px;"></div>
+                            ?곗씠??遺꾩꽍 以?..
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Dashboard Content -->
+            <section class="info-section">
+                <div class="section-title">
+                    <h3>?쇳꽣 ?댁쁺 ?꾪솴</h3>
+                    <p>?곕━ ?쇳꽣???ㅼ떆媛??덉쟾 ?곗씠?곗? 怨듭??낅땲??</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Recent Notices Widget -->
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <h4><i data-lucide="bell" style="width:18px;"></i> 理쒓렐 怨듭??ы빆</h4>
+                            <a href="notice.html" style="font-size: 13px; color: var(--text-gray);">?붾낫湲?+</a>
+                        </div>
+                        <ul class="widget-list" id="home-recent-notices">
+                            <li><span>怨듭??ы빆??遺덈윭?ㅻ뒗 以묒엯?덈떎...</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Statistics Widget -->
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <h4><i data-lucide="bar-chart-2" style="width:18px;"></i> ?ш퀬議곗궗 ?듦퀎 (2026)</h4>
+                        </div>
+                        <div class="stat-grid stat-grid-3">
+                            <div class="stat-card">
+                                <div class="val">25</div>
+                                <div class="lab">以묐??ы빐議곗궗嫄댁닔</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="val">15</div>
+                                <div class="lab">議곗궗?쇳꽣議곗궗嫄댁닔</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="val">10</div>
+                                <div class="lab">?쇱꽑湲곌?議곗궗嫄댁닔</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latest Accidents Widget -->
+                    <div class="widget-box" id="latestAccidentsWidget">
+                        <div class="widget-title">
+                            <h4><i data-lucide="alert-triangle" style="width:18px; color: #E63946;"></i> 理쒖떊 以묐??ы빐 ?щ?</h4>
+                            <a href="disasters.html" style="font-size: 13px; color: var(--text-gray);">?붾낫湲?+</a>
+                        </div>
+                        <div id="homeAccidentList" style="padding: 10px 0;">
+                            <div style="text-align:center; color:#94A3B8; font-size:13px; padding:20px;">濡쒕뵫 以?..</div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+
+
+                <div class="grid-container" style="margin-top: 40px;">
+                    <div class="card" onclick="location.href='disasters.html'">
+                        <div class="card-icon"><i data-lucide="alert-triangle"></i></div>
+                        <h4>以묐??ы빐 ?꾪솴</h4>
+                        <p>吏??퀎 諛쒖깮 ?꾪솴怨??ш퀬議곗궗 寃곌낵?낅땲??</p>
+                    </div>
+                    <div class="card" onclick="location.href='center-intro.html#organization'">
+                        <div class="card-icon"><i data-lucide="users"></i></div>
+                        <h4>議곗쭅 ?덈궡</h4>
+                        <p>遺꾩빞蹂??ш퀬議곗궗 ?꾨Ц媛?ㅼ쓣 ?뚭컻?⑸땲??</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div> <!-- home-wrapper end -->
+
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-links">
+                <a href="#">媛쒖씤?뺣낫泥섎━諛⑹묠</a>
+                <a href="#">?댁슜?쎄?</a>
+                <a href="#">?대찓?쇰Т?⑥닔吏묎굅遺</a>
+            </div>
+            <div class="sns-links">
+                <a href="#" title="?섏씠?ㅻ턿"><i data-lucide="info"></i></a>
+                <a href="#" title="?좏뒠釉?><i data-lucide="play-circle"></i></a>
+                <a href="#" title="?몄뒪?洹몃옩"><i data-lucide="camera"></i></a>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p>二쇱냼: 愿묒＜愿묒뿭??愿묒궛援?臾댁쭊?濡?(?곗뾽?덉쟾蹂닿굔怨듬떒 愿묒＜愿묒뿭蹂몃? ??</p>
+            <p>??쒕쾲?? 1566-2216 | ?⑹뒪: 062-000-0000</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 愿묒＜愿묒뿭?ш퀬議곗궗?쇳꽣. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 硫붿씤 ?붾㈃ 理쒖떊 以묐??ы빐 濡쒕뱶 ?ㅽ겕由쏀듃
+        const homeSupabase = supabase.createClient(
+            'https://jtjkfkiijowzbiuxvmzv.supabase.co',
+            'sb_publishable_6Sf5Pdk5IDG4j9w8ybMeSQ_jjKJYVB2'
+        );
+
+        async function loadHomeAccidents() {
+            const listContainer = document.getElementById('homeAccidentList');
+            if (!listContainer) return;
+
+            try {
+                const { data, error } = await homeSupabase
+                    .from('accidents')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(2);
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    listContainer.innerHTML = '<div style="text-align:center; color:#94A3B8; font-size:13px; padding:20px;">怨듦컻??以묐??ы빐 ?щ?媛 ?놁뒿?덈떎.</div>';
+                    return;
+                }
+
+                listContainer.innerHTML = data.map(item => {
+                    // ?대?吏 URL 異붿텧 (jpg, png, gif, webp ??
+                    const imgRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)(\?.*)?)/i;
+                    const match = item.summary ? item.summary.match(imgRegex) : null;
+                    const imageUrl = match ? match[1] : null;
+                    
+                    // ?띿뒪?몄뿉??URL ?쒓굅 諛??뺣━
+                    let cleanSummary = item.summary || '?곸젣 ?댁슜 蹂닿린';
+                    if (imageUrl) {
+                        cleanSummary = cleanSummary.replace(imageUrl, '').trim();
+                    }
+
+                    return `
+                        <div class="home-accident-item" onclick="location.href='disasters.html#${item.region}'" style="display:flex; gap:12px; cursor:pointer; padding: 12px; border-bottom: 1px solid #F1F5F9; transition: background 0.2s;">
+                            ${imageUrl ? `<div style="flex-shrink:0; width:70px; height:70px; border-radius:6px; overflow:hidden; border:1px solid #E2E8F0;">
+                                <img src="${imageUrl}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'">
+                            </div>` : ''}
+                            <div style="flex:1; min-width:0;">
+                                <h5 style="font-size:13.5px; margin:0 0 4px 0; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.title}</h5>
+                                <p style="font-size:12px; color:#64748B; margin:0; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${cleanSummary}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Hover effect
+                document.querySelectorAll('.home-accident-item').forEach(el => {
+                    el.addEventListener('mouseenter', () => el.style.background = '#F8FAFC');
+                    el.addEventListener('mouseleave', () => el.style.background = 'transparent');
+                });
+
+            } catch (err) {
+                console.error(err);
+                listContainer.innerHTML = '<div style="text-align:center; color:#E63946; font-size:12px; padding:10px;">?곗씠??濡쒕뱶 ?ㅽ뙣</div>';
+            }
+        }
+
+        // Home Page Dashboard Logic (Notice Linking)
+        const supabaseUrlHome = 'https://jtjkfkiijowzbiuxvmzv.supabase.co';
+        const supabaseKeyHome = 'sb_publishable_6Sf5Pdk5IDG4j9w8ybMeSQ_jjKJYVB2';
+        const supabaseHome = window.supabase ? window.supabase.createClient(supabaseUrlHome, supabaseKeyHome) : null;
+
+        async function fetchRecentNotices() {
+            if (!supabaseHome) return;
+            const container = document.getElementById('home-recent-notices');
+            
+            const { data, error } = await supabaseHome
+                .from('notices')
+                .select('*')
+                .order('id', { ascending: false })
+                .limit(4);
+
+            if (error) {
+                console.error(error);
+                container.innerHTML = '<li><span>?곗씠???듭떊 ?먮윭</span></li>';
+                return;
+            }
+
+            if (data && data.length > 0) {
+                container.innerHTML = data.map(notice => `
+                    <li onclick="location.href='notice.html?id=${notice.id}'">
+                        <span>${notice.title}</span>
+                        <span class="date">${new Date(notice.created_at).toLocaleDateString('ko-KR', {month:'2-digit', day:'2-digit'})}</span>
+                    </li>
+                `).join('');
+            } else {
+                container.innerHTML = '<li><span>?깅줉??怨듭??ы빆???놁뒿?덈떎.</span></li>';
+            }
+        }
+
+        // --- Public Data Intelligent Search & Filtering Logic ---
+        let allPublicItems = []; 
+        let filteredPublicItems = []; 
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        const CACHE_KEY = 'public_accident_data_v4'; // 紐낆묶 蹂寃?諛섏쁺 (愿묒＜愿묒뿭??-> 愿묒＜)
+        const CACHE_TS_KEY = 'public_accident_ts_v4';
+
+        // ?띿뒪??遺꾩꽍 諛??뺣낫 異붿텧 ?⑥닔??        const extractors = {
+            date: (item) => {
+                const text = (item.keyword || '') + ' ' + (item.contents || '');
+                // 1. "2025. 4. 14." ?먮뒗 "2025.04.14" ?뺤떇 寃??                const fullDateMatch = text.match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})/);
+                if (fullDateMatch) {
+                    return `${fullDateMatch[1]}-${fullDateMatch[2].padStart(2, '0')}-${fullDateMatch[3].padStart(2, '0')}`;
+                }
+                // 2. "[4/14]" ?뺤떇 寃??(?곕룄 ?놁쑝硫??꾩옱 ?곕룄 2026 媛??
+                const shortMatch = (item.keyword || '').match(/\[(\d{1,2})\/(\d{1,2})/);
+                if (shortMatch) {
+                    return `2026-${shortMatch[1].padStart(2, '0')}-${shortMatch[2].padStart(2, '0')}`;
+                }
+                // 3. 湲곕낯媛?                return '2026-04-14';
+            },
+            region: (item) => {
+                const cleanContents = (item.contents || '').replace(/<[^>]*>?/gm, ' ');
+                const title = item.keyword || '';
+                const text = title + ' ' + cleanContents;
+                
+                // 1. 寃쎄린??愿묒＜ ?뺣? 援щ텇 (?ㅻ텇瑜?諛⑹? ?듭떖)
+                if (text.includes('寃쎄린 愿묒＜') || text.includes('寃쎄린??愿묒＜')) return '寃쎄린';
+                
+                // 2. 愿묒＜ 留ㅽ븨 (寃쎄린??愿묒＜? 援щ텇)
+                if (text.includes('愿묒＜愿묒뿭??) || text.includes('愿묒＜ 愿묒뿭') || title.includes('愿묒＜')) return '愿묒＜';
+
+                // 3. 湲고? ????留ㅽ븨 (?뺣젹 ?쒖꽌?濡?
+                const regions = ['?쒖슱', '遺??, '?援?, '?몄쿇', '???, '?몄궛', '?몄쥌', '寃쎄린', '媛뺤썝', '異⑸턿', '異⑸궓', '?꾨턿', '?꾨궓', '寃쎈턿', '寃쎈궓', '?쒖＜'];
+                for (const r of regions) {
+                    if (text.includes(r)) return r;
+                }
+                
+                return '湲고?';
+            },
+            type: (item) => {
+                const text = item.keyword || '';
+                const types = ['?쇱엫', '?⑥뼱吏?, '留욎쓬', '遺?ろ옒', '?섏뼱吏?, '臾대꼫吏?, '源붾┝', '?붿옱', '??컻', '媛먯쟾'];
+                for (const t of types) if (text.includes(t)) return t === '??컻' ? '?붿옱' : t;
+                return '湲고?';
+            },
+            industry: (item) => {
+                const text = item.contents || '';
+                if (text.includes('嫄댁꽕') || text.includes('怨듭궗')) return '嫄댁꽕';
+                if (text.includes('?쒖“') || text.includes('怨듭옣')) return '?쒖“';
+                if (text.includes('?댁닔') || text.includes('臾쇰쪟') || text.includes('?앸같')) return '?댁닔';
+                if (text.includes('?먭린臾?)) return '?먭린臾?;
+                if (text.includes('踰뚮ぉ') || text.includes('?섎ぉ')) return '踰뚮ぉ';
+                return '湲고?';
+            },
+            scale: (item) => {
+                const text = item.contents || '';
+                const match = text.match(/?щ쭩\s*(\d+)紐?);
+                if (match && parseInt(match[1]) >= 2) return '?щ쭩 2紐??댁긽';
+                return '?щ쭩 1紐?;
+            }
+        };
+
+        async function fetchPublicAccidentNews(isForced = false) {
+            const ticker = document.getElementById('publicNewsTicker');
+            const grid = document.getElementById('publicNewsGrid');
+            if (!ticker && !grid) return;
+
+            // 1. 罹먯떆 ?뺤씤 (媛뺤젣 ?낅뜲?댄듃媛 ?꾨땺 寃쎌슦)
+            if (!isForced) {
+                const cachedData = localStorage.getItem(CACHE_KEY);
+                const cachedTs = localStorage.getItem(CACHE_TS_KEY);
+                
+                if (cachedData && cachedTs) {
+                    const now = new Date();
+                    const target9AM = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0).getTime();
+                    // ?꾩옱 ?쒓컙??9???댁쟾?대㈃, ?댁젣 ?ㅼ쟾 9?쒓? 湲곗?????                    const effectiveLast9AM = now.getTime() < target9AM ? target9AM - 24 * 60 * 60 * 1000 : target9AM;
+                    
+                    // 罹먯떆媛 ?좏슚?쒖? ?뺤씤: ?곗씠??????쒓컙??媛??理쒓렐 9???댄썑?ъ빞 ??                    const isExpired = parseInt(cachedTs) < effectiveLast9AM;
+                    if (!isExpired) {
+                        try {
+                            allPublicItems = JSON.parse(cachedData);
+                            console.log('Using cached public data');
+                            processLoadedData(allPublicItems);
+                            updateSyncStatusUI();
+                            return;
+                        } catch (e) {
+                            console.error('Cache parse error, fetching fresh data');
+                        }
+                    }
+                }
+            }
+
+            // 2. API ?몄텧
+            const numOfRows = 1000;
+            const serviceKey = 'a30f91c128600f0935b421b583b0102300e96384e6a45ae868ecf9a643c014e9';
+            const url = `https://apis.data.go.kr/B552468/news_api02/getNews_api02?serviceKey=${serviceKey}&callApiId=1040&pageNo=1&numOfRows=${numOfRows}&_type=json`;
+            
+            try {
+                const response = await fetch(url);
+                const result = await response.json();
+                let items = result.body?.items?.item;
+
+                if (!items || (Array.isArray(items) && items.length === 0)) {
+                    if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#94A3B8;">?곗씠?곕? 李얠쓣 ???놁뒿?덈떎.</div>`;
+                    return;
+                }
+
+                if (!Array.isArray(items)) items = [items];
+
+                allPublicItems = items.map(item => {
+                    const cleanContent = item.contents ? item.contents.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>?/gm, ' ').replace(/&nbsp;/g, ' ').trim() : '';
+                    return {
+                        keyword: item.keyword,
+                        contents: cleanContent,
+                        _parsed: {
+                            date: extractors.date(item),
+                            region: extractors.region(item),
+                            type: extractors.type(item),
+                            industry: extractors.industry(item),
+                            scale: extractors.scale(item)
+                        }
+                    };
+                });
+
+                // 3. ?곗씠?????(?덉쟾??媛뺥솕)
+                try {
+                    // 援щ쾭??嫄곕? ?곕젅湲?罹먯떆 泥?냼 (?⑸웾 ?뺣낫)
+                    localStorage.removeItem('public_accident_data');
+                    localStorage.removeItem('public_accident_data_v2');
+                    localStorage.removeItem('public_accident_ts');
+                    localStorage.removeItem('public_accident_ts_v2');
+
+                    // ??罹먯떆 ???(0.4MB)
+                    localStorage.setItem(CACHE_KEY, JSON.stringify(allPublicItems));
+                    localStorage.setItem(CACHE_TS_KEY, Date.now().toString());
+                } catch (cacheError) {
+                    console.warn('罹먯떆 ????ㅽ뙣 (?⑸웾 遺議???:', cacheError);
+                    // 罹먯떆???ㅽ뙣?대룄 ?붾㈃? ?뺤긽?곸쑝濡?洹몃젮吏?꾨줉 ?덉쇅 ?덉슜
+                }
+
+                processLoadedData(allPublicItems);
+                if (window.lucide) lucide.createIcons();
+            } catch (error) {
+                console.error('API Error:', error);
+                if (grid) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:#DC2626;">?곗씠??濡쒕뱶 以??ㅻ쪟媛 諛쒖깮?덉뒿?덈떎.<br/><br/><pre style="font-size:11px;text-align:left;">${error.stack || error}</pre></div>`;
+            }
+        }
+
+        function processLoadedData(data) {
+            const ticker = document.getElementById('publicNewsTicker');
+            if (ticker) {
+                const tickerHtml = data.slice(0, 10).map(item => `
+                    <span class="ticker-item">
+                        ${item.keyword || item.title || '?ш퀬 ?띾낫'} 
+                        <span class="ticker-date">[${item._parsed.date}]</span>
+                    </span>
+                `).join('');
+                ticker.innerHTML = tickerHtml + tickerHtml;
+            }
+            filteredPublicItems = [...data];
+            currentPage = 1;
+            renderFilteredResults();
+            updateComparisonChart(); 
+        }
+
+        function renderFilteredResults() {
+            const grid = document.getElementById('publicNewsGrid');
+            const pagination = document.getElementById('publicPagination');
+
+            if (!grid) return;
+
+            if (filteredPublicItems.length === 0) {
+                grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#94A3B8;">議곌굔??留욌뒗 寃곌낵媛 ?놁뒿?덈떎.</div>`;
+                if (pagination) pagination.innerHTML = '';
+                return;
+            }
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const pageItems = filteredPublicItems.slice(startIndex, startIndex + itemsPerPage);
+
+            grid.innerHTML = pageItems.map((item, index) => {
+                const cleanContent = item.contents || '?댁슜 ?붿빟???놁뒿?덈떎.';
+                const realIndex = startIndex + index;
+                return `
+                    <div class="news-card" onclick="openFilteredNewsModal(${realIndex})">
+                        <div class="news-tag">${item._parsed.region} | ${item._parsed.type}</div>
+                        <h5 class="news-title">${item.keyword || '?ш퀬 ?띾낫'}</h5>
+                        <p class="news-content">${cleanContent.substring(0, 90)}...</p>
+                        <div class="news-footer">
+                            <span><i data-lucide="calendar"></i> ${item._parsed.date}</span>
+                            <span style="font-size:11px; background:#F1F5F9; padding:2px 6px; border-radius:4px;">${item._parsed.industry}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            renderPagination();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function renderPagination() {
+            const pagination = document.getElementById('publicPagination');
+            if (!pagination) return;
+
+            const totalPages = Math.ceil(filteredPublicItems.length / itemsPerPage);
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = `<button class="pg-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})"><i data-lucide="chevron-left"></i></button>`;
+            
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, startPage + 4);
+
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="pg-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+
+            html += `<button class="pg-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})"><i data-lucide="chevron-right"></i></button>`;
+            
+            pagination.innerHTML = html;
+        }
+
+        window.changePage = function(page) {
+            currentPage = page;
+            renderFilteredResults();
+            document.querySelector('.public-filter-bar').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.applyFilters = function() {
+            const start = document.getElementById('filterStartDate').value;
+            const end = document.getElementById('filterEndDate').value;
+            
+            // 硫붿씤 寃?됱뼱(湲곗씤臾? 媛?몄삤湲?            const mainSearchText = document.getElementById('mainSearchInput').value.trim();
+            
+            // ?ㅼ쨷 ?좏깮??吏??컪 泥섎━
+            const checkedValues = Array.from(document.querySelectorAll('input[name="region"]:checked')).map(cb => cb.value);
+            const isNational = checkedValues.includes('?꾧뎅');
+            
+            const type = document.getElementById('filterType').value;
+            const industry = document.getElementById('filterIndustry').value;
+
+
+            filteredPublicItems = allPublicItems.filter(item => {
+                const p = item._parsed;
+                
+                // 0. 硫붿씤 寃?됱뼱 (?쒕ぉ/湲곗씤臾?寃??
+                if (mainSearchText && !(item.keyword || '').includes(mainSearchText)) return false;
+
+                // 1. ?좎쭨 鍮꾧탳 (YYYY-MM-DD ?뺤떇 蹂댁옣)
+                if (start && p.date < start) return false;
+                if (end && p.date > end) return false;
+                
+                // 2. 吏???꾪꽣留?(?꾧뎅???꾨땺 寃쎌슦 泥댄겕??吏??쭔 ?몄텧)
+                if (!isNational && checkedValues.length > 0) {
+                    if (!checkedValues.includes(p.region)) return false;
+                }
+                
+                // 3. 諛쒖깮 ?뺥깭 (?ㅼ썙??諛??댁슜 寃??
+                if (type && !(item.keyword + (item.contents || '')).includes(type)) return false;
+                
+                if (industry && p.industry !== industry) return false;
+
+                return true;
+            });
+
+            currentPage = 1;
+            renderFilteredResults();
+        };
+
+        // 湲곌컙 ???좏깮 ?몃뱾??        window.handleQuickPeriod = function() {
+            const preset = document.getElementById('filterPeriodQuick').value;
+            if (!preset) return;
+
+            const now = new Date();
+            const end = new Date();
+            let start = new Date();
+
+            switch(preset) {
+                case '1w': start.setDate(now.getDate() - 7); break;
+                case '1m': start.setMonth(now.getMonth() - 1); break;
+                case '1y': start.setFullYear(now.getFullYear() - 1); break;
+                case '2y': start.setFullYear(now.getFullYear() - 2); break;
+                case '3y': start.setFullYear(now.getFullYear() - 3); break;
+            }
+
+            const formatDate = (date) => date.toISOString().split('T')[0];
+            
+            document.getElementById('filterStartDate').value = formatDate(start);
+            document.getElementById('filterEndDate').value = formatDate(end);
+            
+            window.applyFilters();
+        };
+
+        window.resetFilters = function() {
+            document.getElementById('filterPeriodQuick').value = '';
+            document.getElementById('filterStartDate').value = '';
+            document.getElementById('filterEndDate').value = '';
+            
+            // 吏??泥댄겕諛뺤뒪 珥덇린??            document.querySelectorAll('input[name="region"]').forEach(cb => cb.checked = false);
+            
+            document.getElementById('filterType').value = '';
+            document.getElementById('filterIndustry').value = '';
+
+            filteredPublicItems = [...allPublicItems];
+            currentPage = 1;
+            renderFilteredResults();
+        };
+
+        window.openFilteredNewsModal = function(index) {
+            const item = filteredPublicItems[index];
+            if (!item) return;
+
+            const modal = document.getElementById('newsModal');
+            document.getElementById('modalTag').textContent = `${item._parsed.region} | ${item._parsed.type}`;
+            document.getElementById('modalTitle').textContent = item.keyword || item.title;
+            document.getElementById('modalDate').textContent = item._parsed.date;
+            document.getElementById('modalLocation').textContent = item._parsed.region;
+            
+            let fullBody = item.contents || '?곸꽭 ?댁슜???놁뒿?덈떎.';
+            document.getElementById('modalContent').textContent = fullBody;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        function closeNewsModal() {
+            const modal = document.getElementById('newsModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function executeMainSearch() {
+            const searchInput = document.getElementById('mainSearchInput');
+            if (searchInput) {
+                const query = searchInput.value.trim();
+                fetchPublicAccidentNews(query, false);
+                document.querySelector('.public-news-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // --- Statistics & Chart Logic ---
+        function updateComparisonChart() {
+            const ctx = document.getElementById('comparisonChart');
+            const loader = document.getElementById('chartLoadingMsg');
+            if (!ctx) return;
+
+            // '?꾧뎅'? ?곷떒 ?レ옄濡??쒓린?섍린 ?꾪빐 紐⑸줉?먯꽌 ?쒖쇅
+            const regions = [
+                '?쒖슱', '?몄쥌', '遺??, '?援?, '?몄쿇', '愿묒＜', '???, '?몄궛',
+                '寃쎄린', '媛뺤썝', '異⑸턿', '異⑸궓', '?꾨턿', '?꾨궓', '寃쎈턿', '寃쎈궓', '?쒖＜'
+            ];
+            
+            const nationalStats = { count25: 0, count26: 0 };
+
+            const stats = {};
+            regions.forEach(r => {
+                stats[r] = { count25: 0, count26: 0 };
+            });
+
+            // ?숆린媛?踰붿쐞 ?ㅼ젙 (諛쒖깮??湲곗? 1??1??~ 4??14??
+            const targetMonth = 4;
+            const targetDay = 14;
+
+            allPublicItems.forEach(item => {
+                const p = item._parsed;
+                const dateStr = p.date; // "YYYY-MM-DD"
+                if (!dateStr) return;
+                
+                const [year, month, day] = dateStr.split('-').map(Number);
+                const region = p.region;
+
+                // ?숆린媛??꾪꽣 (1~4?? 14???댁쟾)
+                const isWithinPeriod = (month < targetMonth) || (month === targetMonth && day <= targetDay);
+
+                if (isWithinPeriod) {
+                    // 媛쒕퀎 吏??吏묎퀎
+                    if (stats[region]) {
+                        if (year === 2026) stats[region].count26++;
+                        else if (year === 2025) stats[region].count25++;
+                    }
+                    // ?꾧뎅(Total) 吏묎퀎??蹂꾨룄 ???                    if (year === 2026) nationalStats.count26++;
+                    else if (year === 2025) nationalStats.count25++;
+                }
+            });
+
+            // ?곷떒 ?붿빟 ?レ옄 ?낅뜲?댄듃
+            document.getElementById('natValPrev').innerText = nationalStats.count25.toLocaleString() + '嫄?;
+            document.getElementById('natValCurr').innerText = nationalStats.count26.toLocaleString() + '嫄?;
+
+            if (loader) loader.style.display = 'none';
+
+            const isMobile = window.innerWidth < 768;
+
+            // 湲곗〈???앹꽦??李⑦듃媛 ?덈떎硫??뚭눼 (?ㅻ쪟 諛⑹?)
+            const existingChart = Chart.getChart(ctx);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+
+            // Chart.js ?앹꽦
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: regions,
+                    datasets: [
+                        {
+                            label: '2025??(?숆린媛?',
+                            data: regions.map(r => stats[r].count25),
+                            backgroundColor: regions.map(r => r === '?꾧뎅' ? '#94A3B8' : '#CBD5E1'), // ?꾧뎅? ?쎄컙 ??吏꾪븳 ?뚯깋
+                            borderRadius: 4,
+                            barPercentage: 0.7,
+                            categoryPercentage: 0.7
+                        },
+                        {
+                            label: '2026??(?꾩옱)',
+                            data: regions.map(r => stats[r].count26),
+                            backgroundColor: regions.map(r => r === '?꾧뎅' ? '#1E40AF' : '#2563EB'), // ?꾧뎅? ??吏꾪븳 釉붾（
+                            borderRadius: 4,
+                            barPercentage: 0.7,
+                            categoryPercentage: 0.7
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: isMobile ? 'y' : 'x', // 紐⑤컮?쇱뿉?쒕뒗 媛濡쒗삎 留됰?濡??꾪솚
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 1000, easing: 'easeOutQuart' },
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { size: 12, weight: 'bold' } } },
+                        tooltip: { 
+                            backgroundColor: 'rgba(30, 41, 59, 0.9)', 
+                            padding: 12, 
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { color: '#F1F5F9' }, 
+                            ticks: { 
+                                stepSize: 1, 
+                                color: '#64748B',
+                                font: { size: isMobile ? 10 : 11 }
+                            },
+                            grace: '10%' // ?섏튂 ?쒓린瑜??꾪븳 ?ъ쑀 怨듦컙
+                        },
+                        x: { 
+                            beginAtZero: true,
+                            grid: { display: false }, 
+                            ticks: { 
+                                color: '#1E293B', 
+                                font: { 
+                                    size: isMobile ? 10 : 11,
+                                    weight: 'bold' 
+                                },
+                                maxRotation: isMobile ? 0 : 45, // 媛濡쒗삎???뚮뒗 ?뚯쟾 遺덊븘??                                minRotation: isMobile ? 0 : 45
+                            },
+                            grace: '15%' // ?섏튂 ?쒓린瑜??꾪븳 ?ъ쑀 怨듦컙 (媛濡쒖텞)
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'valueLabel',
+                    afterDatasetsDraw(chart) {
+                        const { ctx, data } = chart;
+                        ctx.save();
+                        ctx.font = 'bold 10px sans-serif';
+                        ctx.textBaseline = 'middle';
+                        
+                        chart.data.datasets.forEach((dataset, i) => {
+                            const meta = chart.getDatasetMeta(i);
+                            meta.data.forEach((bar, index) => {
+                                const value = dataset.data[index];
+                                if (value === 0) return; // 0? ?앸왂
+                                
+                                const xPos = isMobile ? bar.x + 5 : bar.x;
+                                const yPos = isMobile ? bar.y : bar.y - 12; // ?몃줈?뺤씪 ?뚮뒗 留됰? ?? 媛濡쒗삎???뚮뒗 留됰? ??                                
+                                ctx.textAlign = isMobile ? 'left' : 'center';
+                                // 2025??泥ル쾲吏??곗씠?곗뀑)? 寃?뺤깋, 2026???먮쾲吏??곗씠?곗뀑)? ?뚮???                                ctx.fillStyle = (i === 0) ? '#1E293B' : '#1E40AF';
+                                ctx.fillText(value, xPos, yPos);
+                            });
+                        });
+                        ctx.restore();
+                    }
+                }]
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            fetchRecentNotices();
+            loadHomeAccidents();
+            await fetchPublicAccidentNews(); // 罹먯떆 ?곗꽑 濡쒕뱶
+
+            const applyBtn = document.getElementById('applyFiltersBtn');
+            const resetBtn = document.getElementById('resetFiltersBtn');
+            const quickPeriod = document.getElementById('filterPeriodQuick');
+
+            if (applyBtn) applyBtn.addEventListener('click', applyFilters);
+            if (resetBtn) resetBtn.addEventListener('click', resetFilters);
+            if (quickPeriod) quickPeriod.addEventListener('change', handleQuickPeriod);
+
+            const searchBtn = document.getElementById('mainSearchBtn');
+            const searchInput = document.getElementById('mainSearchInput');
+            if (searchBtn) searchBtn.addEventListener('click', applyFilters);
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') applyFilters();
+                });
+            }
+
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const navMenu = document.querySelector('.gnb-container');
+            if (mobileBtn && navMenu) {
+                mobileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navMenu.classList.toggle('active');
+                });
+                document.addEventListener('click', (e) => {
+                    if (navMenu.classList.contains('active') && !navMenu.contains(e.target)) {
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+        });
+        if (window.lucide) lucide.createIcons();
+    </script>
+
+    <!-- News Detail Modal Overlay -->
+    <div id="newsModal" class="modal-overlay" onclick="if(event.target === this) closeNewsModal()">
+        <div class="news-modal">
+            <div class="news-modal-header">
+                <div class="news-modal-title-area">
+                    <span id="modalTag" class="news-modal-tag">?꾩옣蹂대룄</span>
+                    <h5 id="modalTitle" class="news-modal-title">?ш퀬 ?띾낫 ?곸꽭 ?댁슜</h5>
+                </div>
+                <button class="news-modal-close" onclick="closeNewsModal()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="news-modal-body">
+                <div class="news-modal-meta">
+                    <span><i data-lucide="calendar" style="width:14px;"></i> <b>諛쒖깮??</b> <span id="modalDate">-</span></span>
+                    <span><i data-lucide="map-pin" style="width:14px;"></i> <b>吏??</b> <span id="modalLocation">-</span></span>
+                </div>
+                <div id="modalContent" class="news-modal-content">
+                    ?ш퀬 ?곸꽭 ?댁슜???ш린???쒖떆?⑸땲??
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -245,8 +245,26 @@ function showAnswerForm(id) {
 // ── 게시글 삭제 기능 ──────────────────────────────
 window.deleteQna = async (id) => {
     console.log("🗑️ 삭제 버튼 클릭됨! (ID:", id, ")");
-    if (!confirm('정말로 이 질의응답 게시글을 삭제하시겠습니까?')) {
-        console.log("❌ 삭제 취소됨 (또는 브라우저가 알림창을 강제 차단함)");
+    
+    // 크롬 팝업 차단을 절대 당하지 않는 커스텀 확인창 생성
+    const isConfirmed = await new Promise(resolve => {
+        const div = document.createElement('div');
+        div.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px 30px; border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.5); z-index:99999; text-align:center; font-weight:bold;';
+        div.innerHTML = `
+            <p style="margin-bottom:20px; font-size:16px;">정말로 이 질의응답 게시글을 삭제하시겠습니까?</p>
+            <div>
+                <button id="btnCancelDel" style="padding:8px 16px; margin-right:10px; border:1px solid #ccc; border-radius:4px; cursor:pointer; background:white;">취소</button>
+                <button id="btnConfirmDel" style="padding:8px 16px; background:red; color:white; border:none; border-radius:4px; cursor:pointer;">삭제하기</button>
+            </div>
+        `;
+        document.body.appendChild(div);
+        
+        div.querySelector('#btnCancelDel').onclick = () => { div.remove(); resolve(false); };
+        div.querySelector('#btnConfirmDel').onclick = () => { div.remove(); resolve(true); };
+    });
+
+    if (!isConfirmed) {
+        console.log("❌ 커스텀 확인창에서 취소됨");
         return;
     }
     
@@ -259,7 +277,7 @@ window.deleteQna = async (id) => {
         }
         
         console.log("✅ 삭제 성공! 페이지 새로고침 예약...");
-        alert("게시글이 삭제되었습니다.");
+        // alert 대신 즉시 새로고침 (차단 우회)
         location.reload();
     } catch (error) {
         console.error("Delete Error:", error);

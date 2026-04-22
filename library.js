@@ -114,13 +114,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         const deleteBtn = e.target.closest('.btn-admin-delete');
         if (deleteBtn) {
-            if(confirm('이 자료를 삭제하시겠습니까?')) {
-                const id = deleteBtn.getAttribute('data-id');
-                let data = JSON.parse(localStorage.getItem('libraryData')) || [];
-                data = data.filter(item => item.id !== id);
-                localStorage.setItem('libraryData', JSON.stringify(data));
-                renderLibrary();
-            }
+            // 크롬 팝업 차단 우회 커스텀 창
+            new Promise(resolve => {
+                const div = document.createElement('div');
+                div.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px 30px; border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.5); z-index:99999; text-align:center; font-weight:bold;';
+                div.innerHTML = `
+                    <p style="margin-bottom:20px; font-size:16px;">정말로 이 자료를 삭제하시겠습니까?</p>
+                    <div>
+                        <button id="btnCancelDelLib" style="padding:8px 16px; margin-right:10px; border:1px solid #ccc; border-radius:4px; cursor:pointer; background:white;">취소</button>
+                        <button id="btnConfirmDelLib" style="padding:8px 16px; background:red; color:white; border:none; border-radius:4px; cursor:pointer;">삭제하기</button>
+                    </div>
+                `;
+                document.body.appendChild(div);
+                div.querySelector('#btnCancelDelLib').onclick = () => { div.remove(); resolve(false); };
+                div.querySelector('#btnConfirmDelLib').onclick = () => { div.remove(); resolve(true); };
+            }).then(isConfirmed => {
+                if(isConfirmed) {
+                    const id = deleteBtn.getAttribute('data-id');
+                    let data = JSON.parse(localStorage.getItem('libraryData')) || [];
+                    data = data.filter(item => item.id !== id);
+                    localStorage.setItem('libraryData', JSON.stringify(data));
+                    renderLibrary();
+                }
+            });
         }
     });
 
